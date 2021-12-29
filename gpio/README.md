@@ -1,2 +1,3 @@
 # Raspberry Pi 2 GPIOs
-![RPi 40-pinn header](./GPIO_Pi2.png)
+|RPi 40-pinn header|<img src="GPIO_Pi2_halfSize.png">|
+|------------------------------|-----|
