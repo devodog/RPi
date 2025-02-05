@@ -2,13 +2,27 @@
  * Copyright (c) 2020 Raspberry Pi (Trading) Ltd.
  *
  * SPDX-License-Identifier: BSD-3-Clause
+ * 
+ * Author: Dkv
+ * Date  : 05FEB25
+ * 
+ * The Ambient temperature sensing software for use with the Raspberry Pi 
+ * Pico 2 hardware.
+ * 
+ * Using adc2 and uart0 on the Raspberry Pi Pico 2 for capturing analog values
+ * for the LM35 temperature sensor from Texas instruments and sending the ADC-
+ * values to the UART port as readable text.
+ * 
  */
-
-
+#include <stdio.h>
+#include <stdarg.h>
 #include "pico/stdlib.h"
 #include "string.h"
+
 #include "hardware/uart.h"
+#include "hardware/adc.h"
 #include "hardware/irq.h"
+#include "hardware/gpio.h"
 
 
 /// \tag::uart_advanced[]
@@ -30,6 +44,15 @@
 char cmdBuffer[80]; // Making space for the command to be given on the command-line prompt. 
 static int chars_rxed = 0;
 uint8_t cmdComplete = 0;
+
+void uart_printf(const char *format, ...) {
+    char buffer[256]; // Adjust size as needed
+    va_list args;
+    va_start(args, format);
+    vsnprintf(buffer, sizeof(buffer), format, args);
+    va_end(args);
+    uart_puts(UART_ID, buffer);
+}
 
 void promt() {
     uart_puts(UART_ID, "\r\npico2>");
@@ -114,14 +137,33 @@ int main() {
     uart_puts(UART_ID, "\nHello, uart interrupts\r\n");
     promt();
 
+    stdio_init_all();
+    uart_puts(UART_ID, "ADC Example, measuring GPIO28\r\n");
+
+    adc_init();
+
+    // Make sure GPIO is high-impedance, no pullups etc
+    adc_gpio_init(28);
+    // Select ADC input 0 (GPIO26)
+    adc_select_input(2);
+
     while (1) {
+        // 12-bit conversion, assume max value == ADC_VREF == 3.3 V
+        const float conversion_factor = 3.3f / (1 << 12);
+        uint16_t result = adc_read();
+        uart_printf("Raw value: 0x%03x, voltage: %f V\r\n", result, result * conversion_factor);
+        
+        sleep_ms(1500);
+        
         //tight_loop_contents();
+        /**
         if (cmdComplete == TRUE) {
             execCmd (&cmdBuffer[0]);
         }
         else {
             sleep_ms(100);
         }
+        */
     }
 }
 

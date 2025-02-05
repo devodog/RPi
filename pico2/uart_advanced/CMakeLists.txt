@@ -40,7 +40,7 @@ add_executable(uart_advanced
         )
 
 # pull in common dependencies and additional uart hardware support
-target_link_libraries(uart_advanced pico_stdlib hardware_uart)
+target_link_libraries(uart_advanced pico_stdlib hardware_uart hardware_adc)
 
 # create map/bin/hex file etc.
 pico_add_extra_outputs(uart_advanced)
