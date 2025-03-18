@@ -28,21 +28,21 @@ set(PICO_BOARD pico2 CACHE STRING "Board type")
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
 
-project(uart_advanced C CXX ASM)
+project(adc_console C CXX ASM)
 
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(uart_advanced
-        uart_advanced.c
+add_executable(adc_console
+        adc_console.c
         )
 
-# pull in common dependencies and additional uart hardware support
-target_link_libraries(uart_advanced pico_stdlib hardware_uart hardware_adc hardware_pwm)
+target_link_libraries(adc_console pico_stdlib hardware_adc)
 
 # create map/bin/hex file etc.
-pico_add_extra_outputs(uart_advanced)
+pico_add_extra_outputs(adc_console)
 
 # add url via pico_set_program_url
+
