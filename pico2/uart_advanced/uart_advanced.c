@@ -20,6 +20,11 @@
  * potentiometer at ADC2 and this value is used to calculate the relative 
  * duty cycle for the PWM signal on pin 4 (GPIO2) 
  * 
+ * 25. MAR 2025 implemented soft start for the PWM signals, which is to 
+ * increase the duty cycle from "zero" to the current potentiometer setting.
+ * The duty cycle increase will span over 1.5 seconds. 
+ * GPIO 16 and GPIO 17 is assigned PWM operation.
+ * 
  */
 #include <stdio.h>
 #include <stdarg.h>
@@ -54,6 +59,7 @@ char cmdBuffer[80]; // Making space for the command to be given on the command-l
 static int chars_rxed = 0;
 uint8_t cmdComplete = 0;
 const float conversion_factor = 3.3f / (1 << 12);
+unsigned int slice_num = 0;
 
 void uart_printf(const char *format, ...) {
     char buffer[256]; // Adjust size as needed
@@ -104,12 +110,12 @@ void execCmd(char* cmd) {
     promt();
 }
 
-uint slice_num = 0;
-void set_pwm_duty_cycle(int dc) {
-    //uart_printf("\r\nPWM Duty Cycle set to: %d %%\r\n", dc);
-    if (slice_num != 0) {
-        pwm_set_chan_level(slice_num, PWM_CHAN_A, dc*10);      // 25% duty cycle
-        pwm_set_chan_level(slice_num, PWM_CHAN_A, dc*10);    
+
+void set_pwm_duty_cycle(int dc, uint8_t pwmChannel) {
+    uart_printf("\r\nPWM Duty Cycle set to: %d %%\r\n", dc);
+    if (slice_num >= 0) {
+        pwm_set_chan_level(slice_num, pwmChannel, dc*100);      // 25% duty cycle
+        //pwm_set_chan_level(slice_num, PWM_CHAN_A, dc*10);    
     }
     else {
         //uart_printf("\r\nPWM NOT SET\r\n");
@@ -146,17 +152,59 @@ void on_uart_rx() {
 
 void pwmLed() {
     // pwm_set_clkdiv(f)
+#ifdef ON_BREADBOARD
     gpio_set_function(2, GPIO_FUNC_PWM);
     gpio_set_function(3, GPIO_FUNC_PWM);
+    
     slice_num = pwm_gpio_to_slice_num(2);
+#else
+    gpio_set_function(16, GPIO_FUNC_PWM);
+    gpio_set_function(17, GPIO_FUNC_PWM);
+
+    slice_num = pwm_gpio_to_slice_num(16);
+#endif
 
     uart_printf("\r\nSlice Number set to: %d \r\n", slice_num);
-    pwm_set_wrap(slice_num, 1000);
+    pwm_set_wrap(slice_num, 10000);
+    //
+    uint16_t adcReading = 0;
+    int pwmDC1 = 0, pwmDC2 = 0;
+    int deltaDC1 = 0, deltaDC2 = 0;
     
-    pwm_set_chan_level(slice_num, PWM_CHAN_A, 500);      // 25% duty cycle
-    pwm_set_chan_level(slice_num, PWM_CHAN_A, 500);
+    /*** CURRENTLY THERE IS ONLY ONE POTENTIOMETER CONNECTED TO ADC2 = GPIO
+    adc_select_input(1); // ...for the pwm-signal
+    adcReading = adc_read();
+    //uart_printf("ADC2 Raw value: 0x%03x, voltage: %f V\r\n", result, result * conversion_factor);
+    pwmLED1 = (int)(((adcReading * conversion_factor)/3.3)*100);
+    delta1 = pwmLED1/10;
+    ***/
+    adc_select_input(2); // ...for the pwm-signal
+    adcReading = adc_read();
+    uart_printf("Initial Light Setting: %d%%\r\n", ((adcReading * conversion_factor)/3.3)*100);
+    pwmDC2 = (int)(((adcReading * conversion_factor)/3.3)*100);
+    deltaDC2 = pwmDC2*10;   // The actual duty cycle in cpu clock cycles is 100 times the duty cycle persentage.
+                            // pwmDC2 * 100 / 10 for each interval change to implement soft start lighting.
     
+    uart_puts(UART_ID, "\r\nSoft starting.\r\n");
+    uint8_t lightON = 0;
+    for (int i = 0; i < 10; i++) {    
+        pwm_set_chan_level(slice_num, PWM_CHAN_A, deltaDC2);      // ONLY ADC 2 IN USE FOR LED DIM FUNCTION
+        pwm_set_chan_level(slice_num, PWM_CHAN_B, deltaDC2);
+        deltaDC2 += deltaDC2;
+        //set_pwm_duty_cycle(delta1, 0);
+        //set_pwm_duty_cycle(delta2, 1);
+        
+        if (lightON == 0) {
+            pwm_set_enabled(slice_num, true);
+            lightON = 1;
+        }
+        sleep_ms(150);
+    }
+    /*
+    pwm_set_chan_level(slice_num, PWM_CHAN_A, 5000);      // 50% duty cycle
+    pwm_set_chan_level(slice_num, PWM_CHAN_B, 5000);
     pwm_set_enabled(slice_num, true);
+    */
 }
 
 int main() {
@@ -210,18 +258,28 @@ int main() {
     adc_gpio_init(28);
     //adc_gpio_init(27);
     adc_gpio_init(26);
-    
+
+    // Soft start until brightness setting reached.
     pwmLed();
-    int ledpwm = 0;
+    int pwmUpdate = 0, pwm = 0;
+    uart_puts(UART_ID, "\r\nCompleted.\r\n");
     while (1) {
         //tight_loop_contents();       
-        sleep_ms(2000);
+        sleep_ms(200);
         //uart_puts(UART_ID, "\r\nIn loop\r\n");
-        adc_select_input(2); // ...for the pwm-signal
-        result = adc_read();
-        //uart_printf("ADC2 Raw value: 0x%03x, voltage: %f V\r\n", result, result * conversion_factor);
-        ledpwm = (int)(((result * conversion_factor)/3.3)*100);
-        set_pwm_duty_cycle(ledpwm);
+        //for (int i=1; i<3; i++) {
+            adc_select_input(2); // ...for the pwm-signal
+            result = adc_read();
+            //uart_printf("ADC2 Raw value: 0x%03x, voltage: %f V\r\n", result, result * conversion_factor);
+            pwmUpdate = (int)(((result * conversion_factor)/3.3)*100);
+            
+            if ((pwmUpdate >= (pwm+2)) || (pwmUpdate <= (pwm-2))) {
+                uart_printf("\r\nPWM Duty Cycle update: Old = %d%%, New = %d%%", pwm, pwmUpdate);
+                pwm = pwmUpdate;
+                set_pwm_duty_cycle(pwm, 0);
+                set_pwm_duty_cycle((100-pwm), 1);
+            }
+       // }
     }
 }
 
