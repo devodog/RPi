@@ -148,7 +148,7 @@ void getTemperature() {
     uint16_t result = 0;
     adc_select_input(ADC2_TEMP);
     result = adc_read();
-    uart_printf("\r\nADC2 temp: %f C°\r\n", ((result * conversion_factor)-0.02)*100); 
+    uart_printf("\r\nADC2 temp: %.1f C°\r\n", ((result * conversion_factor)-0.02)*100); 
 }
 
 int8_t checkTemp() {
@@ -158,7 +158,7 @@ int8_t checkTemp() {
     result = adc_read();
     if (((result * conversion_factor)-0.02)*100 > MAX_DEVICE_TEMPERATURE) {
         return 1; // Device is overheated.
-        uart_printf("\r\nDevice temperature is overheated: %f C°\r\n", ((result * conversion_factor)-0.02)*100); 
+        uart_printf("\r\nDevice temperature is overheated: %f.1 C°\r\n", ((result * conversion_factor)-0.02)*100); 
     }
     else {
         return 0; // Device is not overheated.
