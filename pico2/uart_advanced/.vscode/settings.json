@@ -40,6 +40,7 @@
         "*.json": "jsonc",
         "stdlib.h": "c",
         "gpio.h": "c",
-        "uart.h": "c"
+        "uart.h": "c",
+        "functional": "c"
     }
 }

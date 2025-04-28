@@ -25,6 +25,10 @@
  * The duty cycle increase will span over 1.5 seconds. 
  * GPIO 16 and GPIO 17 is assigned PWM operation.
  * 
+ * 24.APR 2025 fixed soft start and added max duty cycle to be 60%.a64
+ * Also started to implement a user command for disabling the pot-meters
+ * for adjusting the brightness of the led lights.
+ * 
  */
 #include <stdio.h>
 #include <stdarg.h>
@@ -38,15 +42,22 @@
 #include "hardware/gpio.h"
 #include "hardware/pwm.h"
 
+#include "appbuild.h"
 
-/// \tag::uart_advanced[]
+#define ADC2_ONLY
 
 #define UART_ID uart0
-#define BAUD_RATE 115200
+//#define BAUD_RATE 115200
+#define BAUD_RATE 9600
 #define DATA_BITS 8
 #define STOP_BITS 1
 #define PARITY    UART_PARITY_NONE
 
+#define ADC_0_FOR_PWM_CHAN_A 0
+#define ADC_1_FOR_PWM_CHAN_B 1
+#define ADC2_TEMP 2
+#define MAX_DEVICE_TEMPERATURE 50 // Max temperature for the device to be used.
+#define DC_MAX 60
 // We are using pins 0 and 1, but see the GPIO function select table in the
 // datasheet for information on which other pins can be used.
 #define UART_TX_PIN 0
@@ -55,11 +66,17 @@
 #define TRUE 1
 #define FALSE 0
 
+#define ACTIVE 1
+#define INACTIVE 0
+#define ALL_LEDS 3
+#define COMPLETED 1
+
 char cmdBuffer[80]; // Making space for the command to be given on the command-line prompt. 
 static int chars_rxed = 0;
 uint8_t cmdComplete = 0;
 const float conversion_factor = 3.3f / (1 << 12);
 unsigned int slice_num = 0;
+uint8_t potmeter = ACTIVE;
 
 void uart_printf(const char *format, ...) {
     char buffer[256]; // Adjust size as needed
@@ -74,35 +91,131 @@ void promt() {
     uart_puts(UART_ID, "\r\npico2>");
 }
 
+void set_pwm_duty_cycle(int dc, uint8_t pwmChannel) {
+    uart_printf("\r\nPWM Duty Cycle for Channel %d, set to: %d %%\r\n", pwmChannel, (int)(dc * 0.6));
+    
+    if (slice_num >= 0) {
+            pwm_set_chan_level(slice_num, pwmChannel, dc * DC_MAX);
+    }
+    else {
+        uart_printf("\r\nNo valid slice number to use!\r\n");
+    }
+    promt();
+}
+
+void softstartLeds() {
+    uint16_t adcReading = 0;
+    int pwmDC1 = 0, pwmDC2 = 0;
+    int dc1 = 0, dc2 = 0;
+    int ledStrip_1_Softstart = !COMPLETED, ledStrip_2_Softstart = !COMPLETED;
+
+    adc_select_input(ADC_0_FOR_PWM_CHAN_A);
+    adcReading = adc_read();
+    uart_printf("ADC0 Raw value: 0x%03x, voltage: %f V\r\n", adcReading, (adcReading * conversion_factor));
+    pwmDC1 = (int)(((adcReading * conversion_factor)/3.3)*100); // The fraction between the measured voltage 
+                                                                // and the reference voltage represents the 
+                                                                // duty cycle for the pwm signal.
+    
+    adc_select_input(ADC_1_FOR_PWM_CHAN_B);
+    adcReading = adc_read();
+    uart_printf("ADC0 Raw value: 0x%03x, voltage: %f V\r\n", adcReading, (adcReading * conversion_factor));
+    pwmDC2 = (int)(((adcReading * conversion_factor)/3.3)*100); // The fraction between the measured voltage 
+
+    for (int i = 0; i < 100; i++) {    
+        if (dc1 <= pwmDC1) {
+            pwm_set_chan_level(slice_num, PWM_CHAN_A, dc1 * DC_MAX); // ONLY ADC 0 IN USE FOR LED DIM FUNCTION
+            dc1++;    
+        }
+        else {
+            ledStrip_1_Softstart = COMPLETED;
+        }
+
+        if (dc2 <= pwmDC2) {
+            pwm_set_chan_level(slice_num, PWM_CHAN_B, dc2 * DC_MAX); // ONLY ADC 1 IN USE FOR LED DIM FUNCTION
+            dc2++;
+        }
+        else {
+            ledStrip_2_Softstart = COMPLETED;
+        }
+
+        if ((ledStrip_1_Softstart == COMPLETED) && (ledStrip_2_Softstart == COMPLETED)) {
+            break;
+        }
+        sleep_ms(50);
+    }
+}
+void getTemperature() {
+    uint16_t result = 0;
+    adc_select_input(ADC2_TEMP);
+    result = adc_read();
+    uart_printf("\r\nADC2 temp: %f C°\r\n", ((result * conversion_factor)-0.02)*100); 
+}
+
+int8_t checkTemp() {
+    // Check for device is overheated.
+    uint16_t result = 0;
+    adc_select_input(ADC2_TEMP);
+    result = adc_read();
+    if (((result * conversion_factor)-0.02)*100 > MAX_DEVICE_TEMPERATURE) {
+        return 1; // Device is overheated.
+        uart_printf("\r\nDevice temperature is overheated: %f C°\r\n", ((result * conversion_factor)-0.02)*100); 
+    }
+    else {
+        return 0; // Device is not overheated.
+    }
+}
+
 void execCmd(char* cmd) {
     uint16_t result = 0;
     int dc = 0;
-    // Just printing the command given...
-#ifdef COMMAND_TEST
-    uart_puts(UART_ID, "\r\nCommand received: ");
-    uart_puts(UART_ID, cmd);
-    uart_puts(UART_ID, "\r\n");
-#else    
+    
     if (strncmp(cmdBuffer, "led1", 4) == 0) {        
-        adc_select_input(1); // ...for the pwm-signal
+        adc_select_input(ADC_0_FOR_PWM_CHAN_A); // ...for the pwm-signal
         result = adc_read();
         dc = (int)(((result * conversion_factor)/3.3)*100);
         uart_printf("\r\nADC1 (LED1) DutyCycle: %d %%\r\n", dc);
     }
     
     if (strncmp(cmdBuffer, "led2", 4) == 0) {
-        adc_select_input(2); // ...for the pwm-signal
+        adc_select_input(ADC_1_FOR_PWM_CHAN_B); // ...for the pwm-signal
         result = adc_read();
         dc = (int)(((result * conversion_factor)/3.3)*100);
         uart_printf("\r\nADC1 (LED2) DutyCycle: %d %%\r\n", dc);
     }
 
-    if (strncmp(cmdBuffer, "temp", 4) == 0) {
-        adc_select_input(0);
-        result = adc_read();
-        uart_printf("\r\nADC0 temp: %f C°\r\n", ((result * conversion_factor)-0.02)*100);         
+    if (strncmp(cmdBuffer, "dc", 2) == 0) {
+        // Get the value from the user command.
+        dc = (int)strtoul(&cmdBuffer[4], NULL, 10); // Convert the string to an integer.
+        if (dc > 100) {
+            dc = 100;
+        }
+        if (cmdBuffer[2] == '1') {
+            set_pwm_duty_cycle(dc, PWM_CHAN_A);
+        }
+        else if (cmdBuffer[2] == '2') {
+            set_pwm_duty_cycle(dc, PWM_CHAN_B);
+        }
+        else {
+            uart_puts(UART_ID, "\r\nInvalid command!\r\n");
+        }
     }
-#endif
+
+    if (strncmp(cmdBuffer, "temp", 4) == 0) {
+        getTemperature(); // Get the temperature reading from the LM35 sensor.
+    }
+
+    if (strncmp(cmdBuffer, "pot", 3) == 0) {
+        if (strncmp(&cmdBuffer[4], "off", 3) == 0) {
+            potmeter = INACTIVE;
+            uart_printf("\r\nPotmeter OFF\r\n");
+        }
+        else if (strncmp(&cmdBuffer[4], "on", 2) == 0) {
+            potmeter = ACTIVE;
+            uart_printf("\r\nPotmeter ON\r\n");
+            // Soft start until brightness setting reached.
+            softstartLeds(); // Soft start the LED Strip 1.
+         }
+    }
 
     chars_rxed = 0;
     memset(&cmdBuffer[0], 0, 80); // Clearing the command buffer...
@@ -111,16 +224,6 @@ void execCmd(char* cmd) {
 }
 
 
-void set_pwm_duty_cycle(int dc, uint8_t pwmChannel) {
-    uart_printf("\r\nPWM Duty Cycle set to: %d %%\r\n", dc);
-    if (slice_num >= 0) {
-        pwm_set_chan_level(slice_num, pwmChannel, dc*100);      // 25% duty cycle
-        //pwm_set_chan_level(slice_num, PWM_CHAN_A, dc*10);    
-    }
-    else {
-        //uart_printf("\r\nPWM NOT SET\r\n");
-    }
-} 
 
 // RX interrupt handler - will trigger for each character received on the rx-uart line.
 void on_uart_rx() {
@@ -148,64 +251,19 @@ void on_uart_rx() {
     }
 }
 
-// Will need some kind of interrupt to update/adjust the pwm duty cycle - or not...
 
-void pwmLed() {
-    // pwm_set_clkdiv(f)
-#ifdef ON_BREADBOARD
-    gpio_set_function(2, GPIO_FUNC_PWM);
-    gpio_set_function(3, GPIO_FUNC_PWM);
-    
-    slice_num = pwm_gpio_to_slice_num(2);
-#else
-    gpio_set_function(16, GPIO_FUNC_PWM);
-    gpio_set_function(17, GPIO_FUNC_PWM);
+void init_pwm_for_leds() {
+        gpio_set_function(16, GPIO_FUNC_PWM);
+        gpio_set_function(17, GPIO_FUNC_PWM);
 
-    slice_num = pwm_gpio_to_slice_num(16);
-#endif
-
-    uart_printf("\r\nSlice Number set to: %d \r\n", slice_num);
-    pwm_set_wrap(slice_num, 10000);
-    //
-    uint16_t adcReading = 0;
-    int pwmDC1 = 0, pwmDC2 = 0;
-    int deltaDC1 = 0, deltaDC2 = 0;
-    
-    /*** CURRENTLY THERE IS ONLY ONE POTENTIOMETER CONNECTED TO ADC2 = GPIO
-    adc_select_input(1); // ...for the pwm-signal
-    adcReading = adc_read();
-    //uart_printf("ADC2 Raw value: 0x%03x, voltage: %f V\r\n", result, result * conversion_factor);
-    pwmLED1 = (int)(((adcReading * conversion_factor)/3.3)*100);
-    delta1 = pwmLED1/10;
-    ***/
-    adc_select_input(2); // ...for the pwm-signal
-    adcReading = adc_read();
-    uart_printf("Initial Light Setting: %d%%\r\n", ((adcReading * conversion_factor)/3.3)*100);
-    pwmDC2 = (int)(((adcReading * conversion_factor)/3.3)*100);
-    deltaDC2 = pwmDC2*10;   // The actual duty cycle in cpu clock cycles is 100 times the duty cycle persentage.
-                            // pwmDC2 * 100 / 10 for each interval change to implement soft start lighting.
-    
-    uart_puts(UART_ID, "\r\nSoft starting.\r\n");
-    uint8_t lightON = 0;
-    for (int i = 0; i < 10; i++) {    
-        pwm_set_chan_level(slice_num, PWM_CHAN_A, deltaDC2);      // ONLY ADC 2 IN USE FOR LED DIM FUNCTION
-        pwm_set_chan_level(slice_num, PWM_CHAN_B, deltaDC2);
-        deltaDC2 += deltaDC2;
-        //set_pwm_duty_cycle(delta1, 0);
-        //set_pwm_duty_cycle(delta2, 1);
-        
-        if (lightON == 0) {
-            pwm_set_enabled(slice_num, true);
-            lightON = 1;
-        }
-        sleep_ms(150);
+        slice_num = pwm_gpio_to_slice_num(16);
+        //uart_printf("\r\nSlice Number set to: %d \r\n", slice_num);
+        pwm_set_wrap(slice_num, 10000); // Set the wrap value for the PWM slice.
+        pwm_set_chan_level(slice_num, PWM_CHAN_A, 0); // Set the initial duty cycle to 0.
+        pwm_set_chan_level(slice_num, PWM_CHAN_B, 0); // Set the initial duty cycle to 0.
+        pwm_set_enabled(slice_num, true); // Disable the PWM slice.
     }
-    /*
-    pwm_set_chan_level(slice_num, PWM_CHAN_A, 5000);      // 50% duty cycle
-    pwm_set_chan_level(slice_num, PWM_CHAN_B, 5000);
-    pwm_set_enabled(slice_num, true);
-    */
-}
+
 
 int main() {
     uint16_t result = 0;
@@ -246,41 +304,68 @@ int main() {
     // OK, all set up.
     // Lets send a basic string out, and then run a loop and wait for RX interrupts
     // The handler will count them, but also reflect the incoming data back with a slight change!
-    uart_puts(UART_ID, "\r\nHello, uart interrupts\r\n");
-    //promt();
-
-    //stdio_init_all();
-    uart_puts(UART_ID, "\r\nADC Example, measuring GPIO28\r\n");
-
+    uart_printf("\r\nRaspberry Pi Pico 2 LED-Strip Driver, version 1.0 APR2025 build: %d\r\n", BUILD);
+    uart_puts(UART_ID, "--------------------------------------------------------- \r\n");
     adc_init();
-
     // Make sure GPIO is high-impedance, no pullups etc
-    adc_gpio_init(28);
-    //adc_gpio_init(27);
-    adc_gpio_init(26);
+    adc_gpio_init(28); // ADC2 temperature measurements
+
+    adc_gpio_init(27); // ADC1
+    adc_gpio_init(26); // ADC0 
 
     // Soft start until brightness setting reached.
-    pwmLed();
-    int pwmUpdate = 0, pwm = 0;
-    uart_puts(UART_ID, "\r\nCompleted.\r\n");
+    init_pwm_for_leds(); // Initialize the PWM for the LEDs.
+    softstartLeds(); // Soft start the LED Strips.
+    
+    getTemperature(); // Get the temperature from the LM35 sensor.
+
+    int pwmUpdate = 0, pwm0 = 0, pwm1 = 0;
+    int hy = 3; // Hysteresis
+    int loopCounter = 0;
+
     while (1) {
         //tight_loop_contents();       
-        sleep_ms(200);
-        //uart_puts(UART_ID, "\r\nIn loop\r\n");
-        //for (int i=1; i<3; i++) {
-            adc_select_input(2); // ...for the pwm-signal
+        if (potmeter == ACTIVE) { 
+            // Check if the device is overheated.
+            if (checkTemp() == 1) {
+                 set_pwm_duty_cycle(0, PWM_CHAN_A); // for PWM_CHAN_A
+                set_pwm_duty_cycle(0, PWM_CHAN_B); // for PWM_CHAN_B
+                uart_puts(UART_ID, "\r\nPWM signals disabled!\r\n");
+                potmeter = INACTIVE; // Disable the potmeter.
+                uart_puts(UART_ID, "\r\nPotmeter disabled!\r\n");
+                uart_puts(UART_ID, "\r\nPlease check the device!\r\n");
+                promt();
+                break; // Exit the loop if the device is overheated.
+            }
+
+            adc_select_input(ADC_0_FOR_PWM_CHAN_A); // ...for the pwm-signal
+            result = adc_read();
+            //uart_printf("ADC2 Raw value: 0x%03x, voltage: %f V\r\n", result, result * conversion_factor);
+            pwmUpdate = (int)(((result * conversion_factor)/3.3)*100); // The fraction between the measured voltage and the reference voltage represents the duty cycle for the pwm signal.  
+            
+            if ((pwmUpdate >= (pwm0+hy)) || (pwmUpdate <= (pwm0-hy))) {
+                uart_printf("\r\nPWM_0 Duty Cycle update: Old = %d%%, New = %d%%", pwm0, pwmUpdate);
+                pwm0 = pwmUpdate;
+                set_pwm_duty_cycle(pwm0, PWM_CHAN_A); // for PWM_CHAN_A
+            }
+
+            adc_select_input(ADC_1_FOR_PWM_CHAN_B); // ...for the pwm-signal
             result = adc_read();
             //uart_printf("ADC2 Raw value: 0x%03x, voltage: %f V\r\n", result, result * conversion_factor);
             pwmUpdate = (int)(((result * conversion_factor)/3.3)*100);
             
-            if ((pwmUpdate >= (pwm+2)) || (pwmUpdate <= (pwm-2))) {
-                uart_printf("\r\nPWM Duty Cycle update: Old = %d%%, New = %d%%", pwm, pwmUpdate);
-                pwm = pwmUpdate;
-                set_pwm_duty_cycle(pwm, 0);
-                set_pwm_duty_cycle((100-pwm), 1);
+            if ((pwmUpdate >= (pwm1+hy)) || (pwmUpdate <= (pwm1-hy))) {
+                uart_printf("\r\nPWM_1 Duty Cycle update: Old = %d%%, New = %d%%", pwm1, pwmUpdate);
+                pwm1 = pwmUpdate;
+                set_pwm_duty_cycle(pwm1, PWM_CHAN_B); // for PWM_CHAN_B
             }
-       // }
+        }
+        // Checking the input every 100 ms.
+        sleep_ms(100);
+        if (loopCounter >= 1200) { // 1200 * 100 ms = 120 seconds = 2 minutes.
+            loopCounter = 0;
+            getTemperature(); // Get the temperature from the LM35 sensor.
+        }
+        loopCounter++;
     }
 }
-
-/// \end:uart_advanced[]

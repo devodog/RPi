@@ -36,11 +36,23 @@ pico_sdk_init()
 # Add executable. Default name is the project name, version 0.1
 
 add_executable(uart_advanced
+        appbuild.h
         uart_advanced.c
         )
 
 # pull in common dependencies and additional uart hardware support
 target_link_libraries(uart_advanced pico_stdlib hardware_uart hardware_adc hardware_pwm)
+
+# pre-build for the application.
+add_custom_target(
+ run ALL
+ COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/prebuild.py ${CMAKE_CURRENT_SOURCE_DIR}
+ BYPRODUCTS appbuild.h
+ COMMENT "Generating enums"
+)
+
+add_dependencies(uart_advanced run)
+# end of pre-build
 
 # create map/bin/hex file etc.
 pico_add_extra_outputs(uart_advanced)
