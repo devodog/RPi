@@ -1,0 +1,141 @@
+
+Raspberry Pi Pico 2 LED-Strip Driver, version 1.0 APR2025 build: 20
+---------------------------------------------------------
+ADC0 Raw value: 0x0ab, voltage: 0.137769 V
+ADC0 Raw value: 0x142, voltage: 0.259424 V
+
+ADC2 temp: 21.1 C°
+
+PWM_0 Duty Cycle update: Old = 0%, New = 4%
+PWM Duty Cycle for Channel 0, set to: 2 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 0%, New = 7%
+PWM Duty Cycle for Channel 1, set to: 4 %
+
+pico2>
+ADC2 temp: 24.2 C°
+
+ADC2 temp: 26.1 C°
+
+ADC2 temp: 27.2 C°
+
+ADC2 temp: 28.0 C°
+
+ADC2 temp: 28.4 C°
+
+ADC2 temp: 28.8 C°
+
+ADC2 temp: 29.1 C°
+
+ADC2 temp: 29.1 C°
+
+ADC2 temp: 29.3 C°
+
+ADC2 temp: 29.2 C°
+
+ADC2 temp: 29.3 C°
+
+ADC2 temp: 29.6 C°
+
+ADC2 temp: 29.3 C°
+
+ADC2 temp: 29.1 C°
+
+ADC2 temp: 29.2 C°
+
+ADC2 temp: 29.3 C°
+
+ADC2 temp: 29.4 C°
+
+ADC2 temp: 29.6 C°
+
+ADC2 temp: 29.5 C°
+
+ADC2 temp: 29.4 C°
+
+ADC2 temp: 29.7 C°
+
+ADC2 temp: 29.5 C°
+
+ADC2 temp: 29.6 C°
+
+ADC2 temp: 29.6 C°
+
+PWM_0 Duty Cycle update: Old = 4%, New = 9%
+PWM Duty Cycle for Channel 0, set to: 5 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 9%, New = 21%
+PWM Duty Cycle for Channel 0, set to: 12 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 21%, New = 27%
+PWM Duty Cycle for Channel 0, set to: 16 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 27%, New = 31%
+PWM Duty Cycle for Channel 0, set to: 18 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 7%, New = 11%
+PWM Duty Cycle for Channel 1, set to: 6 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 11%, New = 17%
+PWM Duty Cycle for Channel 1, set to: 10 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 17%, New = 22%
+PWM Duty Cycle for Channel 1, set to: 13 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 22%, New = 26%
+PWM Duty Cycle for Channel 1, set to: 15 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 26%, New = 31%
+PWM Duty Cycle for Channel 1, set to: 18 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 31%, New = 34%
+PWM Duty Cycle for Channel 1, set to: 20 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 31%, New = 35%
+PWM Duty Cycle for Channel 0, set to: 21 %
+
+pico2>
+ADC2 temp: 33.9 C°
+
+ADC2 temp: 37.2 C°
+
+ADC2 temp: 39.5 C°
+
+ADC2 temp: 40.6 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 42.2 C°
+
+ADC2 temp: 42.3 C°
+
+ADC2 temp: 42.3 C°
+
+ADC2 temp: 42.6 C°
+
+ADC2 temp: 42.5 C°
+
+ADC2 temp: 42.6 C°
+
+ADC2 temp: 42.3 C°
+
+ADC2 temp: 42.6 C°
+
+ADC2 temp: 42.8 C°
+
+ADC2 temp: 43.0 C°
+
+ADC2 temp: 43.2 C°
+
+ADC2 temp: 42.7 C°

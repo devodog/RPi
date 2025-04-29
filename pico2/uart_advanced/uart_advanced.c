@@ -57,7 +57,10 @@
 #define ADC_1_FOR_PWM_CHAN_B 1
 #define ADC2_TEMP 2
 #define MAX_DEVICE_TEMPERATURE 50 // Max temperature for the device to be used.
-#define DC_MAX 60
+
+#define PWM_PERIOD 10000 // The period of the PWM signal. 10000 = 2ms. (clockdiv = 250.0f)
+#define PWM_DC_MAX 60 // The maximum duty cycle for the PWM signal. 60% = 0.6 * 10000 = 6000.
+
 // We are using pins 0 and 1, but see the GPIO function select table in the
 // datasheet for information on which other pins can be used.
 #define UART_TX_PIN 0
@@ -70,6 +73,8 @@
 #define INACTIVE 0
 #define ALL_LEDS 3
 #define COMPLETED 1
+
+
 
 char cmdBuffer[80]; // Making space for the command to be given on the command-line prompt. 
 static int chars_rxed = 0;
@@ -92,10 +97,10 @@ void promt() {
 }
 
 void set_pwm_duty_cycle(int dc, uint8_t pwmChannel) {
-    uart_printf("\r\nPWM Duty Cycle for Channel %d, set to: %d %%\r\n", pwmChannel, (int)(dc * 0.6));
+    uart_printf("\r\nPWM Duty Cycle for Channel %d, set to: %d %%\r\n", pwmChannel, (int)(dc * (PWM_DC_MAX / 100.0f)));
     
     if (slice_num >= 0) {
-            pwm_set_chan_level(slice_num, pwmChannel, dc * DC_MAX);
+            pwm_set_chan_level(slice_num, pwmChannel, dc * PWM_DC_MAX);
     }
     else {
         uart_printf("\r\nNo valid slice number to use!\r\n");
@@ -115,15 +120,17 @@ void softstartLeds() {
     pwmDC1 = (int)(((adcReading * conversion_factor)/3.3)*100); // The fraction between the measured voltage 
                                                                 // and the reference voltage represents the 
                                                                 // duty cycle for the pwm signal.
-    
+
+
     adc_select_input(ADC_1_FOR_PWM_CHAN_B);
     adcReading = adc_read();
     uart_printf("ADC0 Raw value: 0x%03x, voltage: %f V\r\n", adcReading, (adcReading * conversion_factor));
     pwmDC2 = (int)(((adcReading * conversion_factor)/3.3)*100); // The fraction between the measured voltage 
 
+
     for (int i = 0; i < 100; i++) {    
         if (dc1 <= pwmDC1) {
-            pwm_set_chan_level(slice_num, PWM_CHAN_A, dc1 * DC_MAX); // ONLY ADC 0 IN USE FOR LED DIM FUNCTION
+            pwm_set_chan_level(slice_num, PWM_CHAN_A, dc1 * PWM_DC_MAX); // ONLY ADC 0 IN USE FOR LED DIM FUNCTION
             dc1++;    
         }
         else {
@@ -131,7 +138,7 @@ void softstartLeds() {
         }
 
         if (dc2 <= pwmDC2) {
-            pwm_set_chan_level(slice_num, PWM_CHAN_B, dc2 * DC_MAX); // ONLY ADC 1 IN USE FOR LED DIM FUNCTION
+            pwm_set_chan_level(slice_num, PWM_CHAN_B, dc2 * PWM_DC_MAX); // ONLY ADC 1 IN USE FOR LED DIM FUNCTION
             dc2++;
         }
         else {
@@ -258,7 +265,8 @@ void init_pwm_for_leds() {
 
         slice_num = pwm_gpio_to_slice_num(16);
         //uart_printf("\r\nSlice Number set to: %d \r\n", slice_num);
-        pwm_set_wrap(slice_num, 10000); // Set the wrap value for the PWM slice.
+        pwm_set_clkdiv(slice_num, 250.0f); // Set the clock divider to 250.0 - 150 Mhz / 250 = 600 KHz.
+        pwm_set_wrap(slice_num, PWM_PERIOD); // Set the wrap value for the PWM slice. 600 KHz / 10000 = 60 Hz.
         pwm_set_chan_level(slice_num, PWM_CHAN_A, 0); // Set the initial duty cycle to 0.
         pwm_set_chan_level(slice_num, PWM_CHAN_B, 0); // Set the initial duty cycle to 0.
         pwm_set_enabled(slice_num, true); // Disable the PWM slice.
