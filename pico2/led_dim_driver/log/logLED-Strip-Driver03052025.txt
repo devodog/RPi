@@ -1,0 +1,542 @@
+
+Raspberry Pi Pico 2 LED-Strip Driver, version 1.0.88
+Build date: 2025-05-03 09:24:52.762813
+MAX DUTY CYCLE: 60% due to converter limitation.
+pico2>
+Initial Dimmer Potentiometer values:
+ADC0 Raw value: 0xfff, voltage: 3.299 V
+ADC0 Raw value: 0xfff, voltage: 3.299 V
+
+Soft start completed!
+
+ADC2 temp: 19.9 C°
+
+PWM_0 Duty Cycle update: Old = 0%, New = 99%
+PWM Duty Cycle for Channel 0, set to: 59 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 0%, New = 99%
+PWM Duty Cycle for Channel 1, set to: 59 %
+
+pico2>
+ADC2 temp: 22.6 C°
+
+ADC2 temp: 25.1 C°
+
+ADC2 temp: 26.8 C°
+
+ADC2 temp: 28.5 C°
+
+ADC2 temp: 29.6 C°
+
+ADC2 temp: 30.5 C°
+
+ADC2 temp: 31.2 C°
+
+ADC2 temp: 31.8 C°
+
+ADC2 temp: 32.2 C°
+
+ADC2 temp: 32.5 C°
+
+ADC2 temp: 33.0 C°
+
+ADC2 temp: 33.5 C°
+
+ADC2 temp: 33.9 C°
+
+ADC2 temp: 34.0 C°
+
+ADC2 temp: 34.3 C°
+
+ADC2 temp: 34.3 C°
+
+ADC2 temp: 34.5 C°
+
+ADC2 temp: 34.6 C°
+
+ADC2 temp: 34.7 C°
+
+ADC2 temp: 35.0 C°
+
+ADC2 temp: 35.1 C°
+
+ADC2 temp: 35.2 C°
+
+ADC2 temp: 35.3 C°
+
+ADC2 temp: 35.4 C°
+
+ADC2 temp: 35.5 C°
+
+ADC2 temp: 35.5 C°
+
+ADC2 temp: 35.7 C°
+
+ADC2 temp: 35.7 C°
+
+ADC2 temp: 35.8 C°
+
+ADC2 temp: 35.8 C°
+
+ADC2 temp: 35.9 C°
+
+ADC2 temp: 35.6 C°
+
+ADC2 temp: 36.0 C°
+
+ADC2 temp: 36.1 C°
+
+ADC2 temp: 36.0 C°
+
+ADC2 temp: 36.2 C°
+
+ADC2 temp: 36.3 C°
+
+ADC2 temp: 36.3 C°
+
+ADC2 temp: 36.2 C°
+
+ADC2 temp: 36.2 C°
+
+ADC2 temp: 36.3 C°
+
+ADC2 temp: 36.0 C°
+
+ADC2 temp: 36.3 C°
+
+ADC2 temp: 36.3 C°
+
+ADC2 temp: 36.4 C°
+
+ADC2 temp: 36.5 C°
+
+ADC2 temp: 36.4 C°
+
+ADC2 temp: 36.5 C°
+
+ADC2 temp: 36.5 C°
+
+ADC2 temp: 36.7 C°
+
+ADC2 temp: 36.8 C°
+
+ADC2 temp: 36.8 C°
+
+ADC2 temp: 36.8 C°
+
+ADC2 temp: 36.8 C°
+
+ADC2 temp: 36.8 C°
+
+ADC2 temp: 36.8 C°
+
+ADC2 temp: 36.8 C°
+
+ADC2 temp: 36.8 C°
+
+ADC2 temp: 36.9 C°
+
+ADC2 temp: 36.8 C°
+
+ADC2 temp: 36.9 C°
+
+ADC2 temp: 37.0 C°
+
+ADC2 temp: 36.8 C°
+
+ADC2 temp: 36.8 C°
+
+ADC2 temp: 36.8 C°
+
+ADC2 temp: 36.8 C°
+
+ADC2 temp: 36.6 C°
+
+ADC2 temp: 36.7 C°
+
+ADC2 temp: 36.8 C°
+
+ADC2 temp: 36.9 C°
+
+ADC2 temp: 36.9 C°
+
+ADC2 temp: 36.8 C°
+
+ADC2 temp: 36.8 C°
+
+ADC2 temp: 37.0 C°
+
+ADC2 temp: 37.1 C°
+
+ADC2 temp: 37.0 C°
+
+ADC2 temp: 36.9 C°
+
+ADC2 temp: 36.9 C°
+
+ADC2 temp: 36.9 C°
+
+ADC2 temp: 36.9 C°
+
+ADC2 temp: 36.7 C°
+
+ADC2 temp: 37.2 C°
+
+ADC2 temp: 37.4 C°
+
+ADC2 temp: 37.8 C°
+
+ADC2 temp: 38.1 C°
+
+ADC2 temp: 38.1 C°
+
+ADC2 temp: 38.4 C°
+
+ADC2 temp: 38.7 C°
+
+ADC2 temp: 38.8 C°
+
+ADC2 temp: 39.0 C°
+
+ADC2 temp: 38.8 C°
+
+ADC2 temp: 39.0 C°
+
+ADC2 temp: 39.3 C°
+
+ADC2 temp: 39.5 C°
+
+ADC2 temp: 39.4 C°
+
+ADC2 temp: 39.4 C°
+
+ADC2 temp: 39.7 C°
+
+ADC2 temp: 39.8 C°
+
+ADC2 temp: 39.5 C°
+
+ADC2 temp: 40.0 C°
+
+ADC2 temp: 40.0 C°
+
+ADC2 temp: 39.9 C°
+
+ADC2 temp: 40.0 C°
+
+ADC2 temp: 40.0 C°
+
+ADC2 temp: 40.1 C°
+
+ADC2 temp: 40.2 C°
+
+ADC2 temp: 40.2 C°
+
+ADC2 temp: 40.3 C°
+
+ADC2 temp: 40.3 C°
+
+ADC2 temp: 40.3 C°
+
+ADC2 temp: 40.4 C°
+
+ADC2 temp: 40.7 C°
+
+ADC2 temp: 40.7 C°
+
+ADC2 temp: 40.6 C°
+
+ADC2 temp: 40.7 C°
+
+ADC2 temp: 40.6 C°
+
+ADC2 temp: 40.7 C°
+
+ADC2 temp: 40.7 C°
+
+ADC2 temp: 40.8 C°
+
+ADC2 temp: 41.0 C°
+
+ADC2 temp: 40.8 C°
+
+ADC2 temp: 40.9 C°
+
+ADC2 temp: 40.9 C°
+
+ADC2 temp: 41.0 C°
+
+ADC2 temp: 41.0 C°
+
+ADC2 temp: 40.9 C°
+
+ADC2 temp: 41.1 C°
+
+ADC2 temp: 41.1 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 40.8 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 40.5 C°
+
+ADC2 temp: 40.0 C°
+
+ADC2 temp: 40.3 C°
+
+ADC2 temp: 39.9 C°
+
+ADC2 temp: 40.1 C°
+
+ADC2 temp: 40.1 C°
+
+ADC2 temp: 40.1 C°
+
+ADC2 temp: 40.2 C°
+
+ADC2 temp: 40.4 C°
+
+ADC2 temp: 40.4 C°
+
+ADC2 temp: 40.5 C°
+
+ADC2 temp: 40.3 C°
+
+ADC2 temp: 40.5 C°
+
+ADC2 temp: 40.5 C°
+
+ADC2 temp: 40.5 C°
+
+ADC2 temp: 40.7 C°
+
+ADC2 temp: 40.7 C°
+
+ADC2 temp: 40.9 C°
+
+ADC2 temp: 41.0 C°
+
+ADC2 temp: 40.9 C°
+
+ADC2 temp: 40.9 C°
+
+ADC2 temp: 40.9 C°
+
+ADC2 temp: 41.0 C°
+
+ADC2 temp: 41.0 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.4 C°
+
+ADC2 temp: 41.1 C°
+
+ADC2 temp: 41.5 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.4 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.4 C°
+
+ADC2 temp: 41.4 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.4 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.1 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.4 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.4 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.4 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.4 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.4 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.1 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.1 C°
+
+ADC2 temp: 41.1 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.1 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 40.9 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.1 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.0 C°
+
+ADC2 temp: 41.1 C°
+
+ADC2 temp: 41.0 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.2 C°
+
+ADC2 temp: 41.0 C°
+
+ADC2 temp: 41.0 C°
+
+ADC2 temp: 41.1 C°
+
+ADC2 temp: 41.0 C°
+
+ADC2 temp: 41.0 C°
+
+ADC2 temp: 40.7 C°
+
+ADC2 temp: 40.9 C°
+
+PWM

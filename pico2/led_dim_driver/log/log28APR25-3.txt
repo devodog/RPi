@@ -1,0 +1,533 @@
+
+Raspberry Pi Pico 2 LED-Strip Driver, version 1.0 APR2025 build: 20
+---------------------------------------------------------
+ADC0 Raw value: 0x0ab, voltage: 0.137769 V
+ADC0 Raw value: 0x142, voltage: 0.259424 V
+
+ADC2 temp: 21.1 C°
+
+PWM_0 Duty Cycle update: Old = 0%, New = 4%
+PWM Duty Cycle for Channel 0, set to: 2 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 0%, New = 7%
+PWM Duty Cycle for Channel 1, set to: 4 %
+
+pico2>
+ADC2 temp: 24.2 C°
+
+ADC2 temp: 26.1 C°
+
+ADC2 temp: 27.2 C°
+
+ADC2 temp: 28.0 C°
+
+ADC2 temp: 28.4 C°
+
+ADC2 temp: 28.8 C°
+
+ADC2 temp: 29.1 C°
+
+ADC2 temp: 29.1 C°
+
+ADC2 temp: 29.3 C°
+
+ADC2 temp: 29.2 C°
+
+ADC2 temp: 29.3 C°
+
+ADC2 temp: 29.6 C°
+
+ADC2 temp: 29.3 C°
+
+ADC2 temp: 29.1 C°
+
+ADC2 temp: 29.2 C°
+
+ADC2 temp: 29.3 C°
+
+ADC2 temp: 29.4 C°
+
+ADC2 temp: 29.6 C°
+
+ADC2 temp: 29.5 C°
+
+ADC2 temp: 29.4 C°
+
+ADC2 temp: 29.7 C°
+
+ADC2 temp: 29.5 C°
+
+ADC2 temp: 29.6 C°
+
+ADC2 temp: 29.6 C°
+
+PWM_0 Duty Cycle update: Old = 4%, New = 9%
+PWM Duty Cycle for Channel 0, set to: 5 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 9%, New = 21%
+PWM Duty Cycle for Channel 0, set to: 12 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 21%, New = 27%
+PWM Duty Cycle for Channel 0, set to: 16 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 27%, New = 31%
+PWM Duty Cycle for Channel 0, set to: 18 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 7%, New = 11%
+PWM Duty Cycle for Channel 1, set to: 6 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 11%, New = 17%
+PWM Duty Cycle for Channel 1, set to: 10 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 17%, New = 22%
+PWM Duty Cycle for Channel 1, set to: 13 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 22%, New = 26%
+PWM Duty Cycle for Channel 1, set to: 15 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 26%, New = 31%
+PWM Duty Cycle for Channel 1, set to: 18 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 31%, New = 34%
+PWM Duty Cycle for Channel 1, set to: 20 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 31%, New = 35%
+PWM Duty Cycle for Channel 0, set to: 21 %
+
+pico2>
+ADC2 temp: 33.9 C°
+
+ADC2 temp: 37.2 C°
+
+ADC2 temp: 39.5 C°
+
+ADC2 temp: 40.6 C°
+
+ADC2 temp: 41.3 C°
+
+ADC2 temp: 42.2 C°
+
+ADC2 temp: 42.3 C°
+
+ADC2 temp: 42.3 C°
+
+ADC2 temp: 42.6 C°
+
+ADC2 temp: 42.5 C°
+
+ADC2 temp: 42.6 C°
+
+ADC2 temp: 42.3 C°
+
+ADC2 temp: 42.6 C°
+
+ADC2 temp: 42.8 C°
+
+ADC2 temp: 43.0 C°
+
+ADC2 temp: 43.2 C°
+
+ADC2 temp: 42.7 C°
+
+ADC2 temp: 42.8 C°
+
+PWM_1 Duty Cycle update: Old = 34%, New = 37%
+PWM Duty Cycle for Channel 1, set to: 22 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 37%, New = 40%
+PWM Duty Cycle for Channel 1, set to: 24 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 40%, New = 43%
+PWM Duty Cycle for Channel 1, set to: 25 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 43%, New = 46%
+PWM Duty Cycle for Channel 1, set to: 27 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 46%, New = 50%
+PWM Duty Cycle for Channel 1, set to: 30 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 50%, New = 53%
+PWM Duty Cycle for Channel 1, set to: 31 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 35%, New = 39%
+PWM Duty Cycle for Channel 0, set to: 23 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 39%, New = 43%
+PWM Duty Cycle for Channel 0, set to: 25 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 43%, New = 48%
+PWM Duty Cycle for Channel 0, set to: 28 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 48%, New = 52%
+PWM Duty Cycle for Channel 0, set to: 31 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 52%, New = 55%
+PWM Duty Cycle for Channel 0, set to: 33 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 55%, New = 58%
+PWM Duty Cycle for Channel 0, set to: 34 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 58%, New = 61%
+PWM Duty Cycle for Channel 0, set to: 36 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 61%, New = 64%
+PWM Duty Cycle for Channel 0, set to: 38 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 64%, New = 68%
+PWM Duty Cycle for Channel 0, set to: 40 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 53%, New = 57%
+PWM Duty Cycle for Channel 1, set to: 34 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 57%, New = 62%
+PWM Duty Cycle for Channel 1, set to: 37 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 62%, New = 66%
+PWM Duty Cycle for Channel 1, set to: 39 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 68%, New = 72%
+PWM Duty Cycle for Channel 0, set to: 43 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 66%, New = 70%
+PWM Duty Cycle for Channel 1, set to: 42 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 70%, New = 76%
+PWM Duty Cycle for Channel 1, set to: 45 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 72%, New = 75%
+PWM Duty Cycle for Channel 0, set to: 45 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 75%, New = 78%
+PWM Duty Cycle for Channel 0, set to: 46 %
+
+pico2>
+ADC2 temp: 44.7 C°
+
+ADC2 temp: 49.5 C°
+
+PWM Duty Cycle for Channel 0, set to: 0 %
+
+pico2>
+PWM Duty Cycle for Channel 1, set to: 0 %
+
+pico2>
+PWM signals disabled!
+
+Potmeter disabled!
+
+Please check the device!
+
+pico2>
+Raspberry Pi Pico 2 LED-Strip Driver, version 1.0 APR2025 build: 20
+---------------------------------------------------------
+ADC0 Raw value: 0x711, voltage: 1.457446 V
+ADC0 Raw value: 0x69a, voltage: 1.361572 V
+
+ADC2 temp: 35.9 C°
+
+PWM_0 Duty Cycle update: Old = 0%, New = 44%
+PWM Duty Cycle for Channel 0, set to: 26 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 0%, New = 41%
+PWM Duty Cycle for Channel 1, set to: 24 %
+
+pico2>
+ADC2 temp: 40.2 C°
+
+ADC2 temp: 41.7 C°
+
+ADC2 temp: 43.6 C°
+
+ADC2 temp: 44.6 C°
+
+ADC2 temp: 44.7 C°
+
+ADC2 temp: 44.5 C°
+
+ADC2 temp: 44.9 C°
+
+ADC2 temp: 45.0 C°
+
+ADC2 temp: 44.2 C°
+
+ADC2 temp: 44.6 C°
+
+ADC2 temp: 45.2 C°
+
+ADC2 temp: 45.3 C°
+
+ADC2 temp: 45.1 C°
+
+ADC2 temp: 45.1 C°
+
+ADC2 temp: 45.1 C°
+
+ADC2 temp: 44.7 C°
+
+ADC2 temp: 46.9 C°
+
+ADC2 temp: 46.2 C°
+
+ADC2 temp: 45.8 C°
+
+ADC2 temp: 45.5 C°
+
+ADC2 temp: 45.2 C°
+
+ADC2 temp: 45.4 C°
+
+ADC2 temp: 45.4 C°
+
+ADC2 temp: 45.5 C°
+
+ADC2 temp: 45.0 C°
+
+PWM_1 Duty Cycle update: Old = 41%, New = 44%
+PWM Duty Cycle for Channel 1, set to: 26 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 44%, New = 47%
+PWM Duty Cycle for Channel 1, set to: 28 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 47%, New = 50%
+PWM Duty Cycle for Channel 1, set to: 30 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 44%, New = 47%
+PWM Duty Cycle for Channel 0, set to: 28 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 47%, New = 50%
+PWM Duty Cycle for Channel 0, set to: 30 %
+
+pico2>
+ADC2 temp: 46.3 C°
+
+ADC2 temp: 46.9 C°
+
+ADC2 temp: 47.5 C°
+
+ADC2 temp: 47.7 C°
+
+ADC2 temp: 47.6 C°
+
+ADC2 temp: 47.7 C°
+
+ADC2 temp: 47.5 C°
+
+ADC2 temp: 47.8 C°
+
+ADC2 temp: 47.9 C°
+
+ADC2 temp: 47.2 C°
+
+ADC2 temp: 47.9 C°
+
+ADC2 temp: 47.9 C°
+
+ADC2 temp: 47.7 C°
+
+ADC2 temp: 47.5 C°
+
+ADC2 temp: 47.5 C°
+
+ADC2 temp: 48.0 C°
+
+ADC2 temp: 48.2 C°
+
+ADC2 temp: 47.7 C°
+
+ADC2 temp: 48.0 C°
+
+ADC2 temp: 48.1 C°
+
+ADC2 temp: 48.0 C°
+
+ADC2 temp: 48.3 C°
+
+ADC2 temp: 48.3 C°
+
+ADC2 temp: 48.4 C°
+
+ADC2 temp: 29.0 C°
+
+ADC2 temp: 25.0 C°
+
+ADC2 temp: 34.7 C°
+
+ADC2 temp: 40.2 C°
+
+ADC2 temp: 43.2 C°
+
+ADC2 temp: 45.5 C°
+
+ADC2 temp: 45.9 C°
+
+ADC2 temp: 46.7 C°
+
+ADC2 temp: 47.0 C°
+
+ADC2 temp: 47.1 C°
+
+ADC2 temp: 47.5 C°
+
+ADC2 temp: 47.3 C°
+
+ADC2 temp: 47.5 C°
+
+ADC2 temp: 47.8 C°
+
+ADC2 temp: 47.7 C°
+
+ADC2 temp: 47.7 C°
+
+ADC2 temp: 47.5 C°
+
+ADC2 temp: 47.6 C°
+
+ADC2 temp: 47.5 C°
+
+ADC2 temp: 47.6 C°
+
+ADC2 temp: 47.6 C°
+
+ADC2 temp: 47.7 C°
+
+ADC2 temp: 47.6 C°
+
+ADC2 temp: 47.7 C°
+
+ADC2 temp: 47.6 C°
+
+ADC2 temp: 47.9 C°
+
+ADC2 temp: 47.8 C°
+
+ADC2 temp: 47.5 C°
+
+ADC2 temp: 47.6 C°
+
+ADC2 temp: 47.7 C°
+
+ADC2 temp: 47.8 C°
+
+ADC2 temp: 48.1 C°
+
+ADC2 temp: 48.0 C°
+
+ADC2 temp: 48.0 C°
+
+ADC2 temp: 47.3 C°
+
+ADC2 temp: 47.5 C°
+
+ADC2 temp: 47.7 C°
+
+ADC2 temp: 47.8 C°
+
+ADC2 temp: 47.8 C°
+
+ADC2 temp: 47.8 C°
+
+ADC2 temp: 47.5 C°
+
+ADC2 temp: 47.6 C°
+
+ADC2 temp: 47.8 C°
+
+ADC2 temp: 48.0 C°
+
+ADC2 temp: 47.8 C°
+
+ADC2 temp: 48.0 C°
+
+ADC2 temp: 48.0 C°
+
+ADC2 temp: 47.8 C°
+
+ADC2 temp: 47.7 C°
+
+ADC2 temp: 47.6 C°
+
+ADC2 temp: 47.8 C°
+
+ADC2 temp: 48.0 C°
+
+ADC2 temp: 47.8 C°
+
+ADC2 temp: 48.0 C°
+
+ADC2 temp: 47.8 C°
+
+ADC2 temp: 47.8 C°
+
+ADC2 temp: 47.7 C°
+
+ADC2 temp: 48.0 C°
+
+PWM_1 Duty Cycle update: Old = 50%, New = 46%
+PWM Duty Cycle for Channel 1, set to: 27 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 50%, New = 43%
+PWM Duty Cycle for Channel 0, set to: 25 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 46%, New = 30%
+PWM Duty Cycle for Channel 1, set to: 18 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 43%, New = 11%
+PWM Duty Cycle for Channel 0, set to: 6 %
+
+pico2>
+PWM_1 Duty Cycle update: Old = 30%, New = 2%
+PWM Duty Cycle for Channel 1, set to: 1 %
+
+pico2>
+PWM_0 Duty Cycle update: Old = 11%, New = 0%
+PWM Duty Cycle for Channel 0, set to: 0 %
+
+pico2>
+ADC2 temp: 44.6 C°
+
+ADC2 temp: 35.4 C°
+
+ADC2 temp: 31.0 C°
+
+ADC2 temp: 28.8 C°
