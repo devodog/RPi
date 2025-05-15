@@ -30,7 +30,10 @@ All terminal commands are described below.
 ## The software
 The software that operates the Pico2 board as indicated above, is written in c and made as (stupid) simple as possible.  
 It makes use of a small amount of Pico2 library functions for UART, ADC readings and managing the PWM slices within the RP2350 based board.  
-As indicated, the code will run in a "main-loop" (for-ever while-loop), only interrupted by the UART receiver, if the user for any reason whats to execute one of the below described commands.  
+As indicated, KISS implementation, the code will run in a "main-loop" (for-ever while-loop), only interrupted by the UART receiver, if the user for any reason whats to execute one of the below described commands.  
+
+__Soft start__  
+On start-up the software will check/read the current position of the sliding potentiometers and increase the PWM duty cycle in small steps from 0%, until it reaches the value that matches the voltage read from the potentiometers center pin, providing an evenly increase of illumination.  
 
 The main-loop checks/reads the slid potentiometers position every 100 ms, and if different from the previous check, the PWM duty cycle is updated according to the new potentiometer position to change the LED Strip brightness accordingly. The source of the input voltage is the center pin of a linear 10 kΩ slid potentiometer, which the endpoints are connected to 3.3V and GND. The PWM duty cycle are set proportional to the voltage read on two GPIOs configured as analog input, although limiting the duty cycle to maximum 60% due to the limitation of the AC to DC power converter.  In addition to checking/reading the potentiometers center pin voltage, the temperature sensor output is also read every 100 ms. This is to monitor the temperature in the close surroundings of one of the MOSFET (Q1) in order to detect any indication of a over heated situation. If this occurs (over 50 C°), then the PWM duty cycle is set to 10% and if the temperature does not reduces to less than 30 C° within 5 minutes, then the system will terminate. Only power cycle will start the system again.
 
@@ -69,3 +72,11 @@ Setting the PWM duty cycle from the terminal if the potentiometer is disabled.
 pico2>dc2 50
 ADC1 (LED1) DutyCycle: 15 %  
 ```  
+```ver```  - will give the current version, build date and the maximum PWM duty cycle.
+```
+pico2>ver  
+Raspberry Pi Pico 2 LED-Strip Driver, version 1.0.93
+Build date: 2025-05-08 13:22:31.795510
+MAX DUTY CYCLE: 60% due to converter limitation.
+pico2>
+```
