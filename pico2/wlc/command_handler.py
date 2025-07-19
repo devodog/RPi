@@ -21,9 +21,11 @@ def read(pin):
                 "\r\npwd:<pwd> \t Changes PASSWORD to <pwd>" \
                 "\r\nrestart: \t Restarts the pico" \
                 "\r\nversion \t Shows current version")
+            
             elif buf == "status":
-                
-                cmd_output(json_data)
+                cmd_output("Not implemented yet\r\n")
+                #cmd_output(json_data)
+            
             elif "ssid:" in buf:
                 cmd_output("Old ssid: ", read_config()["wifi"]["SSID"])
                 
