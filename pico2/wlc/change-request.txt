@@ -1,0 +1,24 @@
+FEATURE REQUESTS 19.07.25
+========================
+Commandos to Add:
+pico-w> help
+pico-w> version
+pico-w> status
+
+Add POST of water level indications and reservoir filling history for the last
+14 days, to midtskips.no/drivhus/rxdata.php (THIS FILE IS NOT IMPLEMENTED)
+
+Data to be sent:
+SW_reservoir water level (full, 3/4, half and 1/4)
+Same for NE_reservoir water level
+
+SW_reservoir water valve state and last change time-stamp (from ON to CLOSED)
+or (from CLOSED to ON)
+same for NE_reservoir water valve
+
+{"southWestLevel": (full | 3/4 | half | 1/4), "northEastLevel": (full | 3/4 | half | 1/4),
+ "southWestValveState":"OPEN|CLOSED", "southWestValveLastChange": "OPEN->CLOSED"|"CLOSED->OPEN", 
+ "southWestValveLastChange": time,
+ "northEastValveState":"OPEN|CLOSED", "northEastValveLastChange": "OPEN->CLOSED"|"CLOSED->OPEN", 
+ "northEastValveLastChange": time}  
+-------------------------------------------------------------------------------
