@@ -4,7 +4,7 @@ import state
 import select
 
 async def monitor_valves():
-
+    # Must also monitor the water level in each reservoir, which is to be reported the web site's backend.
     while True:
         POOL_A_bottom = gp4.value()
         POOL_A_top = gp2.value()

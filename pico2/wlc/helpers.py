@@ -10,6 +10,9 @@ import json
 EMPTY = 1
 FULL = 0
 
+# gp2 - gp5 register water level in the SW (South-West water reservoir), while 
+# gp6 - gp9 register water level in the NE (North-East water reservoir)
+
 # Sensor 1
 gp2 = Pin(2, Pin.IN)
 gp3 = Pin(3, Pin.IN)
@@ -102,6 +105,8 @@ json_data = OrderedDict([
         ("Sensors", [
             OrderedDict([
                 ("SensorA", OrderedDict([
+                    # Sensor should only have a single water level indication like "Top" or "3/4" or "1/2" or "1/4".
+                    # no need for the current states of all level sensors. 
                     ("Top", gp2.value()),
                     ("Upper Mid", gp3.value()),
                     ("Lower Mid", gp4.value()),
