@@ -8,7 +8,7 @@ from machine import Pin
 import time
 import json
 
-# LED Hart beat..
+# LED Hart beat...
 hb = Pin("LED", Pin.OUT)
 
 # Set up UART interrupt
