@@ -10,6 +10,9 @@ import json
 EMPTY = 1
 FULL = 0
 
+SouthWest = 0
+NorthEast = 1
+
 # gp2 - gp5 register water level in the SW (South-West water reservoir), while 
 # gp6 - gp9 register water level in the NE (North-East water reservoir)
 
@@ -93,6 +96,30 @@ def timestamp_diff(t1_str, t2_str):
     seconds = int(diff % 60)
     return f"{minutes}min, {seconds}sec"
 
+def read_waterLevel(reservoir):
+    if reservoir == SouthWest:
+        if gp2.value() == 0:
+            return "Full"
+        elif gp3.value() == 0:
+            return "3/4 Full"
+        elif gp4.value() == 0:
+            return "1/2 Full"
+        elif gp5.value() == 0:
+            return "1/4 Full"
+        else:
+            return "Empty"        
+    elif reservoir == NorthEast:
+        if gp6.value() == 0:
+            return "Full"
+        elif gp7.value() == 0:
+            return "3/4 Full"
+        elif gp8.value() == 0:
+            return "1/2 Full"
+        elif gp9.value() == 0:
+            return "1/4 Full"
+        else:
+            return "Empty"
+    
 def fun(a):
     if isinstance(a, OrderedDict):
         d = {}
@@ -104,20 +131,8 @@ def fun(a):
 json_data = OrderedDict([
         ("Sensors", [
             OrderedDict([
-                ("SensorA", OrderedDict([
-                    # Sensor should only have a single water level indication like "Top" or "3/4" or "1/2" or "1/4".
-                    # no need for the current states of all level sensors. 
-                    ("Top", gp2.value()),
-                    ("Upper Mid", gp3.value()),
-                    ("Lower Mid", gp4.value()),
-                    ("Bottom Mid", gp5.value())
-                ])),
-                ("SensorB", OrderedDict([
-                    ("Top", gp6.value()),
-                    ("Upper Mid", gp7.value()),
-                    ("Lower Mid", gp8.value()),
-                    ("Bottom Mid", gp9.value())
-                ]))
+                ("SouthWest", read_waterLevel(SouthWest)),
+                ("NorthEast", read_waterLevel(NorthEast))
             ])
         ]),
         ("Valves", [
