@@ -2,6 +2,7 @@ import uasyncio as asyncio
 from helpers import *
 import state
 import select
+import requests
 
 async def monitor_valves():
     # Must also monitor the water level in each reservoir, which is to be reported the web site's backend.
@@ -36,4 +37,7 @@ async def monitor_valves():
             state.valve_b_closed = get_local_timestamp(2)
             state.valve_b_duration = timestamp_diff(state.valve_b_opened, state.valve_b_closed)
         
+        # A POST request to the API
+        response = requests.post(url, json=json_data)
+
         await asyncio.sleep(30)

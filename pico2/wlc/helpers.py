@@ -40,6 +40,11 @@ valve_b = Pin(17, Pin.OUT)
 # valve_a_open = False
 # valve_b_open = False
 
+# The API endpoint
+url = "http://midtskips.no/drivhus/rx_data.php"
+
+
+
 uart0 = UART(0, baudrate=9600, tx=Pin(0), rx=Pin(1))
 
 
@@ -128,6 +133,7 @@ def fun(a):
         return d
     return a
 
+
 json_data = OrderedDict([
         ("Sensors", [
             OrderedDict([
@@ -137,13 +143,13 @@ json_data = OrderedDict([
         ]),
         ("Valves", [
             OrderedDict([
-                ("ValveA", OrderedDict([
+                ("SouthWest", OrderedDict([
                     ("Status", check_valve(state.valve_a_open)),
                     ("Last opened", state.valve_a_opened),
                     ("Last closed", state.valve_a_closed),
                     ("Duration valve was open", state.valve_a_duration)
                 ])),
-                ("ValveB", OrderedDict([
+                ("NorthEast", OrderedDict([
                     ("Status", check_valve(state.valve_b_open)),
                     ("Last opened", state.valve_b_opened),
                     ("Last closed", state.valve_b_closed),

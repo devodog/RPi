@@ -1,5 +1,5 @@
 FEATURE REQUESTS 19.07.25
-========================
+=========================
 Commandos to Add:
 pico-w> help
 pico-w> version
@@ -22,3 +22,9 @@ same for NE_reservoir water valve
  "northEastValveState":"OPEN|CLOSED", "northEastValveLastChange": "OPEN->CLOSED"|"CLOSED->OPEN", 
  "northEastValveLastChange": time}  
 -------------------------------------------------------------------------------
+FEATURE REQUESTS 21.07.25
+=========================
+Will need a interrupt service routine for closing the water valve.
+When the reservoir becomes full, the valve needs to close immediately.
+So, when gp2 -> low ('0') after the water valve has opened, then the water valve
+should immediately close.

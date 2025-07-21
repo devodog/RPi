@@ -24,7 +24,7 @@ def read(pin):
             
             elif buf == "status":
                 #cmd_output("Not implemented yet\r\n")
-                cmd_output(json_data)
+                cmd_output("json data: ", json.dumps(json_data))
             
             elif "ssid:" in buf:
                 cmd_output("Old ssid: ", read_config()["wifi"]["SSID"])
