@@ -1,12 +1,8 @@
-# Valve open/close flags
-valve_a_open = False
-valve_b_open = False
-
 # Timestamps
-valve_a_opened = "-"
-valve_a_closed = "-"
-valve_a_duration = "-"
+valve_sw_opened = 0
+valve_sw_closed = 0
+valve_sw_duration = 0
 
-valve_b_opened = "-"
-valve_b_closed = "-"
-valve_b_duration = "-"
+valve_ne_opened = 0
+valve_ne_closed = 0
+valve_ne_duration = 0
