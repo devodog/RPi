@@ -1,9 +1,11 @@
 import uasyncio as asyncio
 from helpers import *
+from publish import send_data
 import state
-import gc
-import requests
 
+
+json_data_sent = {}
+current_json_data = {}
 
 async def monitor_valves():
     # Must also monitor the water level in each reservoir, which is to be reported the web site's backend.
@@ -19,20 +21,5 @@ async def monitor_valves():
             turn_on_valve(valve_ne)
             state.valve_ne_opened = get_epoch_timestamp(2)
 
-       
-        # A POST request to the API
-        if wifi.wlan.isconnected():
-            try:
-                gc.collect()
-                output("Sending post request to: ", read_config()["url"])
-                json_data = build_json_data()
-                response = requests.post(read_config()["url"], json=json_data, timeout=5)  # set timeout to avoid hanging
-                
-                output("Status code: ", str(response.status_code))
-            except Exception as e:
-                output("Error sending POST request: ", str(e))
-
-
-       
-
-        await asyncio.sleep(30)
+        # 15 minutes
+        await asyncio.sleep(60)

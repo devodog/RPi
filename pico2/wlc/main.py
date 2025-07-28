@@ -2,6 +2,7 @@
 from wifi import *
 from monitor import monitor_valves
 from helpers import *
+from publish import send_data
 from command_handler import read
 from machine import Pin
 import time
@@ -55,6 +56,7 @@ async def main():
 
     # Start key tasks regardless of WiFi connection state
     asyncio.create_task(monitor_valves())
+    asyncio.create_task(send_data())
     asyncio.create_task(maintain_wifi_connection())
 
     uart0.write(b'\r\npico-w> ')
