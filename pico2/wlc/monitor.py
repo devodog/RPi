@@ -1,11 +1,7 @@
 import uasyncio as asyncio
 from helpers import *
-from publish import send_data
 import state
 
-
-json_data_sent = {}
-current_json_data = {}
 
 async def monitor_valves():
     # Must also monitor the water level in each reservoir, which is to be reported the web site's backend.

@@ -1,4 +1,5 @@
-from machine import UART, Pin, reset
+from machine import UART, Pin, reset, I2C
+from scd30 import SCD30
 import uasyncio as asyncio
 import time
 import ntptime
@@ -30,6 +31,18 @@ gp7 = Pin(7, Pin.IN)
 gp8 = Pin(8, Pin.IN)
 gp9 = Pin(9, Pin.IN)
 
+
+# SCD30
+try:
+    i2c = I2C(1, scl=Pin(15), sda=Pin(14), freq=100000)
+    scd30 = SCD30(i2c, 0x61)
+    # Start measurements once (typically at startup)
+    scd30.start_continous_measurement()
+    sensor_connected = True
+except Exception as e:
+    print("SCD30 not found or failed to initialize:", e)
+    scd30 = None
+    sensor_connected = False
 
 # Water valve 1
 valve_sw = Pin(16, Pin.OUT)
@@ -76,6 +89,34 @@ def change_config(buf):
     
 
 def print_info():
+    cmd_output("\n=== WiFi Connection ===")
+    ip = wifi.wlan.ifconfig()[0] if wifi.wlan.isconnected() else 'not connected'
+    cmd_output(f"Pico IP Address:{'':<12} {ip}")
+
+    # Get fresh sensor and valve data from build_json_data
+    data = build_json_data()
+
+    cmd_output("\n=== SENSORS ===")
+    # Print top-level sensor values explicitly
+    cmd_output(f"{'Temperature':<12}: {data['Temperature']}")
+    cmd_output(f"{'Humidity':<12}: {data['Humidity']}")
+    cmd_output(f"{'CO2':<12}: {data['CO2']}")
+    
+    cmd_output("\n=== WATERLEVEL ===")
+    # data['Waterlevel'] is a list with one dict inside
+    for location, level in data["Waterlevel"][0].items():
+        cmd_output(f"{location:<12}: {level}")
+
+    cmd_output("\n=== VALVES ===")
+    # data['Valves'] is a list with one dict inside, valves info is nested
+    for valve_name, valve_info in data["Valves"][0].items():
+        cmd_output(valve_name)
+        for key, val in valve_info.items():
+            cmd_output(f"  {key:<25}: {val}")
+    cmd_output("")
+
+
+def print_info2():
     cmd_output("\n=== WiFi Connection ===")
     ip = wifi.wlan.ifconfig()[0] if wifi.wlan.isconnected() else 'not connected'
     cmd_output(f"Pico IP Address:{'':<12}", ip)
@@ -206,6 +247,29 @@ def timestamp_diff(t1_epoch, t2_epoch):
     """Return difference in seconds between two epoch timestamps."""
     return abs(int(t2_epoch) - int(t1_epoch))
 
+def read_scd30():
+    if not sensor_connected or scd30 is None:
+        print("SCD30 sensor not connected or not initialized.")
+        return (0,0,0)
+
+    timeout_ms = 5000
+    waited_ms = 0
+    while scd30.get_status_ready() != 1:
+        time.sleep_ms(200)
+        waited_ms += 200
+        if waited_ms >= timeout_ms:
+            print("Timeout waiting for SCD30 data ready.")
+            return (0,0,0)
+
+    try:
+        return scd30.read_measurement()
+    except Exception as e:
+        print("Error reading SCD30 measurement:", e)
+        return (0,0,0)
+
+
+
+
 def read_waterLevel(reservoir):
     if reservoir == SouthWest:
         if gp2.value() == 0:
@@ -230,17 +294,14 @@ def read_waterLevel(reservoir):
         else:
             return 0
     
-def fun(a):
-    if isinstance(a, OrderedDict):
-        d = {}
-        for k, v in a.items():
-            d[k] = fun(v) if isinstance(v, OrderedDict) else v
-        return d
-    return a
+
 
 def build_json_data():
     return {
-        "Sensors": [
+        "Temperature":read_scd30()[1],
+        "Humidity":read_scd30()[2],
+        "CO2":read_scd30()[0],
+        "Waterlevel": [
             {
                 "SouthWest": read_waterLevel(SouthWest),
                 "NorthEast": read_waterLevel(NorthEast)
