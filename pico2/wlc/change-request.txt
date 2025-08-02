@@ -28,3 +28,13 @@ Will need a interrupt service routine for closing the water valve.
 When the reservoir becomes full, the valve needs to close immediately.
 So, when gp2 -> low ('0') after the water valve has opened, then the water valve
 should immediately close.
+-------------------------------------------------------------------------------
+CHANGE REQUEST 01.08.25
+=======================
+If the device does not connect to the local wireless network within a number
+of attempts (10), it should then:
+1. retry to connect every 10 minutes, alternatively
+2. stop trying to connect
+
+The number of connection failure attempts and the initial and adjusted retry 
+frequency should preferably be configurable.
