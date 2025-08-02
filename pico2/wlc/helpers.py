@@ -72,7 +72,7 @@ def read_config():
 def change_config(buf):
     config = read_config()
     try:
-        if "ssid" in buf or "pwd" in buf:
+        if "ssid" in buf or "password" in buf:
             cmd_output(f"Old {buf.split('=')[0].upper()}: ", read_config()["wifi"][buf.split('=')[0].upper()])
             config["wifi"][buf.split("=")[0].upper()] = buf.split("=")[1]
         elif "url" in buf:
