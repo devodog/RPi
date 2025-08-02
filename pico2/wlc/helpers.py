@@ -73,11 +73,18 @@ def change_config(buf):
     config = read_config()
     try:
         if "ssid" in buf or "password" in buf:
-            cmd_output(f"Old {buf.split('=')[0].upper()}: ", read_config()["wifi"][buf.split('=')[0].upper()])
+            cmd_output(f"Old {buf.split('=')[0].upper()}: ", config["wifi"][buf.split('=')[0].upper()])
             config["wifi"][buf.split("=")[0].upper()] = buf.split("=")[1]
         elif "url" in buf:
-            cmd_output(f"Old {buf.split('=')[0]}: ", read_config()[buf.split('=')[0]])
+            cmd_output(f"Old {buf.split('=')[0]}: ", config[buf.split('=')[0]])
             config[buf.split('=')[0]] = buf.split("=")[1]
+        elif "attempts" in buf or "freq" in buf:
+            cmd_output(f"Old {buf.split('=')[0]}: ", config["wifi"][buf.split('=')[0]])
+            try:
+                config["wifi"][buf.split("=")[0]] = int(buf.split("=")[1])
+            except ValueError:
+                cmd_output("Invalid value: Must be an integer.")
+                
         # Write updated config
         with open("config.json", "w") as f:
             json.dump(config, f)
@@ -143,6 +150,8 @@ def print_help():
     "url=<url>          \tChanges URL in config.json to <url>\r\n"
     "ssid=<ssid>        \tChanges SSID in config.json to <ssid>\r\n"
     "password=<pwd>     \tChanges PASSWORD in config.json to <pwd>\r\n"
+    "attempts=<int>     \tNumber of WiFi reconnection attempts (default: 10)\r\n"
+    "freq=<int>         \tSleep interval between each bulk of reconnection attempts (default: 10min)\r\n"
     "restart            \tRestarts the pico\r\n"
     "version            \tShows current version"
 )

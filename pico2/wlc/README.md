@@ -10,7 +10,9 @@ Format of config.json
     "version": "0.2",
     "wifi":{
         "SSID":"test",
-        "PASSWORD":"test"
+        "PASSWORD":"test",
+        "attempts":10,
+        "freq":10
     },
     "url":"test"
 }
