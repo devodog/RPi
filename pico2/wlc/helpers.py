@@ -116,29 +116,6 @@ def print_info():
     cmd_output("")
 
 
-def print_info2():
-    cmd_output("\n=== WiFi Connection ===")
-    ip = wifi.wlan.ifconfig()[0] if wifi.wlan.isconnected() else 'not connected'
-    cmd_output(f"Pico IP Address:{'':<12}", ip)
-
-    # Get fresh sensor and valve data from build_json_data
-    data = build_json_data()
-
-    cmd_output("\n=== SENSORS ===")
-    for name, value in data["Sensors"][0].items():
-        cmd_output(f"{name:<12}: {value}%")
-
-    cmd_output("\n=== VALVES ===")
-    for name, info in data["Valves"][0].items():
-        cmd_output(name)
-        for key, val in info.items():
-            cmd_output(f"  {key:<25}: {val}")
-    cmd_output("")
-
-
-
-
-# print config.json
 def print_config():
     try:
         with open("config.json", "r") as f:
@@ -180,15 +157,6 @@ def turn_off_valve(valve):
     print("Turning off valve: ", valve)
     valve.value(0)
 
-def toggle_sensor(sensor):
-    print(f"Value of {sensor}: ", sensor.value())
-    if sensor.value() == 1:
-        print(f"setting {sensor} to 0")
-        sensor.value(0)
-    else:
-        print(f"setting {sensor} to 1")
-        sensor.value(1)
-
 def close_southwest_valve(pin):
     if valve_sw.value() == OPEN and read_waterLevel(SouthWest) == 100:
         output("Closing SouthWest valve")
@@ -228,16 +196,6 @@ def parse_timestamp(ts_str):
     year, month, day = map(int, date_part.split("-"))
     hour, minute, second = map(int, time_part.split(":"))
     return (year, month, day, hour, minute, second, 0, 0)
-
-def timestamp_diff2(t1_str, t2_str):
-    t1_tuple = parse_timestamp(t1_str)
-    t2_tuple = parse_timestamp(t2_str)
-    t1_epoch = time.mktime(t1_tuple)
-    t2_epoch = time.mktime(t2_tuple)
-    diff = abs(t2_epoch - t1_epoch)
-    minutes = int(diff // 60)
-    seconds = int(diff % 60)
-    return f"{minutes}min, {seconds}sec"
 
 def get_epoch_timestamp(offset_hours=0):
     """Return current time as integer epoch timestamp, optionally with offset."""
