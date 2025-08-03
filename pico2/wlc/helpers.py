@@ -265,9 +265,9 @@ def read_waterLevel(reservoir):
 
 def build_json_data():
     return {
-        "Temperature":read_scd30()[1],
-        "Humidity":read_scd30()[2],
-        "CO2":read_scd30()[0],
+        "Temperature": round(read_scd30()[1], 1),
+        "Humidity": round(read_scd30()[2], 1),
+        "CO2": round(read_scd30()[0], 1),
         "Waterlevel": [
             {
                 "SouthWest": read_waterLevel(SouthWest),
