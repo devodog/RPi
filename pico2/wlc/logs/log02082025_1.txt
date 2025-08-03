@@ -1,0 +1,224 @@
+[2021-01-01 02:00:02] START
+
+     .----------------.
+    |   Raspberry Pi   |
+    |      Pico W      |
+    |  .------------.  |
+    |  | [] [] [] []|  |
+    |  | [] [] [] []|  |
+    |  '------------'  |
+    |__________________|
+      |  ||      ||  |
+      |  ||      ||  |
+      '--------------'
+
+[2021-01-01 02:00:02] Attempting to connect to WiFi using the following config:
+SSID: ASUS, PASSWORD: Framogtilbakeerlikelangt
+[2021-01-01 02:00:07] Initial WiFi connection failed.
+
+pico-w> [2021-01-01 02:00:07] WiFi disconnected. Attempting reconnection...
+[2021-01-01 02:00:11] Reconnection attempt failed. Trying again in 30 seconds
+
+pico-w> in[2021-01-01 02:00:41] WiFi disconnected. Attempting reconnection...
+fo
+
+=== WiFi Connection ===
+Pico IP Address:             not connected
+
+=== SENSORS ===
+Temperature : 23.6675
+Humidity    : 69.94934
+CO2         : 574.1138
+
+=== WATERLEVEL ===
+NorthEast   : 100
+SouthWest   : 100
+
+=== VALVES ===
+NorthEast
+  Duration valve was open  : 0
+  Status                   : closed
+  Last opened              : 0
+  Last closed              : 0
+SouthWest
+  Duration valve was open  : 0
+  Status                   : closed
+  Last opened              : 0
+  Last closed              : 0
+
+pico-w> [2021-01-01 02:00:47] WiFi reconnected!
+[2021-01-01 02:00:48] IP Address: 192.168.10.117
+[2025-08-02 17:04:49] NTP TIME: 2025-08-02 17:04:49
+[2025-08-02 17:05:11] Sending post request to: https://midtskips.no/drivhus/api/waterlevel/
+
+pico-w>
+pico-w> [2025-08-02 17:05:18] Status code: 400
+info
+
+=== WiFi Connection ===
+Pico IP Address:             192.168.10.117
+
+=== SENSORS ===
+Temperature : 24.04936
+Humidity    : 68.7851
+CO2         : 643.3677
+
+=== WATERLEVEL ===
+NorthEast   : 100
+SouthWest   : 100
+
+=== VALVES ===
+NorthEast
+  Duration valve was open  : 0
+  Status                   : closed
+  Last opened              : 0
+  Last closed              : 0
+SouthWest
+  Duration valve was open  : 0
+  Status                   : closed
+  Last opened              : 0
+  Last closed              : 0
+
+pico-w> info
+
+=== WiFi Connection ===
+Pico IP Address:             192.168.10.117
+
+=== SENSORS ===
+Temperature : 24.13481
+Humidity    : 68.45245
+CO2         : 645.2758
+
+=== WATERLEVEL ===
+NorthEast   : 100
+SouthWest   : 100
+
+=== VALVES ===
+NorthEast
+  Duration valve was open  : 0
+  Status                   : closed
+  Last opened              : 0
+  Last closed              : 0
+SouthWest
+  Duration valve was open  : 0
+  Status                   : closed
+  Last opened              : 0
+  Last closed              : 0
+
+pico-w> info
+
+=== WiFi Connection ===
+Pico IP Address:             192.168.10.117
+
+=== SENSORS ===
+Temperature : 24.27367
+Humidity    : 68.00842
+CO2         : 639.7443
+
+=== WATERLEVEL ===
+NorthEast   : 75
+SouthWest   : 100
+
+=== VALVES ===
+NorthEast
+  Duration valve was open  : 0
+  Status                   : closed
+  Last opened              : 0
+  Last closed              : 0
+SouthWest
+  Duration valve was open  : 0
+  Status                   : closed
+  Last opened              : 0
+  Last closed              : 0
+
+pico-w> [2025-08-02 17:06:27] Sending post request to: https://midtskips.no/drivhus/api/waterlevel/
+[2025-08-02 17:06:34] Status code: 400
+
+pico-w> info
+
+=== WiFi Connection ===
+Pico IP Address:             192.168.10.117
+
+=== SENSORS ===
+Temperature : 24.4873
+Humidity    : 67.34772
+CO2         : 648.9507
+
+=== WATERLEVEL ===
+NorthEast   : 75
+SouthWest   : 50
+
+=== VALVES ===
+NorthEast
+  Duration valve was open  : 0
+  Status                   : closed
+  Last opened              : 0
+  Last closed              : 0
+SouthWest
+  Duration valve was open  : 0
+  Status                   : closed
+  Last opened              : 0
+  Last closed              : 0
+
+pico-w> [2025-08-02 17:07:37] Sending post request to: https://midtskips.no/drivhus/api/waterlevel/
+[2025-08-02 17:07:43] Status code: 400
+[2025-08-02 17:08:46] Sending post request to: https://midtskips.no/drivhus/api/waterlevel/
+[2025-08-02 17:08:53] Status code: 400
+[2025-08-02 17:09:56] Sending post request to: https://midtskips.no/drivhus/api/waterlevel/
+[2025-08-02 17:10:03] Status code: 400
+
+pico-w> info
+
+=== WiFi Connection ===
+Pico IP Address:             192.168.10.117
+
+=== SENSORS ===
+Temperature : 24.96262
+Humidity    : 66.02631
+CO2         : 653.7852
+
+=== WATERLEVEL ===
+NorthEast   : 50
+SouthWest   : 25
+
+=== VALVES ===
+NorthEast
+  Duration valve was open  : 0
+  Status                   : closed
+  Last opened              : 0
+  Last closed              : 0
+SouthWest
+  Duration valve was open  : 0
+  Status                   : open
+  Last opened              : 1754154548
+  Last closed              : 0
+
+pico-w> hek
+pico-w> help
+
+Help menu:
+-------------------------
+info                    Shows info about the system
+config                  Shows contents of config.json
+url=<url>               Changes URL in config.json to <url>
+ssid=<ssid>             Changes SSID in config.json to <ssid>
+password=<pwd>          Changes PASSWORD in config.json to <pwd>
+restart                 Restarts the pico
+version                 Shows current version
+
+pico-w> [2025-08-02 17:11:05] Sending post request to: https://midtskips.no/drivhus/api/waterlevel/
+[2025-08-02 17:11:12] Status code: 400
+
+pico-w> version
+Version: 0.2
+pico-w> url
+pico-w> config
+
+=== CONFIGURATION ===
+Version:        0.2
+WiFi SSID:      ASUS
+WiFi PASS:      Framogtilbakeerlikelangt
+Post URL:       https://midtskips.no/drivhus/api/waterlevel/
+
+pico-w> [2025-08-02 17:12:15] Sending post request to: https://midtskips.no/drivhus/api/waterlevel/
+[2025-08-02 17:12:22] Status code: 400
