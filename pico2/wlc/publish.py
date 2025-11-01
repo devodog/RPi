@@ -27,6 +27,9 @@ async def send_data():
                     json_data_sent = build_json_data()
                     last_sent_time = time.time()
                     output("Status code: ", str(response.status_code))
+                    # for debugging only
+                    # import json
+                    # output("json sendt: ", json.dumps(current_json_data))
                 else:
                     pass
                     #output("No change in json data and 15 minutes not passed, will not send")
