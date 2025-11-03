@@ -26,7 +26,8 @@ class DS18B20:
         try:
             self.ds.convert_temp()
             # Conversion takes up to 750ms
-            time.sleep_ms(750)
+            #time.sleep_ms(750)
+            time.sleep(1)
             
             # Read temperature from first sensor found
             temp = self.ds.read_temp(self.roms[0])
@@ -44,7 +45,8 @@ class DS18B20:
         """
         try:
             self.ds.convert_temp()
-            time.sleep_ms(750)
+            #time.sleep_ms(750)
+            time.sleep(1)
             
             temps = []
             for rom in self.roms:

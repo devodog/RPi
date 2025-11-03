@@ -131,9 +131,54 @@ _conv_factor = 3.3 / 65535 * 100.0
 
 # Initialize LCD
 lcd = LCD()
-
+lastLinePrinted = 0
 
 async def poll_lm35():
+    global lastLinePrinted
+    while True:
+        try:
+            raw = adc2.read_u16()
+            temp_c = (raw * _conv_factor) - 2
+            output("LM35 Temp: ", f"{temp_c:.1f}° C")
+            if ((lastLinePrinted == 0) or (lastLinePrinted == 2)):
+                lcd.clear()
+                lcd.set_cursor(0,0)
+                lcd.write_string("LM35: " f"{temp_c:.1f}ß C") # Unicode ß == ° (degrees) on LCD character ROM
+                lastLinePrinted = 1
+            else:
+                lcd.write_string("\nLM35: " f"{temp_c:.1f}ß C") # Unicode ß == ° (degrees) on LCD character ROM
+                lastLinePrinted = 2
+
+        except Exception as e:
+            cmd_output("LM35 read error: ", str(e))
+        await asyncio.sleep(61)
+
+# Initialize DS18B20 on GPIO pin 22
+ds_sensor = DS18B20(22)
+
+async def poll_ds18b20():
+    global lastLinePrinted
+    while True:
+        try:
+            temp = ds_sensor.read_temp()
+            if temp is not None:
+                output("DS18B20: ", f"{temp:.1f}° C")
+                if (lastLinePrinted == 1):                #lcd.clear()
+                    #lcd.set_cursor(0,0)
+                    lcd.write_string("\nDS18B20: " f"{temp:.1f}ß C")
+                    lastLinePrinted = 2
+                else:
+                    lcd.clear()
+                    lcd.set_cursor(0,0)
+                    lcd.write_string("\nDS18B20: " f"{temp:.1f}ß C")
+                    lastLinePrinted = 1
+
+        except Exception as e:
+            cmd_output("DS18B20 read error: ", str(e))
+        await asyncio.sleep(60)
+
+async def read_temp():
+    global lastLinePrinted
     while True:
         try:
             raw = adc2.read_u16()
@@ -141,23 +186,17 @@ async def poll_lm35():
             output("LM35 Temp: ", f"{temp_c:.1f}° C")
             lcd.clear()
             lcd.set_cursor(0,0)
-            lcd.write_string(f"{temp_c:.1f}ß C") # Unicode ß == ° (degrees) on LCD character ROM
+            lcd.write_string("LM35: " f"{temp_c:.1f}ß C") # Unicode ß == ° (degrees) on LCD character ROM
         except Exception as e:
             cmd_output("LM35 read error: ", str(e))
-        await asyncio.sleep(60)
-
-# Initialize DS18B20 on GPIO pin 22
-ds_sensor = DS18B20(22)
-
-async def poll_ds18b20():
-    while True:
+        
         try:
             temp = ds_sensor.read_temp()
             if temp is not None:
-                output("DS18B20 Temp: ", f"{temp:.1f}° C")
-                lcd.clear()
-                lcd.set_cursor(0,0)
-                lcd.write_string(f"{temp:.1f}ß C")
+                output("DS18B20: ", f"{temp:.1f}° C")
+                lcd.write_string("\nDS18B20: " f"{temp:.1f}ß C")
+                lastLinePrinted = 2
         except Exception as e:
             cmd_output("DS18B20 read error: ", str(e))
+
         await asyncio.sleep(60)

@@ -35,8 +35,8 @@ cmd_output(ascii_art, "")
 
 async def main():
     # start background polling task
-    asyncio.create_task(poll_lm35())
-
+    asyncio.create_task(read_temp())
+    
     uart0.write(b'\r\npico-w> ')
     while True:
         await asyncio.sleep(1)
