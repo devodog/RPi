@@ -1,8 +1,10 @@
-from machine import UART, Pin, reset, I2C
+from machine import UART, Pin, reset
 import uasyncio as asyncio
 import time
 import ntptime
 from collections import OrderedDict
+import wifi
+import requests
 import json
 from machine import ADC
 from lcd_display import LCD
@@ -10,9 +12,7 @@ from ds18b20 import DS18B20
 
 uart0 = UART(0, baudrate=9600, tx=Pin(0), rx=Pin(1))
 
-
-def output(text, arg="", delay=0.1):
-    
+def output(text, arg="", delay=0.1):    
     local_time = get_local_timestamp(2)
     uart0.write(b'[' + local_time.encode() + b'] ' + text.encode() + arg.encode() + b'\r\n')
     time.sleep(delay)
@@ -82,18 +82,9 @@ def print_help():
     "attempts=<int>     \tNumber of WiFi reconnection attempts (default: 10)\r\n"
     "freq=<int>         \tSleep interval between each bulk of reconnection attempts (default: 10min)\r\n"
     "restart            \tRestarts the pico\r\n"
-    "version            \tShows current version"
-)
+    "version            \tShows current version")
     cmd_output(help_text)
     cmd_output("")
-
-def turn_on_valve(valve):
-    print("Turning on valve: ", valve)
-    valve.value(1)
-
-def turn_off_valve(valve):
-    print("Turning off valve: ", valve)
-    valve.value(0)
 
 def sync_time():
     # Sync with NTP server (sets RTC to UTC)
@@ -178,15 +169,15 @@ async def poll_ds18b20():
         await asyncio.sleep(60)
 
 async def read_temp():
-    global lastLinePrinted
+    
     while True:
         try:
             raw = adc2.read_u16()
             temp_c = (raw * _conv_factor) - 2
-            output("LM35 Temp: ", f"{temp_c:.1f}° C")
+            output("LM35DZ.: ", f"{temp_c:.1f}° C")
             lcd.clear()
             lcd.set_cursor(0,0)
-            lcd.write_string("LM35: " f"{temp_c:.1f}ß C") # Unicode ß == ° (degrees) on LCD character ROM
+            lcd.write_string("LM35DZ.: " f"{temp_c:.1f}ß C") # Unicode ß == ° (degrees) on LCD character ROM
         except Exception as e:
             cmd_output("LM35 read error: ", str(e))
         
@@ -195,8 +186,22 @@ async def read_temp():
             if temp is not None:
                 output("DS18B20: ", f"{temp:.1f}° C")
                 lcd.write_string("\nDS18B20: " f"{temp:.1f}ß C")
-                lastLinePrinted = 2
+            if wifi.wlan.isconnected():
+                try:
+                    current_json_data = build_json_data()
+                    output("Sending post request to: ", read_config()["url"])
+                    response = requests.post(read_config()["url"], json=current_json_data, timeout=5)
+                    output("Status code: ", str(response.status_code))
+                except Exception as e:
+                    output("Error sending POST request: ", str(e))
+
         except Exception as e:
             cmd_output("DS18B20 read error: ", str(e))
 
         await asyncio.sleep(60)
+
+def build_json_data():
+    return {
+        "Time": time.time(),
+        "Temperature": ds_sensor.read_temp()
+   }
