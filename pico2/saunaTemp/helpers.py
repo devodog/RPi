@@ -183,10 +183,10 @@ async def read_temp():
         try:
             raw = adc2.read_u16()
             temp_c = (raw * _conv_factor) - 2
-            output("LM35 Temp: ", f"{temp_c:.1f}° C")
+            output("LM35DZ.: ", f"{temp_c:.1f}° C")
             lcd.clear()
             lcd.set_cursor(0,0)
-            lcd.write_string("LM35: " f"{temp_c:.1f}ß C") # Unicode ß == ° (degrees) on LCD character ROM
+            lcd.write_string("LM35DZ.: " f"{temp_c:.1f}ß C") # Unicode ß == ° (degrees) on LCD character ROM
         except Exception as e:
             cmd_output("LM35 read error: ", str(e))
         
