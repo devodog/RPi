@@ -15,8 +15,8 @@ from am2320 import AM2320   #AOSONG AM2320 sensor driver
 uart0 = UART(0, baudrate=9600, tx=Pin(0), rx=Pin(1))
 
 # This pin assignment is ONLY valid for code on the water level control system (wlc)
-powerSwitch1 = Pin(16, Pin.OUT)
-powerSwitch2 = Pin(17, Pin.OUT)
+#powerSwitch1 = Pin(16, Pin.OUT)
+#powerSwitch2 = Pin(17, Pin.OUT)
 
 def output(text, arg="", delay=0.1):    
     local_time = get_local_timestamp(2)
@@ -151,6 +151,7 @@ async def poll_lm35():
         await asyncio.sleep(61)
 
 # Initialize DS18B20 on GPIO pin 22
+'''
 ds_sensor = DS18B20(22)
 
 async def poll_ds18b20():
@@ -173,15 +174,16 @@ async def poll_ds18b20():
         except Exception as e:
             cmd_output("DS18B20 read error: ", str(e))
         await asyncio.sleep(60)
-
+'''
 # Initialize I2C and sensor
 #i2c = I2C(1, scl=Pin(3), sda=Pin(2))  # Adjust pins as needed
-i2c = I2C(1, scl=Pin(15), sda=Pin(14))  # Adjust pins as needed
+i2c = I2C(1, scl=Pin(27), sda=Pin(26))  # Adjust pins as needed
 am2320_sensor = AM2320(i2c)
 
 async def read_temp():
     
     while True:
+        '''
         try:
             raw = adc2.read_u16()
             temp_c = (raw * _conv_factor) - 2
@@ -191,13 +193,19 @@ async def read_temp():
             lcd.write_string("LM35DZ.: " f"{temp_c:.1f}ß C") # Unicode ß == ° (degrees) on LCD character ROM
         except Exception as e:
             cmd_output("LM35 read error: ", str(e))
-        
+        '''
         try:
             #temp = ds_sensor.read_temp()
             humidity, temp = am2320_sensor.read()
             if temp is not None:
-                output("AM2320: ", f"{temp:.1f}° C")
-                lcd.write_string("\nAM2320: " f"{temp:.1f}ß C")
+                output("AM2320.: ", f"{temp:.1f}°C")
+                output("AM2320.: ", f"{humidity:.1f} %")
+                lcd.clear()
+                lcd.set_cursor(0,0)
+                lcd.write_string("AM2320: " f"{temp:.1f}ßC")
+                lcd.write_string("\nAM2320: " f"{humidity:.1f} %")
+
+            '''
             if wifi.wlan.isconnected():
                 try:
                     current_json_data = build_json_data()
@@ -206,7 +214,7 @@ async def read_temp():
                     output("Status code: ", str(response.status_code))
                 except Exception as e:
                     output("Error sending POST request: ", str(e))
-
+            '''
         except Exception as e:
             cmd_output("AM2320 read error: ", str(e))
 
@@ -220,7 +228,6 @@ def power_switch_ctrl():
         except Exception as e:
             output("Error sending POST request: ", str(e))
         # is there an operation for execute?
-        if "ON" in get_respons:
 
 
 

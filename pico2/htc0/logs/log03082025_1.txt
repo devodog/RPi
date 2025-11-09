@@ -1,0 +1,280 @@
+[2021-01-01 02:00:02] START
+
+     .----------------.
+    |   Raspberry Pi   |
+    |      Pico W      |
+    |  .------------.  |
+    |  | [] [] [] []|  |
+    |  | [] [] [] []|  |
+    |  '------------'  |
+    |__________________|
+      |  ||      ||  |
+      |  ||      ||  |
+      '--------------'
+
+[2021-01-01 02:00:02] Attempting to connect to WiFi using the following config:
+SSID: ASUS, PASSWORD: Framogtilbakeerlikelangt
+[2021-01-01 02:00:36] START
+
+     .----------------.
+    |   Raspberry Pi   |
+    |      Pico W      |
+    |  .------------.  |
+    |  | [] [] [] []|  |
+    |  | [] [] [] []|  |
+    |  '------------'  |
+    |__________________|
+      |  ||      ||  |
+      |  ||      ||  |
+      '--------------'
+
+
+pico-w> [2021-01-01 02:01:21] Attempting to connect to WiFi using the following                                                       config:
+SSID: ASUS, PASSWORD: Framogtilbakeerlikelangt
+
+pico-w> [2021-01-01 02:01:36] Initial WiFi connection failed.
+
+pico-w>
+pico-w>
+pico-w> [2021-01-01 02:01:40] WiFi disconnected. Attempting reconnection...
+
+pico-w> i[2021-01-01 02:01:49] 1 reconnection attempt(s) failed. Trying again...
+n[2021-01-01 02:01:50] WiFi disconnected. Attempting reconnection...
+fo
+
+=== WiFi Connection ===
+Pico ▒[2021-01-01 02:00:02] START
+
+
+pico-w>
+pico-w>
+pico-w>
+pico-w>
+pico-w>
+pico-w>
+pico-w> info
+
+=== WiFi Connection ===
+Pico IP Address:             not connected
+
+=== SENSORS ===
+Temperature : 24.3
+Humidity    : 64.2
+CO2         : 837.7
+
+=== WATERLEVEL ===
+NorthEast   : 75
+SouthWest   : 50
+
+=== VALVES ===
+NorthEast
+  Duration valve was open  : 0
+  Status                   : closed
+  Last opened              : 0
+  Last closed              : 0
+SouthWest
+  Duration valve was open  : 0
+  Status                   : closed
+  Last opened              : 0
+  Last closed              : 0
+
+pico-w> help
+
+Help menu:
+-------------------------
+info                    Shows info about the system
+config                  Shows contents of config.json
+url=<url>               Changes URL in config.json to <url>
+ssid=<ssid>             Changes SSID in config.json to <ssid>
+password=<pwd>          Changes PASSWORD in config.json to <pwd>
+attempts=<int>          Number of WiFi reconnection attempts (default: 10)
+freq=<int>              Sleep interval between each bulk of reconnection attempt                                                      s (default: 10min)
+restart                 Restarts the pico
+version                 Shows current version
+
+pico-w> freq=1
+pico-w> config
+
+=== CONFIGURATION ===
+Version:        0.21
+WiFi SSID:      ASUS
+WiFi PASS:      Framogtilbakeerlikelangt
+Post URL:       https://midtskips.no/drivhus/api/waterlevel/
+
+pico-w> restart
+Restarting pico...
+[2021-01-01 02:00:02] START
+
+     .----------------.
+    |   Raspberry Pi   |
+    |      Pico W      |
+    |  .------------.  |
+    |  | [] [] [] []|  |
+    |  | [] [] [] []|  |
+    |  '------------'  |
+    |__________________|
+      |  ||      ||  |
+      |  ||      ||  |
+      '--------------'
+
+[2021-01-01 02:00:02] Attempting to connect to WiFi using the following config:
+SSID: ASUS, PASSWORD: Framogtilbakeerlikelangt
+
+pico-w>
+pico-w>
+pico-w>
+pico-w> info
+
+=== WiFi Connection ===
+Pico IP Address:             not connected
+[2021-01-01 02:00:02] START
+
+[2021-01-01 02:00:20] START
+
+     .----------------.
+    |   Raspberry Pi   |
+    |      Pico W      |
+    |  .------------.  |
+    |  | [] [] [] []|  |
+    |  | [] [] [] []|  |
+    |  '------------'  |
+    |__________________|
+      |  ||      ||  |
+      |  ||      ||  |
+      '--------------'
+
+[2021-01-01 02:00:20] Attempting to connect to WiFi using the following config:
+SSID: ASUS, PASSWORD: Framogtilbakeerlikelangt
+[2021-01-01 02:00:25] WiFi connected!
+[2021-01-01 02:00:25] IP Address: 192.168.10.117
+[2025-08-03 18:45:12] NTP TIME: 2025-08-03 18:45:12
+
+pico-w> [2025-08-03 18:45:14] Sending post request to: https://midtskips.no/driv                                                      hus/api/waterlevel/
+[2025-08-03 18:45:21] Status code: 400
+[2025-08-03 18:46:24] Sending post request to: https://midtskips.no/drivhus/api/                                                      waterlevel/
+[2025-08-03 18:46:31] Status code: 400
+[2025-08-03 18:47:34] Sending post request to: https://midtskips.no/drivhus/api/                                                      waterlevel/
+[2025-08-03 18:47:40] Status code: 400
+[2025-08-03 18:48:43] Sending post request to: https://midtskips.no/drivhus/api/                                                      waterlevel/
+[2025-08-03 18:48:50] Status code: 400
+[2025-08-03 18:49:53] Sending post request to: https://midtskips.no/drivhus/api/                                                      waterlevel/
+[2025-08-03 18:50:00] Status code: 400
+[2025-08-03 18:51:02] Sending post request to: https://midtskips.no/drivhus/api/                                                      waterlevel/
+[2025-08-03 18:51:09] Status code: 400
+[2025-08-03 18:52:12] Sending post request to: https://midtskips.no/drivhus/api/                                                      waterlevel/
+[2025-08-03 18:52:19] Status code: 400
+[2025-08-03 18:53:21] Sending post request to: https://midtskips.no/drivhus/api/                                                      waterlevel/
+[2025-08-03 18:53:28] Status code: 400
+[2025-08-03 18:54:31] Sending post request to: https://midtskips.no/drivhus/api/                                                      waterlevel/
+[2025-08-03 18:54:38] Status code: 400
+[2025-08-03 18:55:40] Sending post request to: https://midtskips.no/drivhus/api/                                                      waterlevel/
+[2025-08-03 18:55:47] Status code: 400
+[2025-08-03 18:56:50] Sending post request to: https://midtskips.no/drivhus/api/                                                      waterlevel/
+[2025-08-03 18:56:57] Status code: 400
+[2025-08-03 18:57:59] Sending post request to: https://midtskips.no/drivhus/api/                                                      waterlevel/
+[2025-08-03 18:58:06] Status code: 400
+[2025-08-03 18:59:09] Sending post request to: https://midtskips.no/drivhus/api/                                                      waterlevel/
+[2025-08-03 18:59:16] Status code: 400
+[2025-08-03 19:00:19] Sending post request to: https://midtskips.no/drivhus/api/                                                      waterlevel/
+[2025-08-03 19:00:25] Status code: 400
+[2025-08-03 19:01:28] Sending post request to: https://midtskips.no/drivhus/api/                                                      waterlevel/
+[2025-08-03 19:01:33] Error sending POST request: [Errno 110] ETIMEDOUT
+[2021-01-01 02:00:27] START
+
+     .----------------.
+    |   Raspberry Pi   |
+    |      Pico W      |
+    |  .------------.  |
+    |  | [] [] [] []|  |
+    |  | [] [] [] []|  |
+    |  '------------'  |
+    |__________________|
+      |  ||      ||  |
+      |  ||      ||  |
+      '--------------'
+
+[2021-01-01 02:00:27] Attempting to connect to WiFi using the following config:
+SSID: ASUS, PASSWORD: Framogtilbakeerlikelangt
+[2021-01-01 02:00:31] Initial WiFi connection failed.
+
+pico-w> [2021-01-01 02:00:31] WiFi disconnected. Attempting reconnection...
+[2021-01-01 02:00:35] 1 reconnection attempt(s) failed. Trying again...
+[2021-01-01 02:00:36] WiFi disconnected. Attempting reconnection...
+[2021-01-01 02:00:40] WiFi reconnected!
+[2021-01-01 02:00:40] IP Address: 192.168.10.117
+[2025-08-03 19:02:53] NTP TIME: 2025-08-03 19:02:53
+
+pico-w> info
+
+=== WiFi Connection ===
+Pico IP Address:             192.168.10.117
+
+=== SENSORS ===
+Temperature : 25.3
+Humidity    : 61.8
+CO2         : 1276.8
+
+=== WATERLEVEL ===
+NorthEast   : 75
+SouthWest   : 50
+
+=== VALVES ===
+NorthEast
+  Duration valve was open  : 0
+  Status                   : closed
+  Last opened              : 0
+  Last closed              : 0
+SouthWest
+  Duration valve was open  : 0
+  Status                   : closed
+  Last opened              : 0
+  Last closed              : 0
+
+pico-w> [2025-08-03 19:03:54] Sending post request to: https://midtskips.no/driv                                                      hus/api/waterlevel/
+[2025-08-03 19:04:01] Status code: 400
+[2025-08-03 19:04:01] json sendt: {"CO2": 1277.1, "Waterlevel": [{"NorthEast": 7                                                      5, "SouthWest": 50}], "Humidity": 61.7, "Valves": [{"NorthEast": {"Duration valv                                                      e was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}, "SouthW                                                      est": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last                                                       closed": 0}}], "Temperature": 25.3}
+[2025-08-03 19:05:03] Sending post request to: https://midtskips.no/drivhus/api/                                                      waterlevel/
+[2025-08-03 19:05:10] Status code: 400
+[2025-08-03 19:05:10] json sendt: {"CO2": 1295.2, "Waterlevel": [{"NorthEast": 7                                                      5, "SouthWest": 50}], "Humidity": 61.7, "Valves": [{"NorthEast": {"Duration valv                                                      e was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}, "SouthW                                                      est": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last                                                       closed": 0}}], "Temperature": 25.4}
+[2025-08-03 19:06:13] Sending post request to: https://midtskips.no/drivhus/api/                                                      waterlevel/
+[2025-08-03 19:06:20] Status code: 400
+[2025-08-03 19:06:20] json sendt: {"CO2": 1304.9, "Waterlevel": [{"NorthEast": 7                                                      5, "SouthWest": 50}], "Humidity": 61.7, "Valves": [{"NorthEast": {"Duration valv                                                      e was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}, "SouthW                                                      est": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last                                                       closed": 0}}], "Temperature": 25.4}
+[2025-08-03 19:07:23] Sending post request to: https://midtskips.no/drivhus/api/                                                      waterlevel/
+[2025-08-03 19:07:29] Status code: 400
+[2025-08-03 19:07:29] json sendt: {"CO2": 1316.3, "Waterlevel": [{"NorthEast": 7                                                      5, "SouthWest": 50}], "Humidity": 61.7, "Valves": [{"NorthEast": {"Duration valv                                                      e was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}, "SouthW                                                      est": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last                                                       closed": 0}}], "Temperature": 25.4}
+[2025-08-03 19:08:32] Sending post request to: https://midtskips.no/drivhus/api/                                                      waterlevel/
+[2025-08-03 19:08:39] Status code: 400
+[2025-08-03 19:08:39] json sendt: {"CO2": 1333.8, "Waterlevel": [{"NorthEast": 7                                                      5, "SouthWest": 50}], "Humidity": 61.7, "Valves": [{"NorthEast": {"Duration valv                                                      e was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}, "SouthW                                                      est": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last                                                       closed": 0}}], "Temperature": 25.4}
+[2025-08-03 19:09:41] Sending post request to: https://midtskips.no/drivhus/api/                                                      waterlevel/
+[2025-08-03 19:09:48] Status code: 400
+[2025-08-03 19:09:48] json sendt: {"CO2": 1338.9, "Waterlevel": [{"NorthEast": 75, "SouthWest": 50}], "Humidit                        y": 61.6, "Valves": [{"NorthEast": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last                         closed": 0}, "SouthWest": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last closed":                         0}}], "Temperature": 25.4}
+[2025-08-03 19:10:51] Sending post request to: https://midtskips.no/drivhus/api/waterlevel/
+[2025-08-03 19:10:58] Status code: 400
+[2025-08-03 19:10:58] json sendt: {"CO2": 1344.7, "Waterlevel": [{"NorthEast": 75, "SouthWest": 50}], "Humidity": 61.6, "Valves": [{"NorthEast": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}, "SouthWest": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}}], "Temperature": 25.4}
+[2025-08-03 19:12:00] Sending post request to: https://midtskips.no/drivhus/api/waterlevel/
+[2025-08-03 19:12:07] Status code: 400
+[2025-08-03 19:12:07] json sendt: {"CO2": 1376.8, "Waterlevel": [{"NorthEast": 75, "SouthWest": 50}], "Humidity": 61.6, "Valves": [{"NorthEast": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}, "SouthWest": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}}], "Temperature": 25.4}
+[2025-08-03 19:13:10] Sending post request to: https://midtskips.no/drivhus/api/waterlevel/
+[2025-08-03 19:13:17] Status code: 400
+[2025-08-03 19:13:17] json sendt: {"CO2": 1361.8, "Waterlevel": [{"NorthEast": 75, "SouthWest": 50}], "Humidity": 61.6, "Valves": [{"NorthEast": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}, "SouthWest": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}}], "Temperature": 25.4}
+[2025-08-03 19:14:19] Sending post request to: https://midtskips.no/drivhus/api/waterlevel/
+[2025-08-03 19:14:26] Status code: 400
+[2025-08-03 19:14:26] json sendt: {"CO2": 1401.5, "Waterlevel": [{"NorthEast": 75, "SouthWest": 50}], "Humidity": 61.7, "Valves": [{"NorthEast": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}, "SouthWest": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}}], "Temperature": 25.5}
+[2025-08-03 19:15:29] Sending post request to: https://midtskips.no/drivhus/api/waterlevel/
+[2025-08-03 19:15:36] Status code: 400
+[2025-08-03 19:15:36] json sendt: {"CO2": 1429.5, "Waterlevel": [{"NorthEast": 75, "SouthWest": 50}], "Humidity": 61.6, "Valves": [{"NorthEast": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}, "SouthWest": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}}], "Temperature": 25.5}
+[2025-08-03 19:16:39] Sending post request to: https://midtskips.no/drivhus/api/waterlevel/
+[2025-08-03 19:16:45] Status code: 400
+[2025-08-03 19:16:45] json sendt: {"CO2": 1446.1, "Waterlevel": [{"NorthEast": 75, "SouthWest": 50}], "Humidity": 61.7, "Valves": [{"NorthEast": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}, "SouthWest": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}}], "Temperature": 25.5}
+[2025-08-03 19:17:48] Sending post request to: https://midtskips.no/drivhus/api/waterlevel/
+[2025-08-03 19:17:55] Status code: 400
+[2025-08-03 19:17:55] json sendt: {"CO2": 1458.0, "Waterlevel": [{"NorthEast": 75, "SouthWest": 50}], "Humidity": 61.6, "Valves": [{"NorthEast": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}, "SouthWest": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}}], "Temperature": 25.5}
+[2025-08-03 19:18:58] Sending post request to: https://midtskips.no/drivhus/api/waterlevel/
+[2025-08-03 19:19:04] Status code: 400
+[2025-08-03 19:19:05] json sendt: {"CO2": 1467.6, "Waterlevel": [{"NorthEast": 75, "SouthWest": 50}], "Humidity": 61.6, "Valves": [{"NorthEast": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}, "SouthWest": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}}], "Temperature": 25.5}
+[2025-08-03 19:20:07] Sending post request to: https://midtskips.no/drivhus/api/waterlevel/
+[2025-08-03 19:20:14] Status code: 400
+[2025-08-03 19:20:14] json sendt: {"CO2": 1482.6, "Waterlevel": [{"NorthEast": 75, "SouthWest": 50}], "Humidity": 61.6, "Valves": [{"NorthEast": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}, "SouthWest": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}}], "Temperature": 25.5}
+[2025-08-03 19:21:17] Sending post request to: https://midtskips.no/drivhus/api/waterlevel/
+[2025-08-03 19:21:23] Status code: 400
+[2025-08-03 19:21:23] json sendt: {"CO2": 1490.6, "Waterlevel": [{"NorthEast": 75, "SouthWest": 50}], "Humidity": 61.5, "Valves": [{"NorthEast": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}, "SouthWest": {"Duration valve was open": 0, "Status": "closed", "Last opened": 0, "Last closed": 0}}], "Temperature": 25.5}
