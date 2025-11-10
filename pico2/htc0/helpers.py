@@ -8,7 +8,6 @@ import requests
 import json
 from machine import ADC
 from lcd_display import LCD
-from ds18b20 import DS18B20 #High temperature sensor
 from am2320 import AM2320   #AOSONG AM2320 sensor driver
 
 
@@ -118,82 +117,16 @@ def timestamp_diff(t1_epoch, t2_epoch):
     """Return difference in seconds between two epoch timestamps."""
     return abs(int(t2_epoch) - int(t1_epoch))
 
-
-adc2 = ADC(2)
-# conversion: ADC.read_u16() -> voltage = value * 3.3 / 65535
-# LM35 gives 10 mV/°C so temp_C = voltage / 0.01 = voltage * 100
-# Note that the  Basic Centigrade Temperature Sensor (2 °C to 150 °C) starts 
-# at 2 °C when the analog input is 0V
-_conv_factor = 3.3 / 65535 * 100.0
-
 # Initialize LCD
 lcd = LCD()
-lastLinePrinted = 0
 
-async def poll_lm35():
-    global lastLinePrinted
-    while True:
-        try:
-            raw = adc2.read_u16()
-            temp_c = (raw * _conv_factor) - 2
-            output("LM35 Temp: ", f"{temp_c:.1f}° C")
-            if ((lastLinePrinted == 0) or (lastLinePrinted == 2)):
-                lcd.clear()
-                lcd.set_cursor(0,0)
-                lcd.write_string("LM35: " f"{temp_c:.1f}ß C") # Unicode ß == ° (degrees) on LCD character ROM
-                lastLinePrinted = 1
-            else:
-                lcd.write_string("\nLM35: " f"{temp_c:.1f}ß C") # Unicode ß == ° (degrees) on LCD character ROM
-                lastLinePrinted = 2
-
-        except Exception as e:
-            cmd_output("LM35 read error: ", str(e))
-        await asyncio.sleep(61)
-
-# Initialize DS18B20 on GPIO pin 22
-'''
-ds_sensor = DS18B20(22)
-
-async def poll_ds18b20():
-    global lastLinePrinted
-    while True:
-        try:
-            temp = ds_sensor.read_temp()
-            if temp is not None:
-                output("DS18B20: ", f"{temp:.1f}° C")
-                if (lastLinePrinted == 1):                #lcd.clear()
-                    #lcd.set_cursor(0,0)
-                    lcd.write_string("\nDS18B20: " f"{temp:.1f}ß C")
-                    lastLinePrinted = 2
-                else:
-                    lcd.clear()
-                    lcd.set_cursor(0,0)
-                    lcd.write_string("\nDS18B20: " f"{temp:.1f}ß C")
-                    lastLinePrinted = 1
-
-        except Exception as e:
-            cmd_output("DS18B20 read error: ", str(e))
-        await asyncio.sleep(60)
-'''
 # Initialize I2C and sensor
 #i2c = I2C(1, scl=Pin(3), sda=Pin(2))  # Adjust pins as needed
 i2c = I2C(1, scl=Pin(27), sda=Pin(26))  # Adjust pins as needed
 am2320_sensor = AM2320(i2c)
 
-async def read_temp():
-    
+async def read_temp():    
     while True:
-        '''
-        try:
-            raw = adc2.read_u16()
-            temp_c = (raw * _conv_factor) - 2
-            output("LM35DZ.: ", f"{temp_c:.1f}° C")
-            lcd.clear()
-            lcd.set_cursor(0,0)
-            lcd.write_string("LM35DZ.: " f"{temp_c:.1f}ß C") # Unicode ß == ° (degrees) on LCD character ROM
-        except Exception as e:
-            cmd_output("LM35 read error: ", str(e))
-        '''
         try:
             #temp = ds_sensor.read_temp()
             humidity, temp = am2320_sensor.read()
@@ -228,8 +161,6 @@ def power_switch_ctrl():
         except Exception as e:
             output("Error sending POST request: ", str(e))
         # is there an operation for execute?
-
-
 
 def build_json_data():
     humidity, temperature = am2320_sensor.read()

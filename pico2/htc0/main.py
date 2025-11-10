@@ -5,7 +5,14 @@ from command_handler import read
 from machine import Pin
 import time
 
+'''
+The htc0 project is to make a generic and simple humidity and temperature 
+monitor that can also use its information to activate a heater if the 
+measured temperature is below a specified value, or turn om a dehumidifier
+when the indoor environment is too moist.
 
+The sensor used is a AOSONG AM2320 configured for i2c communication.
+'''
 # LED Hart beat...
 hb = Pin("LED", Pin.OUT)
 
@@ -56,6 +63,7 @@ async def main():
     
     
     while True:
+        hb.toggle
         await asyncio.sleep(1)
 
 # Start the event loop
