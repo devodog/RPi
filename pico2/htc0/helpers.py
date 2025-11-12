@@ -13,9 +13,15 @@ from am2320 import AM2320   #AOSONG AM2320 sensor driver
 
 uart0 = UART(0, baudrate=9600, tx=Pin(0), rx=Pin(1))
 
-# This pin assignment is ONLY valid for code on the water level control system (wlc)
-#powerSwitch1 = Pin(16, Pin.OUT)
-#powerSwitch2 = Pin(17, Pin.OUT)
+
+SWITCH_OFF = 0
+SWITCH_ON = 1
+
+dehumidifierSwitch = Pin(16, Pin.OUT)
+heaterSwitch = Pin(17, Pin.OUT)
+
+dehumidifierState = SWITCH_OFF
+heaterState = SWITCH_OFF
 
 def output(text, arg="", delay=0.1):    
     local_time = get_local_timestamp(2)
@@ -125,29 +131,66 @@ lcd = LCD()
 i2c = I2C(1, scl=Pin(27), sda=Pin(26))  # Adjust pins as needed
 am2320_sensor = AM2320(i2c)
 
-async def read_temp():    
+humidityHighThreshold = read_config()['highHumidityThreshold']
+lowThreshold = read_config()['okHumidityOffset']
+
+temperatureLowThreshold = read_config()['lowTempThreshold']
+highThreshold = read_config()['okHumidityOffset']
+
+humidityControlEnabled = read_config()['humidityControlEnabled']
+temperatureControlEnable = read_config()['temperatureControlEnable']
+
+# here we need a function to check whether the humidity and / or temperature is
+# above or under a specific value - high to low threshold for activation or 
+# release. 
+
+# If the temperature is lower or equal to the Minimum temperature threshold, the heater switch will be activated, if enabled.
+# When the temperature is 3 to 5 degrees Centigrade over the Minimum temperature threshold, the heater switch will be deactivated.
+
+# If the humidity is over or equal to the Maximum humidity threshold, dehumidifier switch will activated, if enabled.
+# When the humidity is 10 to 20 % lower than the Maximum humidity threshold, the dehumidifier switch will be deactivated.
+
+async def read_am2320():
+    global heaterState
+    global dehumidifierState
+
     while True:
         try:
-            #temp = ds_sensor.read_temp()
-            humidity, temp = am2320_sensor.read()
-            if temp is not None:
+            humidity, temp = am2320_sensor.read()            
+            if temp is not None and humidity is not None:
                 output("AM2320.: ", f"{temp:.1f}°C")
                 output("AM2320.: ", f"{humidity:.1f} %")
                 lcd.clear()
                 lcd.set_cursor(0,0)
                 lcd.write_string("AM2320: " f"{temp:.1f}ßC")
                 lcd.write_string("\nAM2320: " f"{humidity:.1f} %")
+            
+                if temperatureControlEnable is True:
+                    if  temp <= temperatureLowThreshold:
+                        heaterSwitch.value(SWITCH_ON)
+                        heaterState = SWITCH_ON
+                    elif temp >= (temperatureLowThreshold + highThreshold):
+                        heaterSwitch.value(SWITCH_OFF)
+                        heaterState = SWITCH_OFF
 
-            '''
-            if wifi.wlan.isconnected():
-                try:
-                    current_json_data = build_json_data()
-                    output("Sending post request to: ", read_config()["url"])
-                    response = requests.post(read_config()["url"], json=current_json_data, timeout=5)
-                    output("Status code: ", str(response.status_code))
-                except Exception as e:
-                    output("Error sending POST request: ", str(e))
-            '''
+                if humidityControlEnabled is True:
+                    if  humidity >= humidityHighThreshold:
+                        dehumidifierSwitch.value(SWITCH_ON)
+                        dehumidifierState = SWITCH_ON
+                    elif humidity <= (humidityHighThreshold - lowThreshold):
+                        dehumidifierSwitch.value(SWITCH_OFF)
+                        dehumidifierState = SWITCH_OFF
+            
+                '''
+                if wifi.wlan.isconnected():
+                    try:
+                        current_json_data = build_json_data()
+                        output("Sending post request to: ", read_config()["url"])
+                        response = requests.post(read_config()["url"], json=current_json_data, timeout=5)
+                        output("Status code: ", str(response.status_code))
+                    except Exception as e:
+                        output("Error sending POST request: ", str(e))
+                '''
         except Exception as e:
             cmd_output("AM2320 read error: ", str(e))
 

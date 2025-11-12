@@ -37,8 +37,10 @@ ascii_art = (
     "      |  ||      ||  |\r\n"
     "      |  ||      ||  |\r\n"
     "      '--------------'\r\n"
+    "   Humidity & Temperature\r\n"
+    "    monitor and control\r\n"
 )
-output("START of Humidity & Temperature measurements.\r\n")
+output("START")
 cmd_output(ascii_art, "")
 
 async def main():
@@ -59,7 +61,7 @@ async def main():
     '''
     uart0.write(b'\r\npico-w>\r\n')
     # start background polling task
-    asyncio.create_task(read_temp())
+    asyncio.create_task(read_am2320())
     
     
     while True:
