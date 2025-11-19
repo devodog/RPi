@@ -11,8 +11,7 @@ from ds18b20 import DS18B20
 uart0 = UART(0, baudrate=9600, tx=Pin(0), rx=Pin(1))
 
 
-def output(text, arg="", delay=0.1):
-    
+def output(text, arg="", delay=0.1):    
     local_time = get_local_timestamp(2)
     uart0.write(b'[' + local_time.encode() + b'] ' + text.encode() + arg.encode() + b'\r\n')
     time.sleep(delay)
@@ -180,6 +179,7 @@ async def poll_ds18b20():
 async def read_temp():
     global lastLinePrinted
     while True:
+        '''
         try:
             raw = adc2.read_u16()
             temp_c = (raw * _conv_factor) - 2
@@ -189,13 +189,19 @@ async def read_temp():
             lcd.write_string("LM35DZ.: " f"{temp_c:.1f}ß C") # Unicode ß == ° (degrees) on LCD character ROM
         except Exception as e:
             cmd_output("LM35 read error: ", str(e))
+        '''
         
         try:
             temp = ds_sensor.read_temp()
             if temp is not None:
                 output("DS18B20: ", f"{temp:.1f}° C")
-                lcd.write_string("\nDS18B20: " f"{temp:.1f}ß C")
-                lastLinePrinted = 2
+                lcd.clear()
+                lcd.set_cursor(0,0)
+                lcd.write_string("DS18B20:" f"{temp:.1f}ß C\n       ")
+                
+                local_time = get_local_timestamp(2)
+                lcd.write_string(local_time.strip("2021-01-01"))
+                #time.sleep(0.1)
         except Exception as e:
             cmd_output("DS18B20 read error: ", str(e))
 

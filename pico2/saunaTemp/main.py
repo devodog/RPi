@@ -39,6 +39,7 @@ async def main():
     
     uart0.write(b'\r\npico-w> ')
     while True:
+        hb.toggle()
         await asyncio.sleep(1)
 
 # Start the event loop
