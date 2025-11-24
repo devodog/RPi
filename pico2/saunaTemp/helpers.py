@@ -120,6 +120,8 @@ def timestamp_diff(t1_epoch, t2_epoch):
     """Return difference in seconds between two epoch timestamps."""
     return abs(int(t2_epoch) - int(t1_epoch))
 
+# Initialize LCD
+lcd = LCD()
 
 adc2 = ADC(2)
 # conversion: ADC.read_u16() -> voltage = value * 3.3 / 65535
@@ -128,10 +130,6 @@ adc2 = ADC(2)
 # at 2 °C when the analog input is 0V
 _conv_factor = 3.3 / 65535 * 100.0
 
-# Initialize LCD
-lcd = LCD()
-lastLinePrinted = 0
-
 async def poll_lm35():
     global lastLinePrinted
     while True:
@@ -139,42 +137,16 @@ async def poll_lm35():
             raw = adc2.read_u16()
             temp_c = (raw * _conv_factor) - 2
             output("LM35 Temp: ", f"{temp_c:.1f}° C")
-            if ((lastLinePrinted == 0) or (lastLinePrinted == 2)):
-                lcd.clear()
-                lcd.set_cursor(0,0)
-                lcd.write_string("LM35: " f"{temp_c:.1f}ß C") # Unicode ß == ° (degrees) on LCD character ROM
-                lastLinePrinted = 1
-            else:
-                lcd.write_string("\nLM35: " f"{temp_c:.1f}ß C") # Unicode ß == ° (degrees) on LCD character ROM
-                lastLinePrinted = 2
-
+            lcd.clear()
+            lcd.set_cursor(0,0)
+            lcd.write_string("LM35: " f"{temp_c:.1f}ß C") # Unicode ß == ° (degrees) on LCD character ROM
+            lastLinePrinted = 1
         except Exception as e:
             cmd_output("LM35 read error: ", str(e))
         await asyncio.sleep(61)
 
 # Initialize DS18B20 on GPIO pin 22
 ds_sensor = DS18B20(22)
-
-async def poll_ds18b20():
-    global lastLinePrinted
-    while True:
-        try:
-            temp = ds_sensor.read_temp()
-            if temp is not None:
-                output("DS18B20: ", f"{temp:.1f}° C")
-                if (lastLinePrinted == 1):                #lcd.clear()
-                    #lcd.set_cursor(0,0)
-                    lcd.write_string("\nDS18B20: " f"{temp:.1f}ß C")
-                    lastLinePrinted = 2
-                else:
-                    lcd.clear()
-                    lcd.set_cursor(0,0)
-                    lcd.write_string("\nDS18B20: " f"{temp:.1f}ß C")
-                    lastLinePrinted = 1
-
-        except Exception as e:
-            cmd_output("DS18B20 read error: ", str(e))
-        await asyncio.sleep(60)
 
 async def read_temp():
     global lastLinePrinted
@@ -197,11 +169,11 @@ async def read_temp():
                 output("DS18B20: ", f"{temp:.1f}° C")
                 lcd.clear()
                 lcd.set_cursor(0,0)
-                lcd.write_string("DS18B20:" f"{temp:.1f}ß C\n       ")
+                lcd.write_string("DS18B20:" f"{temp:.1f}ß C\nStartet")
                 
-                local_time = get_local_timestamp(2)
+                local_time = get_local_timestamp(0) # all the time values is only relative
                 lcd.write_string(local_time.strip("2021-01-01"))
-                #time.sleep(0.1)
+                time.sleep(0.1) # seems we need to wait a bit to let the data transfer to the lcd complete
         except Exception as e:
             cmd_output("DS18B20 read error: ", str(e))
 
