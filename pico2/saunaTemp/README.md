@@ -1,3 +1,5 @@
+## Sauna temperature measurments project  
+
 Some info about the DS... temperature sensor driver provided by Claude Sonnet 3.5.
 To use this code:
 
@@ -20,15 +22,9 @@ A 4.7kΩ pull-up resistor between VDD and the data pin
 You can then use either poll_ds18b20() or poll_lm35() in your main async loop, 
 depending on which sensor you want to use.
 
--------------------------------------------------------------------------------
-Pico sends data to url if data has changed, or 15min has passed since last time 
-data was sent
+-------------------------------------------------------------------------------  
 
-
-SCD30 driver: https://github.com/agners/micropython-scd30
-
-
-Format of config.json
+### Format of config.json
 ```
 {
     "version": "0.2",

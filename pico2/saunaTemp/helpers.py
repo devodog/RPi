@@ -1,8 +1,10 @@
-from machine import UART, Pin, reset, I2C
+from machine import UART, Pin, reset
 import uasyncio as asyncio
 import time
 import ntptime
 from collections import OrderedDict
+import wifi
+import requests
 import json
 from machine import ADC
 from lcd_display import LCD
@@ -174,7 +176,24 @@ async def read_temp():
                 local_time = get_local_timestamp(0) # all the time values is only relative
                 lcd.write_string(local_time.strip("2021-01-01"))
                 time.sleep(0.1) # seems we need to wait a bit to let the data transfer to the lcd complete
+                
+                if wifi.wlan.isconnected():
+                    try:
+                        current_json_data = build_json_data()
+                        output("Sending post request to: ", read_config()["url"])
+                        response = requests.post(read_config()["url"], json=current_json_data, timeout=5)
+                        output("Status code: ", str(response.status_code))
+                    except Exception as e:
+                        output("Error sending POST request: ", str(e))
+
         except Exception as e:
             cmd_output("DS18B20 read error: ", str(e))
 
         await asyncio.sleep(60)
+
+def build_json_data():
+    return {
+        "Time": time.time(),
+        "Temperature": round(ds_sensor.read_temp(),1)
+        #"Humidity": humidity
+   }
