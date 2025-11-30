@@ -1,4 +1,4 @@
-from machine import UART, Pin, I2C, reset
+from machine import UART, Pin, reset
 import uasyncio as asyncio
 import time
 import ntptime
@@ -9,7 +9,6 @@ import json
 from machine import ADC
 from lcd_display import LCD
 from ds18b20 import DS18B20 #High temperature sensor
-from am2320 import AM2320   #AOSONG AM2320 sensor driver
 
 
 uart0 = UART(0, baudrate=9600, tx=Pin(0), rx=Pin(1))
@@ -94,11 +93,20 @@ def print_help():
 
 def sync_time():
     # Sync with NTP server (sets RTC to UTC)
-    ntptime.settime()
-    # Get current local time (in UTC)
-    t = time.localtime()
-    output("NTP TIME: ", get_local_timestamp(2))
+    if not wifi.wlan.isconnected():
+        cmd_output("Waiting for WiFi connection before syncing time...")
+        attempts = 0
+        while not wifi.wlan.isconnected() and attempts < 20:
+            time.sleep(1)
+            attempts += 1
     
+    if wifi.wlan.isconnected():
+        ntptime.settime()
+        t = time.localtime()
+        output("NTP TIME: ", get_local_timestamp(1))
+    else:
+        cmd_output("ntptime-error: WiFi connection failed")
+
 def get_local_timestamp(offset_hours=0):
     t = time.localtime(time.time() + offset_hours * 3600)
     return f"{t[0]:04}-{t[1]:02}-{t[2]:02} {t[3]:02}:{t[4]:02}:{t[5]:02}"
@@ -118,100 +126,47 @@ def timestamp_diff(t1_epoch, t2_epoch):
     """Return difference in seconds between two epoch timestamps."""
     return abs(int(t2_epoch) - int(t1_epoch))
 
-
-adc2 = ADC(2)
-# conversion: ADC.read_u16() -> voltage = value * 3.3 / 65535
-# LM35 gives 10 mV/°C so temp_C = voltage / 0.01 = voltage * 100
-# Note that the  Basic Centigrade Temperature Sensor (2 °C to 150 °C) starts 
-# at 2 °C when the analog input is 0V
-_conv_factor = 3.3 / 65535 * 100.0
-
 # Initialize LCD
 lcd = LCD()
-lastLinePrinted = 0
-
-async def poll_lm35():
-    global lastLinePrinted
-    while True:
-        try:
-            raw = adc2.read_u16()
-            temp_c = (raw * _conv_factor) - 2
-            output("LM35 Temp: ", f"{temp_c:.1f}° C")
-            if ((lastLinePrinted == 0) or (lastLinePrinted == 2)):
-                lcd.clear()
-                lcd.set_cursor(0,0)
-                lcd.write_string("LM35: " f"{temp_c:.1f}ß C") # Unicode ß == ° (degrees) on LCD character ROM
-                lastLinePrinted = 1
-            else:
-                lcd.write_string("\nLM35: " f"{temp_c:.1f}ß C") # Unicode ß == ° (degrees) on LCD character ROM
-                lastLinePrinted = 2
-
-        except Exception as e:
-            cmd_output("LM35 read error: ", str(e))
-        await asyncio.sleep(61)
 
 # Initialize DS18B20 on GPIO pin 22
 ds_sensor = DS18B20(22)
-
-async def poll_ds18b20():
-    global lastLinePrinted
-    while True:
-        try:
-            temp = ds_sensor.read_temp()
-            if temp is not None:
-                output("DS18B20: ", f"{temp:.1f}° C")
-                if (lastLinePrinted == 1):                #lcd.clear()
-                    #lcd.set_cursor(0,0)
-                    lcd.write_string("\nDS18B20: " f"{temp:.1f}ß C")
-                    lastLinePrinted = 2
-                else:
-                    lcd.clear()
-                    lcd.set_cursor(0,0)
-                    lcd.write_string("\nDS18B20: " f"{temp:.1f}ß C")
-                    lastLinePrinted = 1
-
-        except Exception as e:
-            cmd_output("DS18B20 read error: ", str(e))
-        await asyncio.sleep(60)
-
-# Initialize I2C and sensor
-#i2c = I2C(1, scl=Pin(3), sda=Pin(2))  # Adjust pins as needed
-i2c = I2C(1, scl=Pin(15), sda=Pin(14))  # Adjust pins as needed
-am2320_sensor = AM2320(i2c)
 
 async def read_temp():
     
     while True:
         try:
-            raw = adc2.read_u16()
-            temp_c = (raw * _conv_factor) - 2
-            output("LM35DZ.: ", f"{temp_c:.1f}° C")
-            lcd.clear()
-            lcd.set_cursor(0,0)
-            lcd.write_string("LM35DZ.: " f"{temp_c:.1f}ß C") # Unicode ß == ° (degrees) on LCD character ROM
-        except Exception as e:
-            cmd_output("LM35 read error: ", str(e))
-        
-        try:
-            #temp = ds_sensor.read_temp()
-            humidity, temp = am2320_sensor.read()
+            temp = ds_sensor.read_temp()
             if temp is not None:
-                output("AM2320: ", f"{temp:.1f}° C")
-                lcd.write_string("\nAM2320: " f"{temp:.1f}ß C")
-            if wifi.wlan.isconnected():
-                try:
-                    current_json_data = build_json_data()
-                    output("Sending post request to: ", read_config()["url"])
-                    response = requests.post(read_config()["url"], json=current_json_data, timeout=5)
-                    output("Status code: ", str(response.status_code))
-                except Exception as e:
-                    output("Error sending POST request: ", str(e))
+                output("DS18B20: ", f"{temp:.1f}° C")
+                lcd.clear()
+                lcd.set_cursor(0,0)
+                lcd.write_string("DS18B20: " f"{temp:.1f}ßC\n")
+                hourMinSec = get_local_timestamp()
+                lcd.write_string("Startet"f"{hourMinSec[10:]}")
+                time.sleep(0.1)
+
+                current_json_data = build_json_data()
+                cmd_output("json data: ", json.dumps(current_json_data))
+
+                if wifi.wlan.isconnected():
+                    try:
+                        if read_config()["url"] != "test":
+                            output("Sending post request to: ", read_config()["url"])
+                            response = requests.post(read_config()["url"], json=current_json_data, timeout=5)
+                            output("Status code: ", str(response.status_code))
+                        else:
+                            cmd_output("No URL to send to...")
+                    except Exception as e:
+                        output("Error sending POST request: ", str(e))
+                else:
+                    cmd_output("Not connected to any network!")
 
         except Exception as e:
-            cmd_output("AM2320 read error: ", str(e))
-
+            cmd_output("DS18B20 read error: ", str(e))
         await asyncio.sleep(60)
 
+'''
 def power_switch_ctrl():
     if wifi.wlan.isconnected():
         try:
@@ -221,13 +176,12 @@ def power_switch_ctrl():
             output("Error sending POST request: ", str(e))
         # is there an operation for execute?
         if "ON" in get_respons:
-
+'''
 
 
 def build_json_data():
-    humidity, temperature = am2320_sensor.read()
+    temperature = ds_sensor.read_temp()
     return {
         "Time": time.time(),
-        "Temperature": temperature,
-        "Humidity": humidity
+        "Temperature": temperature
    }

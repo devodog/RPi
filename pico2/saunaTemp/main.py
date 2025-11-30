@@ -37,9 +37,11 @@ cmd_output(ascii_art, "")
 async def main():
     # Attempt initial connection (non-blocking success not critical)
     try:
-        output(f"Attempting to connect to WiFi using the following config:\r\nSSID: {read_config()['wifi']['SSID']}, PASSWORD: {read_config()['wifi']['PASSWORD']}")
-        connect_wifi(read_config())
-        time.sleep(4)
+        cmd_output(f"Attempting to connect to WiFi AP:")
+        cmd_output(f"SSID....: {read_config()['wifi']['SSID']}")
+        cmd_output(f"PASSWORD: {read_config()['wifi']['PASSWORD']}")
+        connect_wifi(read_config())    
+        time.sleep(4)        
         if wlan.isconnected():
             output("WiFi connected!")
             output("IP Address: ", wlan.ifconfig()[0])
@@ -55,6 +57,7 @@ async def main():
     
     
     while True:
+        hb.toggle()
         await asyncio.sleep(1)
 
 # Start the event loop
