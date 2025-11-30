@@ -14,11 +14,11 @@ from ds18b20 import DS18B20 #High temperature sensor
 uart0 = UART(0, baudrate=9600, tx=Pin(0), rx=Pin(1))
 
 # This pin assignment is ONLY valid for code on the water level control system (wlc)
-powerSwitch1 = Pin(16, Pin.OUT)
-powerSwitch2 = Pin(17, Pin.OUT)
+#powerSwitch1 = Pin(16, Pin.OUT)
+#powerSwitch2 = Pin(17, Pin.OUT)
 
 def output(text, arg="", delay=0.1):    
-    local_time = get_local_timestamp(2)
+    local_time = get_local_timestamp(1) # one hour different from gmt at winter-time? 
     uart0.write(b'[' + local_time.encode() + b'] ' + text.encode() + arg.encode() + b'\r\n')
     time.sleep(delay)
 
@@ -141,8 +141,8 @@ async def read_temp():
                 output("DS18B20: ", f"{temp:.1f}° C")
                 lcd.clear()
                 lcd.set_cursor(0,0)
-                lcd.write_string("DS18B20: " f"{temp:.1f}ßC\n")
-                hourMinSec = get_local_timestamp()
+                lcd.write_string("DS18B20:" f"{temp:.1f}ßC\n")
+                hourMinSec = get_local_timestamp(1)
                 lcd.write_string("Startet"f"{hourMinSec[10:]}")
                 time.sleep(0.1)
 
