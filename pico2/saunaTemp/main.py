@@ -12,10 +12,6 @@ hb = Pin("LED", Pin.OUT)
 # Set up UART interrupt
 Pin(1).irq(read, trigger=Pin.IRQ_FALLING)
 
-
-# Read the ADC connected to the LM35 for measuring the temperature.
-# -- this device is not necessarily optimal for the intended use.
-#
 # Show the temperature value on a LCD display.
 
 ascii_art = (
@@ -48,14 +44,13 @@ async def main():
             sync_time()
         else:
             output("Initial WiFi connection failed.")
-    except Exception as e:
+    except Exception as e:  
         output("Initial WiFi setup error:", str(e))
-    
+
     uart0.write(b'\r\npico-w> ')
     # start background polling task
     asyncio.create_task(read_temp())
-    
-    
+
     while True:
         hb.toggle()
         await asyncio.sleep(1)

@@ -170,22 +170,9 @@ async def read_temp():
             cmd_output("DS18B20 read error: ", str(e))
         await asyncio.sleep(60)
 
-'''
-def power_switch_ctrl():
-    if wifi.wlan.isconnected():
-        try:
-            get_respons = requests.get("https://midtskips.no/garasje/api/env/state.txt")
-            output("Status code: ", str(get_respons.status_code))
-        except Exception as e:
-            output("Error sending POST request: ", str(e))
-        # is there an operation for execute?
-        if "ON" in get_respons:
-'''
-
-
 def build_json_data():
     temperature = ds_sensor.read_temp()
     return {
         "Time": time.time(),
         "Temperature": temperature
-   }
+    }
