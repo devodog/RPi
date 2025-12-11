@@ -1,3 +1,4 @@
+import gc
 from machine import UART, Pin, reset
 import uasyncio as asyncio
 import time
@@ -150,6 +151,7 @@ async def read_temp():
                 if (interval >= timeToSend):
                     interval = 1
                     if wifi.wlan.isconnected():
+                        gc.collect()
                         current_json_data = build_json_data()
                         cmd_output("json data: ", json.dumps(current_json_data))
                         if read_config()["url"] != "test":
