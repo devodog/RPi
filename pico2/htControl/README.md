@@ -1,9 +1,13 @@
-htc0 RPi Pico w project is to monitor humidity and temperature by the use of a simple humidity and temperature sensor.  
+## MicroPython project for the Pico w device  
+Tiny IoT prosjects  
+### htControll
+__Indoor humidity and temperature control__  
+htControl is a RPi Pico w MicroPython project which is to monitor humidity and temperature by the use of a simple humidity and temperature sensor.  
 The plan is to control a dehumidifier and heater to prevent freezing temperature within a indoor environment.  
 
+### Hardware brief
+Based on Raspberry Pi Pico board mounted on a I/O controller board for interfacing sensors and actuators.
 ...more will be added...
-## MicroPython project (pico2wifi git-branch) for the Pico w device  
-### Indoor humidity and temperature control  
 Humidity and temperature monitoring for indoor humidity and temperature control,
 by the use of AOSONG AM2320 temperature and humidity i2c sensor, and a simple 
 high-level driver in am2320.py.

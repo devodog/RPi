@@ -1,12 +1,2 @@
-Using wlc (Water Level Control) application as start point for a new 
-application that is to monitor a sounas temperature.
-===============================================================================
-Modify monitor.py
-Use this to monitor temperature
-
-Remove the scd30.py and any code that depend on this.
-Consider to remove the file state.py.
-
-Modify publish.py to support new functionality.
-
+None registered so far.
  
