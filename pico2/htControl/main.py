@@ -28,7 +28,7 @@ Pin(1).irq(read, trigger=Pin.IRQ_FALLING)
 ascii_art = (
     "     .----------------.\r\n"
     "    |   Raspberry Pi   |\r\n"
-    "    |      Pico W      |\r\n"
+    "    |      Pico 2 W    |\r\n"
     "    |  .------------.  |\r\n"
     "    |  | [] [] [] []|  |\r\n"
     "    |  | [] [] [] []|  |\r\n"
@@ -42,9 +42,9 @@ ascii_art = (
 )
 output("START")
 cmd_output(ascii_art, "")
-
+time.sleep(1)
 async def main():
-    '''
+    
     # Attempt initial connection (non-blocking success not critical)
     try:
         output(f"Attempting to connect to WiFi using the following config:\r\nSSID: {read_config()['wifi']['SSID']}, PASSWORD: {read_config()['wifi']['PASSWORD']}")
@@ -58,14 +58,14 @@ async def main():
             output("Initial WiFi connection failed.")
     except Exception as e:
         output("Initial WiFi setup error:", str(e))
-    '''
+    
     uart0.write(b'\r\npico-w>\r\n')
     # start background polling task
     asyncio.create_task(read_am2320())
     
     
     while True:
-        hb.toggle
+        hb.toggle()
         await asyncio.sleep(1)
 
 # Start the event loop

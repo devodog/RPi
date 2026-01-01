@@ -7,7 +7,7 @@ import wifi
 import requests
 import json
 from machine import ADC
-from lcd_display import LCD
+#from lcd_display import LCD
 from am2320 import AM2320   #AOSONG AM2320 sensor driver
 
 
@@ -97,6 +97,24 @@ def print_help():
     cmd_output(help_text)
     cmd_output("")
 
+def switchCtrl(sw, state):
+    if (sw == 1):
+        if (state == SWITCH_ON):
+            dehumidifierSwitch.value(SWITCH_ON)
+            dehumidifierState = SWITCH_ON
+        else:
+            dehumidifierSwitch.value(SWITCH_OFF)
+            dehumidifierState = SWITCH_OFF
+    else:
+        if (state == SWITCH_ON):
+            heaterSwitch.value(SWITCH_ON)
+            heaterState = SWITCH_ON
+        else:
+            heaterSwitch.value(SWITCH_OFF)
+            heaterState = SWITCH_OFF
+
+
+
 def sync_time():
     # Sync with NTP server (sets RTC to UTC)
     ntptime.settime()
@@ -123,14 +141,15 @@ def timestamp_diff(t1_epoch, t2_epoch):
     """Return difference in seconds between two epoch timestamps."""
     return abs(int(t2_epoch) - int(t1_epoch))
 
-# Initialize LCD
-lcd = LCD()
 
 # Initialize I2C and sensor
-#i2c = I2C(1, scl=Pin(3), sda=Pin(2))  # Adjust pins as needed
-i2c = I2C(1, scl=Pin(27), sda=Pin(26))  # Adjust pins as needed
+# GPIO 26 and GPIO 27 is made accessable on the LEDstripDrv2.0 PCB
+# two screw terminales.
+# terminal-pin 1 = GPIO 26 = i2c SDA
+# terminal-pin 2 = GPIO 27 = i2c SCL
+i2c = I2C(1, scl=Pin(27), sda=Pin(26))  
 am2320_sensor = AM2320(i2c)
-
+'''
 humidityHighThreshold = read_config()['highHumidityThreshold']
 lowThreshold = read_config()['okHumidityOffset']
 
@@ -139,7 +158,7 @@ highThreshold = read_config()['okHumidityOffset']
 
 humidityControlEnabled = read_config()['humidityControlEnabled']
 temperatureControlEnable = read_config()['temperatureControlEnable']
-
+'''
 # here we need a function to check whether the humidity and / or temperature is
 # above or under a specific value - high to low threshold for activation or 
 # release. 
@@ -160,6 +179,7 @@ async def read_am2320():
             if temp is not None and humidity is not None:
                 output("AM2320.: ", f"{temp:.1f}°C")
                 output("AM2320.: ", f"{humidity:.1f} %")
+                '''
                 lcd.clear()
                 lcd.set_cursor(0,0)
                 lcd.write_string("AM2320: " f"{temp:.1f}ßC")
@@ -181,7 +201,7 @@ async def read_am2320():
                         dehumidifierSwitch.value(SWITCH_OFF)
                         dehumidifierState = SWITCH_OFF
             
-                '''
+                
                 if wifi.wlan.isconnected():
                     try:
                         current_json_data = build_json_data()

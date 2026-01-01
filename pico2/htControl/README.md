@@ -1,4 +1,4 @@
-## MicroPython project for the Pico w device  
+## MicroPython project for the Pico 2 W device  
 Tiny IoT prosjects  
 ### htControll
 __Indoor humidity and temperature control__  
@@ -12,9 +12,9 @@ Humidity and temperature monitoring for indoor humidity and temperature control,
 by the use of AOSONG AM2320 temperature and humidity i2c sensor, and a simple 
 high-level driver in am2320.py.
 
-### i2c connection for the AM2320 on Pico w
-SDA to Pico w GPIO xx  
-SCL to Pico w GPIO yy  
+### i2c connection for the AM2320 on Pico 2 W
+SDA to Pico 2 W GPIO 26  
+SCL to Pico 2 W GPIO 27  
 VDD to 3.3V  
 GND to ground  
 
