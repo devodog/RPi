@@ -200,7 +200,7 @@ async def read_am2320():
                     elif humidity <= (humidityHighThreshold - lowThreshold):
                         dehumidifierSwitch.value(SWITCH_OFF)
                         dehumidifierState = SWITCH_OFF
-            
+                '''
                 
                 if wifi.wlan.isconnected():
                     try:
@@ -210,12 +210,12 @@ async def read_am2320():
                         output("Status code: ", str(response.status_code))
                     except Exception as e:
                         output("Error sending POST request: ", str(e))
-                '''
+                
         except Exception as e:
             cmd_output("AM2320 read error: ", str(e))
 
         await asyncio.sleep(60)
-
+'''
 def power_switch_ctrl():
     if wifi.wlan.isconnected():
         try:
@@ -224,11 +224,19 @@ def power_switch_ctrl():
         except Exception as e:
             output("Error sending POST request: ", str(e))
         # is there an operation for execute?
-
+'''
 def build_json_data():
     humidity, temperature = am2320_sensor.read()
-    return {
-        "Time": time.time(),
-        "Temperature": temperature,
-        "Humidity": humidity
-   }
+    if temperature is not None and humidity is not None:
+        return {
+            "Time": time.time(),
+            "Humidity": humidity,
+            "Temperature": temperature
+        }
+    else:
+        return {
+            "Time": time.time(),
+            "Humidity": 0,
+            "Temperature": 0
+        }
+

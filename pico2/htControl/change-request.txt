@@ -1,2 +1,5 @@
-None registered so far.
- 
+Publishing data only every 5 minutes.
+Extend the config.json file with necessary thresholds for humidity and temperature.
+Add necessary cli commands for changing the thresholds.
+
+  
