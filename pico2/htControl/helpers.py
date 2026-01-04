@@ -1,4 +1,5 @@
-from machine import UART, Pin, I2C, reset
+import gc
+from machine import UART, Pin, I2C, ADC, reset
 import uasyncio as asyncio
 import time
 import ntptime
@@ -6,14 +7,12 @@ from collections import OrderedDict
 import wifi
 import requests
 import json
-from machine import ADC
 #from lcd_display import LCD
 from am2320 import AM2320   #AOSONG AM2320 sensor driver
 
-
-uart0 = UART(0, baudrate=9600, tx=Pin(0), rx=Pin(1))
-
-
+# Global variables
+uart0 = UART(0, baudrate=9600, tx=Pin(0), rx=Pin(1), txbuf=1024)
+monitor = True
 SWITCH_OFF = 0
 SWITCH_ON = 1
 
@@ -23,10 +22,51 @@ heaterSwitch = Pin(17, Pin.OUT)
 dehumidifierState = SWITCH_OFF
 heaterState = SWITCH_OFF
 
-def output(text, arg="", delay=0.1):    
-    local_time = get_local_timestamp(2)
-    uart0.write(b'[' + local_time.encode() + b'] ' + text.encode() + arg.encode() + b'\r\n')
-    time.sleep(delay)
+humidityControl = "Disabled"
+temperatureControl = "Disabled"
+
+humidityHighThreshold = 70
+humidityLowThreshold = 60
+
+temperatureLowThreshold = 3
+temperatureHighThreshold = 7
+
+def initControl():
+    config = read_config()
+    envctrl = config.get("envctrl", {})
+    global humidityControl
+    global temperatureControl
+    
+    global humidityHighThreshold
+    global humidityLowThreshold
+    global temperatureLowThreshold
+    global temperatureHighThreshold
+
+    humidityControl = envctrl.get("humidityControl", "-")
+    temperatureControl = envctrl.get("temperatureControl", "-")
+    humidityHighThreshold = envctrl.get("humidityHigh", "-")
+    humidityLowThreshold = envctrl.get("humidityLow", "-")
+    temperatureLowThreshold = envctrl.get("tempLow", "-")
+    temperatureHighThreshold = envctrl.get("tempHigh", "-")
+
+def monitorState(change):
+    global monitor
+    monstate = "ON"
+    if change == "on":
+        monitor = True
+    elif change == "off":
+        monitor = False
+
+    if monitor == False:
+        monstate = "OFF"
+    
+    cmd_output("Monitor State: ", monstate)
+
+def output(text, arg="", delay=0.1):
+    if monitor == True:
+        local_time = get_local_timestamp(2)
+        uart0.write(b'[' + local_time.encode() + b'] ' + text.encode() + arg.encode() + b'\r\n')
+        time.sleep(delay)
 
 def cmd_output(text, arg="", delay=0.1):
     uart0.write(text.encode() + arg.encode() + b'\r\n')
@@ -47,12 +87,22 @@ def change_config(buf):
             cmd_output(f"Old {buf.split('=')[0]}: ", config[buf.split('=')[0]])
             config[buf.split('=')[0]] = buf.split("=")[1]
         elif "attempts" in buf or "freq" in buf:
-            cmd_output(f"Old {buf.split('=')[0]}: ", config["wifi"][buf.split('=')[0]])
+            cmd_output(f"Old {buf.split('=')[0]}: ", str(config["wifi"][buf.split('=')[0]]))
             try:
                 config["wifi"][buf.split("=")[0]] = int(buf.split("=")[1])
             except ValueError:
                 cmd_output("Invalid value: Must be an integer.")
-                
+        
+        elif "humidityHigh" in buf or "humidityLow" in buf or "tempHigh" in buf or "tempLow" in buf:
+            cmd_output(f"Old {buf.split('=')[0]}: ", str(config["envctrl"][buf.split('=')[0]]))
+            try:
+                config["envctrl"][buf.split("=")[0]] = int(buf.split("=")[1])
+            except ValueError:
+                cmd_output("Invalid value: Must be an integer.")
+        elif "humidityCtrl" in buf or "tempCtrl" in buf:
+            cmd_output(f"Old {buf.split('=')[0]}: ", config["envctrl"][buf.split('=')[0]])
+            config["envctrl"][buf.split('=')[0]] = buf.split("=")[1]
+
         # Write updated config
         with open("config.json", "w") as f:
             json.dump(config, f)
@@ -77,8 +127,16 @@ def print_config():
     wifi = config.get("wifi", {})
     cmd_output("WiFi SSID: \t", wifi.get("SSID", "-"))
     cmd_output("WiFi PASS: \t", wifi.get("PASSWORD", "-"))
-
     cmd_output("Post URL: \t", config.get("url", "-"))
+    
+    env = config.get("envctrl", {})
+    cmd_output("Humidity Control: \t", env.get("humidityCtrl", "-"))
+    cmd_output("Temp Control: \t\t", env.get("tempCtrl", "-"))
+    cmd_output("Humidity high threshold: \t", str(env.get("humidityHigh", "-")))
+    cmd_output("Humidity low threshold: \t", str(env.get("humidityLow", "-")))
+    cmd_output("Temp high threshold: \t", str(env.get("tempHigh", "-")))
+    cmd_output("Temp low threshold: \t", str(env.get("tempLow", "-")))
+
     cmd_output("")
 
 def print_help():
@@ -93,7 +151,14 @@ def print_help():
     "attempts=<int>     \tNumber of WiFi reconnection attempts (default: 10)\r\n"
     "freq=<int>         \tSleep interval between each bulk of reconnection attempts (default: 10min)\r\n"
     "restart            \tRestarts the pico\r\n"
-    "version            \tShows current version")
+    "version            \tShows current version\r\n"
+    "humidityControl=<enabled|disabled>\r\n"
+    "temperatureControl=<enabled|disabled>\r\n"
+    "humidityHigh=<int> \tHigh humidity level threshold for switch ON\r\n"
+    "humidityLow=<int>  \tLow humidity level threshold for switch OFF\r\n"
+    "tempHigh=<int>     \tHigh temperature level threshold for heater OFF\r\n"
+    "tempLow=<int>      \tLow temperature level threshold for heater ON\r\n"
+    )
     cmd_output(help_text)
     cmd_output("")
 
@@ -140,8 +205,18 @@ def get_epoch_timestamp(offset_hours=0):
 def timestamp_diff(t1_epoch, t2_epoch):
     """Return difference in seconds between two epoch timestamps."""
     return abs(int(t2_epoch) - int(t1_epoch))
-
-
+'''
+# Environment variables to manage dehumidifier and heater
+# The high threshold, when read from the sensor, will swich ON the dehumidifier.
+# The low threshold, when read from the sensor, will switch OFF the dehumidifier.
+# The low temperature threshold, when read from the sensor, will switch ON the dehumidifier.
+# The high temperature threshold, when read from the sensor, will swich OFF the dehumidifier.
+# If the temperature is lower or equal to the Minimum temperature threshold, the heater switch will be activated, if enabled.
+# When the temperature is 3 to 5 degrees Centigrade over the Minimum temperature threshold, the heater switch will be deactivated.
+# If the humidity is over or equal to the Maximum humidity threshold, dehumidifier switch will activated, if enabled.
+# When the humidity is 10 to 20 % lower than the Maximum humidity threshold, the dehumidifier switch will be deactivated.
+'''
+###############################################################################
 # Initialize I2C and sensor
 # GPIO 26 and GPIO 27 is made accessable on the LEDstripDrv2.0 PCB
 # two screw terminales.
@@ -149,34 +224,26 @@ def timestamp_diff(t1_epoch, t2_epoch):
 # terminal-pin 2 = GPIO 27 = i2c SCL
 i2c = I2C(1, scl=Pin(27), sda=Pin(26))  
 am2320_sensor = AM2320(i2c)
-'''
-humidityHighThreshold = read_config()['highHumidityThreshold']
-lowThreshold = read_config()['okHumidityOffset']
-
-temperatureLowThreshold = read_config()['lowTempThreshold']
-highThreshold = read_config()['okHumidityOffset']
-
-humidityControlEnabled = read_config()['humidityControlEnabled']
-temperatureControlEnable = read_config()['temperatureControlEnable']
-'''
-# here we need a function to check whether the humidity and / or temperature is
-# above or under a specific value - high to low threshold for activation or 
-# release. 
-
-# If the temperature is lower or equal to the Minimum temperature threshold, the heater switch will be activated, if enabled.
-# When the temperature is 3 to 5 degrees Centigrade over the Minimum temperature threshold, the heater switch will be deactivated.
-
-# If the humidity is over or equal to the Maximum humidity threshold, dehumidifier switch will activated, if enabled.
-# When the humidity is 10 to 20 % lower than the Maximum humidity threshold, the dehumidifier switch will be deactivated.
 
 async def read_am2320():
     global heaterState
     global dehumidifierState
 
+    global humidityControl
+    global temperatureControl
+    global humidityHighThreshold
+    global humidityLowThreshold
+    global temperatureLowThreshold
+    global temperatureHighThreshold
+
+    timeToSend = 3 # currently 3 min interval for publishing data to the web...
+    interval = 1
+
     while True:
         try:
             humidity, temp = am2320_sensor.read()            
             if temp is not None and humidity is not None:
+
                 output("AM2320.: ", f"{temp:.1f}°C")
                 output("AM2320.: ", f"{humidity:.1f} %")
                 '''
@@ -184,33 +251,41 @@ async def read_am2320():
                 lcd.set_cursor(0,0)
                 lcd.write_string("AM2320: " f"{temp:.1f}ßC")
                 lcd.write_string("\nAM2320: " f"{humidity:.1f} %")
-            
-                if temperatureControlEnable is True:
-                    if  temp <= temperatureLowThreshold:
-                        heaterSwitch.value(SWITCH_ON)
-                        heaterState = SWITCH_ON
-                    elif temp >= (temperatureLowThreshold + highThreshold):
-                        heaterSwitch.value(SWITCH_OFF)
-                        heaterState = SWITCH_OFF
-
-                if humidityControlEnabled is True:
-                    if  humidity >= humidityHighThreshold:
-                        dehumidifierSwitch.value(SWITCH_ON)
-                        dehumidifierState = SWITCH_ON
-                    elif humidity <= (humidityHighThreshold - lowThreshold):
-                        dehumidifierSwitch.value(SWITCH_OFF)
-                        dehumidifierState = SWITCH_OFF
                 '''
-                
-                if wifi.wlan.isconnected():
-                    try:
+                if temperatureControl is "enabled":
+                    if  temp <= temperatureLowThreshold:
+                        heaterState = SWITCH_ON
+                    elif temp >= temperatureLowThreshold:
+                        heaterState = SWITCH_OFF
+                    heaterSwitch.value(heaterState)
+
+                if humidityControl is "enabled":
+                    if  humidity >= humidityHighThreshold:
+                        dehumidifierState = SWITCH_ON
+                    elif humidity <= humidityHighThreshold:
+                        dehumidifierState = SWITCH_OFF
+                    dehumidifierSwitch.value(dehumidifierState)
+                                
+                if (interval >= timeToSend):
+                    interval = 1
+                    if wifi.wlan.isconnected():
+                        gc.collect()
                         current_json_data = build_json_data()
-                        output("Sending post request to: ", read_config()["url"])
-                        response = requests.post(read_config()["url"], json=current_json_data, timeout=5)
-                        output("Status code: ", str(response.status_code))
-                    except Exception as e:
-                        output("Error sending POST request: ", str(e))
-                
+                        ordered_dict = dict(current_json_data) # ...for printout order only...
+                        cmd_output("json data: ", json.dumps(ordered_dict))
+                        if read_config()["url"] != "test":
+                            try:
+                                output("Sending post request to: ", read_config()["url"])
+                                response = requests.post(read_config()["url"], json=current_json_data, timeout=5)
+                                output("Status code: ", str(response.status_code))
+                            except Exception as e:
+                                output("Error sending POST request: ", str(e))
+                        else:
+                            cmd_output("No URL to send to...")
+                    else:
+                        cmd_output("Not connected to any network!")
+                else:
+                    interval += 1
         except Exception as e:
             cmd_output("AM2320 read error: ", str(e))
 
