@@ -1,5 +1,11 @@
-Publishing data only every 5 minutes.
-Extend the config.json file with necessary thresholds for humidity and temperature.
-Add necessary cli commands for changing the thresholds.
+1.Publishing data only every 5 minutes.DONE
+2.Extend the config.json file with necessary thresholds for humidity and temperature. DONE
+3.Add necessary cli commands for changing the thresholds.DONE
+PARTLY TESTED OK 
 
+4.Need configuration that includes publishing intervals.
+5.Extend POST structure with
+- Publishing intervals
+- Control circuit thresholds
+- Control circuit states
   

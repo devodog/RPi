@@ -301,17 +301,35 @@ def power_switch_ctrl():
         # is there an operation for execute?
 '''
 def build_json_data():
+    global heaterState
+    global dehumidifierState
+
+    global humidityControl
+    global temperatureControl
+    global humidityHighThreshold
+    global humidityLowThreshold
+    global temperatureLowThreshold
+    global temperatureHighThreshold
+
     humidity, temperature = am2320_sensor.read()
     if temperature is not None and humidity is not None:
         return {
             "Time": time.time(),
             "Humidity": humidity,
-            "Temperature": temperature
+            "Temperature": temperature,
+            "HumidityControl": humidityControl,
+            "TemperatureControl": temperatureControl,
+            "Dehumidifier":dehumidifierState,
+            "Heater":heaterState
         }
     else:
         return {
             "Time": time.time(),
             "Humidity": 0,
-            "Temperature": 0
+            "Temperature": 0,
+            "HumidityControl":humidityControl,
+            "TemperatureControl":temperatureControl,
+            "Dehumidifier":dehumidifierState,
+            "Heater":heaterState
         }
 
