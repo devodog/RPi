@@ -16,7 +16,7 @@ def read(pin):
                 print_config()
             elif buf == "help":
                 print_help()
-            elif "url=" in buf or "ssid=" in buf or "password=" in buf or "postInt" in buf:
+            elif "url=" in buf or "ssid=" in buf or "password=" in buf or "postInterval" in buf:
                 change_config(buf)
             elif buf == "version":
                 version = read_config()["version"]

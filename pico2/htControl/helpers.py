@@ -12,10 +12,13 @@ from am2320 import AM2320   #AOSONG AM2320 sensor driver
 
 # Global variables
 uart0 = UART(0, baudrate=9600, tx=Pin(0), rx=Pin(1), txbuf=1024)
+
 monitor = True
 SWITCH_OFF = 0
 SWITCH_ON = 1
 
+# Defaults
+postInterval = 3 # currently 3 min interval for publishing data to the web...
 dehumidifierSwitch = Pin(16, Pin.OUT)
 heaterSwitch = Pin(17, Pin.OUT)
 
@@ -33,6 +36,7 @@ temperatureHighThreshold = 7
 
 def initControl():
     config = read_config()
+    postInterval = config.get("postInterval")
     envctrl = config.get("envctrl", {})
     global humidityControl
     global temperatureControl
@@ -42,8 +46,9 @@ def initControl():
     global temperatureLowThreshold
     global temperatureHighThreshold
 
-    humidityControl = envctrl.get("humidityControl", "-")
-    temperatureControl = envctrl.get("temperatureControl", "-")
+    humidityControl = envctrl.get("humidityCtrl", "-")
+    temperatureControl = envctrl.get("tempCtrl", "-")
+    
     humidityHighThreshold = envctrl.get("humidityHigh", "-")
     humidityLowThreshold = envctrl.get("humidityLow", "-")
     temperatureLowThreshold = envctrl.get("tempLow", "-")
@@ -64,7 +69,7 @@ def monitorState(change):
 
 def output(text, arg="", delay=0.1):
     if monitor == True:
-        local_time = get_local_timestamp(2)
+        local_time = get_local_timestamp(1)
         uart0.write(b'[' + local_time.encode() + b'] ' + text.encode() + arg.encode() + b'\r\n')
         time.sleep(delay)
 
@@ -101,7 +106,7 @@ def change_config(buf):
                 cmd_output("Invalid value: Must be an integer.")
         elif "humidityCtrl" in buf or "tempCtrl" in buf:
             cmd_output(f"Old {buf.split('=')[0]}: ", config["envctrl"][buf.split('=')[0]])
-            config["envctrl"][buf.split('=')[0]] = buf.split("=")[1]
+            config["envctrl"][buf.split('=')[0]] = buf.split("=")[1] 
 
         # Write updated config
         with open("config.json", "w") as f:
@@ -109,6 +114,8 @@ def change_config(buf):
 
         cmd_output("Updated config: ")
         print_config()
+        initControl()
+
     except KeyError:
         cmd_output(f"[-]ERROR: {buf.split('=')[0]} not in config.json")
     
@@ -153,8 +160,8 @@ def print_help():
     "freq=<int>         \tSleep interval between each bulk of reconnection attempts (default: 10min)\r\n"
     "restart            \tRestarts the pico\r\n"
     "version            \tShows current version\r\n"
-    "humidityControl=<enabled|disabled>\r\n"
-    "temperatureControl=<enabled|disabled>\r\n"
+    "humidityCtrl=<enabled|disabled>\r\n"
+    "tempCtrl=<enabled|disabled>\r\n"
     "humidityHigh=<int> \tHigh humidity level threshold for switch ON\r\n"
     "humidityLow=<int>  \tLow humidity level threshold for switch OFF\r\n"
     "tempHigh=<int>     \tHigh temperature level threshold for heater OFF\r\n"
@@ -186,7 +193,7 @@ def sync_time():
     ntptime.settime()
     # Get current local time (in UTC)
     t = time.localtime()
-    output("NTP TIME: ", get_local_timestamp(2))
+    output("NTP TIME: ", get_local_timestamp(1))
     
 def get_local_timestamp(offset_hours=0):
     t = time.localtime(time.time() + offset_hours * 3600)
@@ -227,6 +234,7 @@ i2c = I2C(1, scl=Pin(27), sda=Pin(26))
 am2320_sensor = AM2320(i2c)
 
 async def indoorClimateControl():
+    global postInterval
     global heaterState
     global dehumidifierState
 
@@ -237,7 +245,7 @@ async def indoorClimateControl():
     global temperatureLowThreshold
     global temperatureHighThreshold
 
-    timeToSend = 3 # currently 3 min interval for publishing data to the web...
+    
     interval = 1
 
     while True:
@@ -253,21 +261,30 @@ async def indoorClimateControl():
                 lcd.write_string("AM2320: " f"{temp:.1f}ßC")
                 lcd.write_string("\nAM2320: " f"{humidity:.1f} %")
                 '''
-                if temperatureControl is "enabled":
+                #output("Temperature Control: ", f"{temperatureControl}")
+                if temperatureControl in "enabled":
                     if  temp <= temperatureLowThreshold:
-                        heaterState = SWITCH_ON
-                    elif temp >= temperatureLowThreshold:
-                        heaterState = SWITCH_OFF
+                        if heaterState == SWITCH_OFF:
+                            heaterState = SWITCH_ON
+                            cmd_output("Heater switched ON")
+                    elif temp >= temperatureHighThreshold:
+                        if heaterState == SWITCH_ON:
+                            heaterState = SWITCH_OFF
+                            cmd_output("Heater switched OFF")
                     heaterSwitch.value(heaterState)
 
-                if humidityControl is "enabled":
+                if humidityControl in "enabled":
                     if  humidity >= humidityHighThreshold:
-                        dehumidifierState = SWITCH_ON
+                        if dehumidifierState == SWITCH_OFF:
+                            dehumidifierState = SWITCH_ON
+                            cmd_output("Dehumidifier switched ON")
                     elif humidity <= humidityHighThreshold:
-                        dehumidifierState = SWITCH_OFF
+                        if dehumidifierState == SWITCH_ON:
+                            dehumidifierState = SWITCH_OFF
+                            cmd_output("Dehumidifier switched OFF")
                     dehumidifierSwitch.value(dehumidifierState)
                                 
-                if (interval >= timeToSend):
+                if (interval >= postInterval):
                     interval = 1
                     if wifi.wlan.isconnected():
                         gc.collect()
@@ -302,6 +319,7 @@ def power_switch_ctrl():
         # is there an operation for execute?
 '''
 def build_json_data():
+    global postInterval
     global heaterState
     global dehumidifierState
 
@@ -318,6 +336,7 @@ def build_json_data():
             "Time": time.time(),
             "Humidity": humidity,
             "Temperature": temperature,
+            "PostInterval": postInterval,
             "HumidityControl": humidityControl,
             "TemperatureControl": temperatureControl,
             "Dehumidifier":dehumidifierState,
@@ -328,6 +347,7 @@ def build_json_data():
             "Time": time.time(),
             "Humidity": 0,
             "Temperature": 0,
+            "PostInterval": postInterval,
             "HumidityControl":humidityControl,
             "TemperatureControl":temperatureControl,
             "Dehumidifier":dehumidifierState,
