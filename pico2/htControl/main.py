@@ -64,14 +64,19 @@ async def main():
     initControl()
 
     uart0.write(b'\r\npico-w>\r\n')
+    # start background polling tasks
+    asyncio.create_task(maintain_wifi_connection())
+    asyncio.create_task(indoorClimateControl())
     
-    # start background polling task
-    asyncio.create_task(read_am2320())
-    
-    
+    slowHB = 0
     while True:
-        hb.toggle()
+        if wlan.isconnected():
+            hb.toggle()
+        else:
+            slowHB += 1
+            if slowHB > 3:
+                hb.toggle()
+                slowHB = 0
         await asyncio.sleep(1)
-
 # Start the event loop
 asyncio.run(main())

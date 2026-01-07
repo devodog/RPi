@@ -143,6 +143,7 @@ def print_help():
     help_text = (
     "\nHelp menu:\r\n"
     "-------------------------\r\n"
+    "help               \tThis information\r\n"
     "info               \tShows info about the system\r\n"
     "config             \tShows contents of config.json\r\n"
     "url=<url>          \tChanges URL in config.json to <url>\r\n"
@@ -225,7 +226,7 @@ def timestamp_diff(t1_epoch, t2_epoch):
 i2c = I2C(1, scl=Pin(27), sda=Pin(26))  
 am2320_sensor = AM2320(i2c)
 
-async def read_am2320():
+async def indoorClimateControl():
     global heaterState
     global dehumidifierState
 
