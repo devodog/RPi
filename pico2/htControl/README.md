@@ -60,6 +60,7 @@ config.json, which have the following format:
         "freq":10
     },
     "url":"SomeURL"
+    "postInt": 5,
     "envctrl":{
         "humidityCtrl":"disabled",
         "tempCtrl":"disabled",
@@ -75,6 +76,7 @@ The following commends are currently abaliable:
 - info &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Shows info about the system  
 - config &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Shows contents of config.json
 - url=\<url> &emsp;&emsp;&emsp;&emsp;&ensp;Changes URL in config.json to \<url>
+- postInt=\<int>&emsp;&emsp;&emsp;Number of minutes between POSTs 
 - ssid=\<ssid> &emsp;&emsp;&emsp;&ensp;Changes SSID in config.json to \<ssid>
 - password=\<pwd>&emsp;Changes PASSWORD in config.json to \<pwd>
 - attempts=\<int>&emsp;&emsp;Number of WiFi reconnection attempts (default: 10)
@@ -108,6 +110,8 @@ The data is sent over the HTTP REST interface by POSTing the sensor values with 
     }
 }
 ```
+The above is currently under modification....  
+
 ### Humidity and Temperature visualization 
 The humidity and temperature is to be rendered graphically showing the humidity and temperature in a time scaled diagram.  
  

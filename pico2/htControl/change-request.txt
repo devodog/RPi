@@ -6,6 +6,6 @@ PARTLY TESTED OK
 4.Need configuration that includes publishing intervals.
 5.Extend POST structure with
 - Publishing intervals
-- Control circuit thresholds
-- Control circuit states
+- Control circuit deployment (enabled/disabled) 
+- Control circuit states (both for humidity and temperature control function)
   
