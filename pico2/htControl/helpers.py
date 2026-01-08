@@ -188,8 +188,6 @@ def switchCtrl(sw, state):
             heaterSwitch.value(SWITCH_OFF)
             heaterState = SWITCH_OFF
 
-
-
 def sync_time():
     # Sync with NTP server (sets RTC to UTC)
     ntptime.settime()
@@ -215,20 +213,7 @@ def get_epoch_timestamp(offset_hours=0):
 def timestamp_diff(t1_epoch, t2_epoch):
     """Return difference in seconds between two epoch timestamps."""
     return abs(int(t2_epoch) - int(t1_epoch))
-'''
-# Environment variables to manage dehumidifier and heater
-# The high threshold, when read from the sensor, will swich ON the dehumidifier.
-# The low threshold, when read from the sensor, will switch OFF the dehumidifier.
 
-# The low temperature threshold, when read from the sensor, will turn ON the heater.
-# The high temperature threshold, when read from the sensor, will turn OFF the heater.
-
-# If the temperature is lower or equal to the Minimum temperature threshold, the heater switch will be activated, if enabled.
-# When the temperature is 3 to 5 degrees Centigrade over the Minimum temperature threshold, the heater switch will be deactivated.
-
-# If the humidity is over or equal to the Maximum humidity threshold, dehumidifier switch will activated, if enabled.
-# When the humidity is 10 to 20 % lower than the Maximum humidity threshold, the dehumidifier switch will be deactivated.
-'''
 ###############################################################################
 # Initialize I2C and sensor
 # GPIO 26 and GPIO 27 is made accessable on the LEDstripDrv2.0 PCB
@@ -250,7 +235,6 @@ async def indoorClimateControl():
     global temperatureLowThreshold
     global temperatureHighThreshold
 
-    
     interval = 1
 
     while True:
@@ -314,6 +298,7 @@ async def indoorClimateControl():
 
         await asyncio.sleep(60)
 '''
+# This code in intended to fetch system instructions given by authorized 
 def power_switch_ctrl():
     if wifi.wlan.isconnected():
         try:

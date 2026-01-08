@@ -3,18 +3,22 @@ Tiny IoT prosjects
 ## htControll
 __Indoor humidity and temperature control__  
 htControl is a RPi Pico w MicroPython project which is to monitor humidity and temperature by the use of a simple humidity and temperature sensor.  
-The plan is to control a dehumidifier and heater to prevent freezing temperature within a indoor environment.  
+The plan is to control a dehumidifier and heater to prevent freezing temperature and too humid indoor environment.  
 
-... the following needs to be reviced...
-Environment variables to manage dehumidifier and heater
-The high threshold, when read from the sensor, will swich ON the dehumidifier.
-The low threshold, when read from the sensor, will switch OFF the dehumidifier.
-The low temperature threshold, when read from the sensor, will turn ON the heater.
-The high temperature threshold, when read from the sensor, will turn OFF the heater.
-If the temperature is lower or equal to the Minimum temperature threshold, the heater switch will be activated, if enabled.
-When the temperature is 3 to 5 degrees Centigrade over the Minimum temperature threshold, the heater switch will be deactivated.
-If the humidity is over or equal to the Maximum humidity threshold, dehumidifier switch will activated, if enabled.
-When the humidity is 10 to 20 % lower than the Maximum humidity threshold, the dehumidifier switch will be deactivated.  
+For this, a number of environment variables are defined to manage dehumidifier and heater.  
+The sensor readings is to be matched with humidity and temperature thresholds in order to turn on or to turn off the dehumidifier and or heater.  
+
+The dehumidifier operation, is controlled by the ```humidityHighThreshold``` and ```humidityLowThreshold```.  
+When the measured humidity is equal or __above__ the ```humidityHighThreshold```, the dehumidifier is automatically turned ON.  
+When the measured humidity is equal or __below__ the ```humidityLowThreshold```, the dehumidifier is automatically turned OFF.
+
+The heater operation, is controlled by the ```TemperatureHighThreshold``` and ```TemperatureLowThreshold```.  
+When the measured temeprature is equal or __above__ the ```TemperatureHighThreshold```, the heater is automatically turned OFF.  
+When the measured temeprature is equal or __below__ the ```TemperatureLowThreshold```, the heater is automatically turned ON.  
+
+The physical interface that will turn on or off the dehumidifier and or heater is marked J1 and J2 on the circuit board outline. These screw-terminals is part of an open drain MOSFET, sourced with 12V or 24V supply, which is turn should be connected to a relay operating the mains power to the dehumidifier and or heater.  
+
+These thresholds can be set from the units serial command line interface.  
 
 ## Hardware brief
 Based on Raspberry Pi Pico board mounted on a I/O controller board for interfacing sensors and actuators.  
@@ -115,17 +119,37 @@ As indicated above, the unit monitors the environment it is placed in periodical
 The data is sent over the HTTP REST interface by POSTing the sensor values with a timestamp as a json-formated string, formated as follows:  
 ```
 {
+    "Time": 1767806468, 
+    "Temperature": 19.3, 
+    "Humidity": 38.5, 
+    "PostInterval": 3, 
+    "HumidityControl": "disabled", 
+    "TemperatureControl": "disabled", 
+    "Dehumidifier": 0, 
+    "Heater": 0}
+```
+... but will not necessararly be sent in this order.  
+
+The above info will then be organized and stored on the addressed web server in the following structure: 
+
+```
+{
     "Timestamp": 1767440462,
     "Measurement": {
         "Humidity": 34.8,
         "Temperature": 20.9
-    }
+    },
+    "PostInterval": 3,
+    "TemperatureControl": "enable",
+    "Heater": 0,
+    "HumidityControl": "disabled",
+    "Dehumidifier": 0
 }
 ```
-The above is currently under modification....  
 
 ### Humidity and Temperature visualization 
 The humidity and temperature is to be rendered graphically showing the humidity and temperature in a time scaled diagram.  
+Other system parameters, which is configurable as mentioned before, are also published on the web.  
  
 ### Tests used on Windows
 Using a simple test to ensure that the backend is reponding as expected.  
