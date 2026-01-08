@@ -10,17 +10,17 @@ import json
 #from lcd_display import LCD
 from am2320 import AM2320   #AOSONG AM2320 sensor driver
 
-# Global variables
+# Global variables & Hardware configuartion
 uart0 = UART(0, baudrate=9600, tx=Pin(0), rx=Pin(1), txbuf=1024)
+dehumidifierSwitch = Pin(16, Pin.OUT)
+heaterSwitch = Pin(17, Pin.OUT)
 
-monitor = True
 SWITCH_OFF = 0
 SWITCH_ON = 1
 
-# Defaults
+monitor = True
+### Default humidity and temperature control parameters
 postInterval = 3 # currently 3 min interval for publishing data to the web...
-dehumidifierSwitch = Pin(16, Pin.OUT)
-heaterSwitch = Pin(17, Pin.OUT)
 
 dehumidifierState = SWITCH_OFF
 heaterState = SWITCH_OFF
@@ -33,6 +33,7 @@ humidityLowThreshold = 60
 
 temperatureLowThreshold = 3
 temperatureHighThreshold = 7
+############################## END Default control parameters
 
 def initControl():
     config = read_config()
@@ -154,6 +155,7 @@ def print_help():
     "info               \tShows info about the system\r\n"
     "config             \tShows contents of config.json\r\n"
     "url=<url>          \tChanges URL in config.json to <url>\r\n"
+    "postInt=<int>      \tNumber of minutes between each POST\r\n"
     "ssid=<ssid>        \tChanges SSID in config.json to <ssid>\r\n"
     "password=<pwd>     \tChanges PASSWORD in config.json to <pwd>\r\n"
     "attempts=<int>     \tNumber of WiFi reconnection attempts (default: 10)\r\n"
@@ -217,10 +219,13 @@ def timestamp_diff(t1_epoch, t2_epoch):
 # Environment variables to manage dehumidifier and heater
 # The high threshold, when read from the sensor, will swich ON the dehumidifier.
 # The low threshold, when read from the sensor, will switch OFF the dehumidifier.
-# The low temperature threshold, when read from the sensor, will switch ON the dehumidifier.
-# The high temperature threshold, when read from the sensor, will swich OFF the dehumidifier.
+
+# The low temperature threshold, when read from the sensor, will turn ON the heater.
+# The high temperature threshold, when read from the sensor, will turn OFF the heater.
+
 # If the temperature is lower or equal to the Minimum temperature threshold, the heater switch will be activated, if enabled.
 # When the temperature is 3 to 5 degrees Centigrade over the Minimum temperature threshold, the heater switch will be deactivated.
+
 # If the humidity is over or equal to the Maximum humidity threshold, dehumidifier switch will activated, if enabled.
 # When the humidity is 10 to 20 % lower than the Maximum humidity threshold, the dehumidifier switch will be deactivated.
 '''

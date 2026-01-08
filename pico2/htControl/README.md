@@ -5,6 +5,17 @@ __Indoor humidity and temperature control__
 htControl is a RPi Pico w MicroPython project which is to monitor humidity and temperature by the use of a simple humidity and temperature sensor.  
 The plan is to control a dehumidifier and heater to prevent freezing temperature within a indoor environment.  
 
+... the following needs to be reviced...
+Environment variables to manage dehumidifier and heater
+The high threshold, when read from the sensor, will swich ON the dehumidifier.
+The low threshold, when read from the sensor, will switch OFF the dehumidifier.
+The low temperature threshold, when read from the sensor, will turn ON the heater.
+The high temperature threshold, when read from the sensor, will turn OFF the heater.
+If the temperature is lower or equal to the Minimum temperature threshold, the heater switch will be activated, if enabled.
+When the temperature is 3 to 5 degrees Centigrade over the Minimum temperature threshold, the heater switch will be deactivated.
+If the humidity is over or equal to the Maximum humidity threshold, dehumidifier switch will activated, if enabled.
+When the humidity is 10 to 20 % lower than the Maximum humidity threshold, the dehumidifier switch will be deactivated.  
+
 ## Hardware brief
 Based on Raspberry Pi Pico board mounted on a I/O controller board for interfacing sensors and actuators.  
 
@@ -73,6 +84,7 @@ config.json, which have the following format:
 ```  
 All of the parameters in this config file is changeable from the Pico 2 W serial port command line interface (UART on GPIO0 and GPIO1).  
 The following commends are currently abaliable:  
+- help &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;This information
 - info &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Shows info about the system  
 - config &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Shows contents of config.json
 - url=\<url> &emsp;&emsp;&emsp;&emsp;&ensp;Changes URL in config.json to \<url>
