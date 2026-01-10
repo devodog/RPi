@@ -40,7 +40,7 @@ ascii_art = (
     "  Humidity and Temperature\r\n"
     "    monitor and control\r\n"
 )
-output("START ver.1.01 as of 7JAN26")
+output("START ver.1.02 as of 8JAN26")
 cmd_output(ascii_art, "")
 
 monitorState("no") # no change...
