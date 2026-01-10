@@ -4,7 +4,9 @@ from onewire import OneWire
 from ds18x20 import DS18X20
 
 class DS18B20:
+    found = False
     def __init__(self, data_pin):
+        self.found = False
         """Initialize DS18B20 temperature sensor.
         
         Args:
@@ -15,7 +17,9 @@ class DS18B20:
         self.roms = self.ds.scan()  # Scan for devices
         
         if not self.roms:
-            raise RuntimeError("No DS18B20 sensors found")
+            print("No DS18B20 sensors found")
+        else:
+            self.found = True
             
     def read_temp(self):
         """Read temperature from the sensor.

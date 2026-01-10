@@ -5,7 +5,6 @@ from command_handler import read
 from machine import Pin
 import time
 
-
 # LED Hart beat...
 hb = Pin("LED", Pin.OUT)
 
@@ -24,10 +23,10 @@ ascii_art = (
     "    |  '------------'  |\r\n"
     "    |__________________|\r\n"
     "      |  ||      ||  |\r\n"
-    "      |  ||      ||  |\r\n"
+    "      |  | BADSTU |  |\r\n"
     "      '--------------'\r\n"
 )
-output("START\r\n")
+output("START ver. 1.00 as of 10JAN26\r\n")
 cmd_output(ascii_art, "")
 
 async def main():
@@ -48,11 +47,19 @@ async def main():
         output("Initial WiFi setup error:", str(e))
 
     uart0.write(b'\r\npico-w> ')
+
     # start background polling task
+    asyncio.create_task(maintain_wifi_connection())
     asyncio.create_task(read_temp())
 
     while True:
-        hb.toggle()
+        if wlan.isconnected():
+            hb.toggle()
+        else:
+            slowHB += 1
+            if slowHB > 3:
+                hb.toggle()
+                slowHB = 0
         await asyncio.sleep(1)
 
 # Start the event loop

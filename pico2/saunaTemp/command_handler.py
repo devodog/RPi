@@ -19,7 +19,7 @@ def read(pin):
                 change_config(buf)
             elif buf == "version":
                 version = read_config()["version"]
-                cmd_output("Version: ", version)
+                cmd_output("Config file version: ", version)
             elif buf == "restart":
                 cmd_output("Restarting pico...")
                 reset()

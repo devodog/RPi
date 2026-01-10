@@ -137,40 +137,50 @@ async def read_temp():
     timeToSend = 5 # currently 5 min interval for publishing data to the web...
     interval = 1
     while True:
-        try:
-            temp = ds_sensor.read_temp()
-            if temp is not None:
-                output("DS18B20: ", f"{temp:.1f}° C")
-                lcd.clear()
-                lcd.set_cursor(0,0)
-                lcd.write_string("DS18B20:" f"{temp:.1f}ßC\n")
-                hourMinSec = get_local_timestamp(1)
-                lcd.write_string("Startet"f"{hourMinSec[10:]}")
-                time.sleep(0.1)
-                
-                if (interval >= timeToSend):
-                    interval = 1
-                    if wifi.wlan.isconnected():
-                        gc.collect()
-                        current_json_data = build_json_data()
-                        cmd_output("json data: ", json.dumps(current_json_data))
-                        if read_config()["url"] != "test":
-                            try:
-                                output("Sending post request to: ", read_config()["url"])
-                                response = requests.post(read_config()["url"], json=current_json_data, timeout=5)
-                                output("Status code: ", str(response.status_code))
-                            except Exception as e:
-                                output("Error sending POST request: ", str(e))
+        if ds_sensor.found:
+            try:
+                temp = ds_sensor.read_temp()
+                if temp is not None:
+                    output("DS18B20: ", f"{temp:.1f}° C")
+                    lcd.clear()
+                    lcd.set_cursor(0,0)
+                    lcd.write_string("DS18B20:" f"{temp:.1f}ßC\n")
+                    hourMinSec = get_local_timestamp(1)
+                    lcd.write_string("Startet"f"{hourMinSec[10:]}")
+                    time.sleep(0.1)
+                    
+                    if (interval >= timeToSend):
+                        interval = 1
+                        if wifi.wlan.isconnected():
+                            gc.collect()
+                            current_json_data = build_json_data()
+                            cmd_output("json data: ", json.dumps(current_json_data))
+                            if read_config()["url"] != "test":
+                                try:
+                                    output("Sending post request to: ", read_config()["url"])
+                                    response = requests.post(read_config()["url"], json=current_json_data, timeout=5)
+                                    output("Status code: ", str(response.status_code))
+                                except Exception as e:
+                                    output("Error sending POST request: ", str(e))
+                            else:
+                                cmd_output("No URL to send to...")
                         else:
-                            cmd_output("No URL to send to...")
+                            cmd_output("Not connected to any network!")
                     else:
-                        cmd_output("Not connected to any network!")
-                else:
-                    interval += 1
+                        interval += 1
 
-        except Exception as e:
-            cmd_output("DS18B20 read error: ", str(e))
-        await asyncio.sleep(60)
+            except Exception as e:
+                cmd_output("DS18B20 read error: ", str(e))
+            await asyncio.sleep(60)
+        else:
+            cmd_output("No DS18B20 sensor found. Check wiring.")
+            lcd.clear()
+            lcd.set_cursor(0,0)
+            lcd.write_string("Sensor not found\n")
+            hourMinSec = get_local_timestamp(1)
+            lcd.write_string("Checked"f"{hourMinSec[10:]}")
+            time.sleep(0.1)
+            await asyncio.sleep(300)  # Wait longer before retrying if no sensor found  
 
 def build_json_data():
     temperature = ds_sensor.read_temp()
