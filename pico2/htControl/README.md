@@ -131,7 +131,7 @@ The data is sent over the HTTP REST interface by POSTing the sensor values with 
 ... but will not necessararly be sent in this order.  
 
 The above info will then be organized and stored on the addressed web server in the following structure: 
-
+(No database used, only a single limited sized file is used to store the information.)
 ```
 {
     "Timestamp": 1767440462,
