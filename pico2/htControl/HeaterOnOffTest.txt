@@ -1,0 +1,151 @@
+[2021-01-01 01:00:31] WiFi reconnected!
+[2021-01-01 01:00:31] IP Address: 192.168.10.97
+[2026-01-13 18:39:21] NTP TIME: 2026-01-13 18:39:21
+pico-w> config
+=== CONFIGURATION ===
+Version:        1.0
+WiFi SSID:      SomeSSID
+WiFi PASS:      SomePASS
+Post URL:       SomeURL
+Humidity Control:       disabled
+Temp Control:           enabled
+Humidity high threshold:        80
+Humidity low threshold:         70
+Temp high threshold:    21
+Temp low threshold:     20
+
+pico-w> 
+[2026-01-13 18:40:54] AM2320.: 20.4°C
+[2026-01-13 18:40:54] AM2320.: 40.0 %
+json data: {"Dehumidifier": 0, "Temperature": 20.4, "Time": 1768326054, "HumidityControl": "disabled", "Humidity": 40.0, "PostInterval": 3, "TemperatureControl": "enable", "Heater": 0}
+[2026-01-13 18:40:54] Sending post request to: SomeURL
+[2026-01-13 18:40:59] Error sending POST request: [Errno 110] ETIMEDOUT
+pico-w> help
+
+Help menu:
+-------------------------
+help                    This information
+info                    Shows info about the system
+config                  Shows contents of config.json
+url=<url>               Changes URL in config.json to <url>
+postInt=<int>           Number of minutes between each POST
+ssid=<ssid>             Changes SSID in config.json to <ssid>
+password=<pwd>          Changes PASSWORD in config.json to <pwd>
+attempts=<int>          Number of WiFi reconnection attempts (default: 10)
+freq=<int>              Sleep interval between each bulk of reconnection attempts (default: 10min)
+restart                 Restarts the pico
+version                 Shows current version
+humidityCtrl=<enabled|disabled>
+tempCtrl=<enabled|disabled>
+humidityHigh=<int>      High humidity level threshold for switch ON
+humidityLow=<int>       Low humidity level threshold for switch OFF
+tempHigh=<int>          High temperature level threshold for heater OFF
+tempLow=<int>           Low temperature level threshold for heater ON
+
+[2026-01-13 18:41:59] AM2320.: 20.4°C
+[2026-01-13 18:42:00] AM2320.: 40.0 %
+
+pico-w> version
+Version: 1.0
+pico-w> 
+[2026-01-13 18:43:00] AM2320.: 20.4°C
+[2026-01-13 18:43:00] AM2320.: 40.1 %
+[2026-01-13 18:44:00] AM2320.: 20.4°C
+[2026-01-13 18:44:00] AM2320.: 40.1 %
+json data: {"Dehumidifier": 0, "Temperature": 20.4, "Time": 1768326240, "HumidityControl": "disabled", "Humidity": 40.1, "PostInterval": 3, "TemperatureControl": "enabled", "Heater": 0}
+[2026-01-13 18:44:00] Sending post request to: SomeURL
+[2026-01-13 18:44:05] Error sending POST request: [Errno 110] ETIMEDOUT
+[2026-01-13 18:45:05] AM2320.: 20.3°C
+[2026-01-13 18:45:05] AM2320.: 40.1 %
+
+pico-w> tempHigh=25
+Old tempHigh: 21
+Updated config:
+
+=== CONFIGURATION ===
+Version:        1.0
+WiFi SSID:      SomeSSID
+WiFi PASS:      SomePASS
+Post URL:       SomeURL
+Humidity Control:       disabled
+Temp Control:           enable
+Humidity high threshold:        80
+Humidity low threshold:         70
+Temp high threshold:    25
+Temp low threshold:     20
+
+pico-w> 
+[2026-01-13 18:46:06] AM2320.: 20.4°C
+[2026-01-13 18:46:06] AM2320.: 40.2 %
+
+pico-w> tempLow=21
+Old tempLow: 20
+Updated config:
+
+=== CONFIGURATION ===
+Version:        1.0
+WiFi SSID:      SomeSSID
+WiFi PASS:      SomePASS
+Post URL:       SomeURL
+Humidity Control:       disabled
+Temp Control:           enable
+Humidity high threshold:        80
+Humidity low threshold:         70
+Temp high threshold:    25
+Temp low threshold:     21
+
+pico-w> 
+[2026-01-13 18:47:06] AM2320.: 20.4°C
+[2026-01-13 18:47:06] AM2320.: 40.2 %
+Heater switched ON
+json data: {"Dehumidifier": 0, "Temperature": 20.4, "Time": 1768326426, "HumidityControl": "disabled", "Humidity": 40.2, "PostInterval": 3, "TemperatureControl": "enable", "Heater": 1}
+[2026-01-13 18:47:06] Sending post request to: SomeURL
+[2026-01-13 18:47:11] Error sending POST request: [Errno 110] ETIMEDOUT
+
+pico-w> tempLow=18
+Old tempLow: 21
+Updated config:
+
+=== CONFIGURATION ===
+Version:        1.0
+WiFi SSID:      SomeSSID
+WiFi PASS:      SomePASS
+Post URL:       SomeURL
+Humidity Control:       disabled
+Temp Control:           enable
+Humidity high threshold:        80
+Humidity low threshold:         70
+Temp high threshold:    25
+Temp low threshold:     18
+
+pico-w> 
+[2026-01-13 18:48:11] AM2320.: 20.4°C
+[2026-01-13 18:48:12] AM2320.: 40.2 %
+
+pico-w> tempHigh=20
+Old tempHigh: 25
+Updated config:
+
+=== CONFIGURATION ===
+Version:        1.0
+WiFi SSID:      SomeSSID
+WiFi PASS:      SomePASS
+Post URL:       SomeURL
+Humidity Control:       disabled
+Temp Control:           enable
+Humidity high threshold:        80
+Humidity low threshold:         70
+Temp high threshold:    20
+Temp low threshold:     18
+
+pico-w> 
+[2026-01-13 18:49:12] AM2320.: 20.4°C
+[2026-01-13 18:49:12] AM2320.: 40.2 %
+Heater switched OFF
+[2026-01-13 18:50:12] AM2320.: 20.5°C
+[2026-01-13 18:50:12] AM2320.: 40.2 %
+json data: {"Dehumidifier": 0, "Temperature": 20.5, "Time": 1768326612, "HumidityControl": "disabled", "Humidity": 40.2, "PostInterval": 3, "TemperatureControl": "enable", "Heater": 0}
+[2026-01-13 18:50:12] Sending post request to: SomeURL
+[2026-01-13 18:50:17] Error sending POST request: [Errno 110] ETIMEDOUT
+[2026-01-13 18:51:18] AM2320.: 20.5°C
+[2026-01-13 18:51:18] AM2320.: 40.2 %

@@ -1,0 +1,359 @@
+[2021-01-01 01:00:00] START ver.1.02 as of 8JAN26
+     .----------------.
+    |   Raspberry Pi   |
+    |     Pico 2 W     |
+    |  .------------.  |
+    |  | [] [] [] []|  |
+    |  | [] [] [] []|  |
+    |  '------------'  |
+    |__________________|
+      |  ||      ||  |
+      |  ||      ||  |
+      '--------------'
+  Humidity and Temperature
+    monitor and control
+
+Monitor State: ON
+[2021-01-01 01:00:01] Attempting to connect to WiFi using the following config:
+SSID: SomeSSID, PASSWORD: SomePASS
+[2021-01-01 01:00:05] Initial WiFi connection failed.
+[2021-01-01 01:00:05] Initializing environment control
+
+pico-w>
+[2021-01-01 01:00:05] WiFi disconnected. Attempting reconnection...
+[2021-01-01 01:00:05] AM2320.: 20.4°C
+[2021-01-01 01:00:06] AM2320.: 38.6 %
+[2021-01-01 01:00:09] 1 reconnection attempt(s) failed. Trying again...
+[2021-01-01 01:00:10] WiFi disconnected. Attempting reconnection...
+[2021-01-01 01:00:14] 2 reconnection attempt(s) failed. Trying again...
+[2021-01-01 01:00:14] WiFi disconnected. Attempting reconnection...
+[2021-01-01 01:00:18] 3 reconnection attempt(s) failed. Trying again...
+[2021-01-01 01:00:18] WiFi disconnected. Attempting reconnection...
+[2021-01-01 01:00:22] 4 reconnection attempt(s) failed. Trying again...
+[2021-01-01 01:00:22] WiFi disconnected. Attempting reconnection...
+[2021-01-01 01:00:26] 5 reconnection attempt(s) failed. Trying again...
+[2021-01-01 01:00:26] WiFi disconnected. Attempting reconnection...
+[2021-01-01 01:00:31] 6 reconnection attempt(s) failed. Trying again...
+[2021-01-01 01:00:31] WiFi disconnected. Attempting reconnection...
+[2021-01-01 01:00:35] 7 reconnection attempt(s) failed. Trying again...
+[2021-01-01 01:00:35] WiFi disconnected. Attempting reconnection...
+[2021-01-01 01:00:39] 8 reconnection attempt(s) failed. Trying again...
+[2021-01-01 01:00:39] WiFi disconnected. Attempting reconnection...
+[2021-01-01 01:00:43] 9 reconnection attempt(s) failed. Trying again...
+[2021-01-01 01:00:43] WiFi disconnected. Attempting reconnection...
+[2021-01-01 01:00:47] 10 reconnection attempt(s) failed. Trying again...
+[2021-01-01 01:00:48] WiFi still disconnected after 10 reconnection attempts.
+Trying again in 10min.
+
+pico-w>
+[2021-01-01 01:01:06] AM2320.: 20.4°C
+[2021-01-01 01:01:06] AM2320.: 38.6 %
+pico-w> config
+
+=== CONFIGURATION ===
+Version:        1.0
+WiFi SSID:      SomeSSID
+WiFi PASS:      SomePASS
+Post URL:       SomeURL
+Humidity Control:       disabled
+Temp Control:           enabled
+Humidity high threshold:        80
+Humidity low threshold:         70
+Temp high threshold:    20
+Temp low threshold:     17
+
+pico-w> 
+[2021-01-01 01:02:06] AM2320.: 20.5°C
+[2021-01-01 01:02:06] AM2320.: 38.6 %
+Not connected to any network!
+
+pico-w> 
+[2021-01-01 01:03:06] AM2320.: 20.5°C
+[2021-01-01 01:03:06] AM2320.: 38.7 %
+
+pico-w> humidityHigh=38
+Old humidityHigh: 80
+Updated config:
+
+=== CONFIGURATION ===
+Version:        1.0
+WiFi SSID:      SomeSSID
+WiFi PASS:      SomePASS
+Post URL:       SomeURL
+Humidity Control:       disabled
+Temp Control:           enabled
+Humidity high threshold:        38
+Humidity low threshold:         70
+Temp high threshold:    20
+Temp low threshold:     17
+
+pico-w> humidityLow=30
+Old humidityLow: 70
+Updated config:
+
+=== CONFIGURATION ===
+Version:        1.0
+WiFi SSID:      SomeSSID
+WiFi PASS:      SomePASS
+Post URL:       SomeURL
+Humidity Control:       disabled
+Temp Control:           enabled
+Humidity high threshold:        38
+Humidity low threshold:         30
+Temp high threshold:    20
+Temp low threshold:     17
+
+pico-w> [2021-01-01 01:04:06] AM2320.: 20.5°C
+[2021-01-01 01:04:07] AM2320.: 38.7 %
+[2021-01-01 01:05:07] AM2320.: 20.5°C
+[2021-01-01 01:05:07] AM2320.: 38.8 %
+Not connected to any network!
+[2021-01-01 01:06:07] AM2320.: 20.5°C
+[2021-01-01 01:06:07] AM2320.: 38.9 %
+
+pico-w>
+pico-w>
+pico-w> config
+
+=== CONFIGURATION ===
+Version:        1.0
+WiFi SSID:      SomeSSID
+WiFi PASS:      SomePASS
+Post URL:       SomeURL
+Humidity Control:       disabled
+Temp Control:           enabled
+Humidity high threshold:        38
+Humidity low threshold:         30
+Temp high threshold:    20
+Temp low threshold:     17
+
+pico-w> humidityCtrl=enabled
+Old humidityCtrl: disabled
+Updated config:
+
+=== CONFIGURATION ===
+Version:        1.0
+WiFi SSID:      SomeSSID
+WiFi PASS:      SomePASS
+Post URL:       SomeURL
+Humidity Control:       enabled
+Temp Control:           enabled
+Humidity high threshold:        38
+Humidity low threshold:         30
+Temp high threshold:    20
+Temp low threshold:     17
+
+pico-w> 
+[2021-01-01 01:07:07] AM2320.: 20.6°C
+[2021-01-01 01:07:07] AM2320.: 38.9 %
+Dehumidifier switched ON
+[2021-01-01 01:08:07] AM2320.: 20.6°C
+[2021-01-01 01:08:08] AM2320.: 38.9 %
+Not connected to any network!
+
+pico-w> 
+[2021-01-01 01:09:08] AM2320.: 20.6°C
+[2021-01-01 01:09:08] AM2320.: 38.9 %
+[2021-01-01 01:10:08] AM2320.: 20.6°C
+[2021-01-01 01:10:08] AM2320.: 38.9 %
+[2021-01-01 01:10:48] WiFi disconnected. Attempting reconnection...
+[2021-01-01 01:10:52] WiFi reconnected!
+[2021-01-01 01:10:52] IP Address: 192.168.10.97
+[2026-01-13 20:33:29] NTP TIME: 2026-01-13 20:33:29
+[2026-01-13 20:33:42] AM2320.: 20.6°C
+[2026-01-13 20:33:42] AM2320.: 38.9 %
+json data: {"Dehumidifier": 1, "Temperature": 20.6, "Time": 1768332822, "HumidityControl": "enabled", "Humidity": 38.9, "PostInterval": 3, "TemperatureControl": "enabled", "Heater": 0}
+[2026-01-13 20:33:42] Sending post request to: SomeURL
+[2026-01-13 20:33:47] Error sending POST request: [Errno 110] ETIMEDOUT
+[2026-01-13 20:34:47] AM2320.: 20.6°C
+[2026-01-13 20:34:47] AM2320.: 38.9 %
+
+pico-w> config
+
+=== CONFIGURATION ===
+Version:        1.0
+WiFi SSID:      SomeSSID
+WiFi PASS:      SomePASS
+Post URL:       SomeURL
+Humidity Control:       enabled
+Temp Control:           enabled
+Humidity high threshold:        38
+Humidity low threshold:         30
+Temp high threshold:    20
+Temp low threshold:     17
+
+pico-w> help
+
+Help menu:
+-------------------------
+help                    This information
+info                    Shows info about the system
+config                  Shows contents of config.json
+url=<url>               Changes URL in config.json to <url>
+postInt=<int>           Number of minutes between each POST
+ssid=<ssid>             Changes SSID in config.json to <ssid>
+password=<pwd>          Changes PASSWORD in config.json to <pwd>
+attempts=<int>          Number of WiFi reconnection attempts (default: 10)
+freq=<int>              Sleep interval between each bulk of reconnection attempts (default: 10min)
+restart                 Restarts the pico
+version                 Shows current version
+humidityCtrl=<enabled|disabled>
+tempCtrl=<enabled|disabled>
+humidityHigh=<int>      High humidity level threshold for switch ON
+humidityLow=<int>       Low humidity level threshold for switch OFF
+tempHigh=<int>          High temperature level threshold for heater OFF
+tempLow=<int>           Low temperature level threshold for heater ON
+
+
+pico-w> humidity[2026-01-13 20:35:47] AM2320.: 20.6°C
+[2026-01-13 20:35:47] AM2320.: 38.9 %
+Ctrl=50
+Old humidityCtrl: enabled
+Updated config:
+
+=== CONFIGURATION ===
+Version:        1.0
+WiFi SSID:      SomeSSID
+WiFi PASS:      SomePASS
+Post URL:       SomeURL
+Humidity Control:       50
+Temp Control:           enabled
+Humidity high threshold:        38
+Humidity low threshold:         30
+Temp high threshold:    20
+Temp low threshold:     17
+
+pico-w> humidityCtrl=enabled
+Old humidityCtrl: 50
+Updated config:
+
+=== CONFIGURATION ===
+Version:        1.0
+WiFi SSID:      SomeSSID
+WiFi PASS:      SomePASS
+Post URL:       SomeURL
+Humidity Control:       enabled
+Temp Control:           enabled
+Humidity high threshold:        38
+Humidity low threshold:         30
+Temp high threshold:    20
+Temp low threshold:     17
+
+pico-w> help
+
+Help menu:
+-------------------------
+help                    This information
+info                    Shows info about the system
+config                  Shows contents of config.json
+url=<url>               Changes URL in config.json to <url>
+postInt=<int>           Number of minutes between each POST
+ssid=<ssid>             Changes SSID in config.json to <ssid>
+password=<pwd>          Changes PASSWORD in config.json to <pwd>
+attempts=<int>          Number of WiFi reconnection attempts (default: 10)
+freq=<int>              Sleep interval between each bulk of reconnection attempts (default: 10min)
+restart                 Restarts the pico
+version                 Shows current version
+humidityCtrl=<enabled|disabled>
+tempCtrl=<enabled|disabled>
+humidityHigh=<int>      High humidity level threshold for switch ON
+humidityLow=<int>       Low humidity level threshold for switch OFF
+tempHigh=<int>          High temperature level threshold for heater OFF
+tempLow=<int>           Low temperature level threshold for heater ON
+
+pico-w> 
+[2026-01-13 20:36:48] AM2320.: 20.6°C
+[2026-01-13 20:36:48] AM2320.: 38.9 %
+json data: {"Dehumidifier": 1, "Temperature": 20.6, "Time": 1768333008, "HumidityControl": "enabled", "Humidity": 38.9, "PostInterval": 3, "TemperatureControl": "enabled", "Heater": 0}
+[2026-01-13 20:36:48] Sending post request to: SomeURL
+[2026-01-13 20:36:53] Error sending POST request: [Errno 110] ETIMEDOUT
+
+pico-w> humidityHigh=50
+Old humidityHigh: 38
+Updated config:
+
+=== CONFIGURATION ===
+Version:        1.0
+WiFi SSID:      SomeSSID
+WiFi PASS:      SomePASS
+Post URL:       SomeURL
+Humidity Control:       enabled
+Temp Control:           enabled
+Humidity high threshold:        50
+Humidity low threshold:         30
+Temp high threshold:    20
+Temp low threshold:     17
+
+pico-w> humidityLow=39
+Old humidityLow: 30
+Updated config:
+
+=== CONFIGURATION ===
+Version:        1.0
+WiFi SSID:      SomeSSID
+WiFi PASS:      SomePASS
+Post URL:       SomeURL
+Humidity Control:       enabled
+Temp Control:           enabled
+Humidity high threshold:        50
+Humidity low threshold:         39
+Temp high threshold:    20
+Temp low threshold:     17
+
+pico-w> 
+[2026-01-13 20:37:53] AM2320.: 20.6°C
+[2026-01-13 20:37:53] AM2320.: 38.9 %
+Dehumidifier switched OFF
+[2026-01-13 20:38:53] AM2320.: 20.6°C
+[2026-01-13 20:38:53] AM2320.: 38.9 %
+[2026-01-13 20:39:54] AM2320.: 20.6°C
+[2026-01-13 20:39:54] AM2320.: 38.9 %
+json data: {"Dehumidifier": 0, "Temperature": 20.6, "Time": 1768333194, "HumidityControl": "enabled", "Humidity": 38.9, "PostInterval": 3, "TemperatureControl": "enabled", "Heater": 0}
+[2026-01-13 20:39:54] Sending post request to: SomeURL
+[2026-01-13 20:39:59] Error sending POST request: [Errno 110] ETIMEDOUT
+[2026-01-13 20:40:59] AM2320.: 20.7°C
+[2026-01-13 20:40:59] AM2320.: 38.9 %
+
+pico-w> tempCtrl=disabled
+Old tempCtrl: enabled
+Updated config:
+
+=== CONFIGURATION ===
+Version:        1.0
+WiFi SSID:      SomeSSID
+WiFi PASS:      SomePASS
+Post URL:       SomeURL
+Humidity Control:       enabled
+Temp Control:           disabled
+Humidity high threshold:        50
+Humidity low threshold:         39
+Temp high threshold:    20
+Temp low threshold:     17
+
+pico-w>
+pico-w> 
+[2026-01-13 20:41:59] AM2320.: 20.7°C
+[2026-01-13 20:41:59] AM2320.: 38.9 %
+
+pico-w> humidityCtrl=disabled
+Old humidityCtrl: enabled
+Updated config:
+
+=== CONFIGURATION ===
+Version:        1.0
+WiFi SSID:      SomeSSID
+WiFi PASS:      SomePASS
+Post URL:       SomeURL
+Humidity Control:       disabled
+Temp Control:           disabled
+Humidity high threshold:        50
+Humidity low threshold:         39
+Temp high threshold:    20
+Temp low threshold:     17
+
+pico-w> 
+[2026-01-13 20:43:00] AM2320.: 20.7°C
+[2026-01-13 20:43:00] AM2320.: 38.9 %
+json data: {"Dehumidifier": 0, "Temperature": 20.7, "Time": 1768333380, "HumidityControl": "disabled", "Humidity": 38.9, "PostInterval": 3, "TemperatureControl": "disabled", "Heater": 0}
+[2026-01-13 20:43:00] Sending post request to: SomeURL
+[2026-01-13 20:43:05] Error sending POST request: [Errno 110] ETIMEDOUT
