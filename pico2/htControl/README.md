@@ -16,7 +16,10 @@ The heater operation, is controlled by the ```TemperatureHighThreshold``` and ``
 When the measured temeprature is equal or __above__ the ```TemperatureHighThreshold```, the heater is automatically turned OFF.  
 When the measured temeprature is equal or __below__ the ```TemperatureLowThreshold```, the heater is automatically turned ON.  
 
-The physical interface that will turn on or off the dehumidifier and or heater is marked J1 and J2 on the circuit board outline. These screw-terminals is part of an open drain MOSFET, sourced with 12V or 24V supply, which is turn should be connected to a relay operating the mains power to the dehumidifier and or heater.  
+The physical interface that will turn on or off the dehumidifier and or heater is marked J1 and J2 on the circuit board outline. 
+These screw-terminals is part of an open drain MOSFET, sourced with 12V or 24V supply, which is turn should be connected to a relay operating the mains power to the dehumidifier and or heater.  
+
+picture of the complete hardware solution to be shown here...   
 
 These thresholds can be set from the units serial command line interface.  
 
@@ -150,7 +153,10 @@ The above info will then be organized and stored on the addressed web server in 
 ### Humidity and Temperature visualization 
 The humidity and temperature is to be rendered graphically showing the humidity and temperature in a time scaled diagram.  
 Other system parameters, which is configurable as mentioned before, are also published on the web.  
- 
+<img src="./docs/web-page.png" height="800">  
+The sensor arrangement will publish a single measurment value for both temperature and humidity, as indicated on the web-page, every 5 minutes.  
+The data is then used to calculate the hourly temeperature and humidity avarage, which is to be presented as a 24 hour temeprature and humidity graph.  
+
 ### Tests used on Windows
 Using a simple test to ensure that the backend is reponding as expected.  
 curl -X POST -H "Content-Type: application/json" -d "{\"Time\": 1764772947, \"Humidity\": 71.8, \"Temperature\": 21.8}" "http://someURL"
