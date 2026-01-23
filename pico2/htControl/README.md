@@ -38,7 +38,7 @@ Circuit board schematics
 Humidity and temperature monitoring for indoor humidity and temperature control,
 by the use of AOSONG AM2320 temperature and humidity i2c sensor, and a simple 
 high-level driver in am2320.py.  
-<img src="./docs/AOSONG-Sensor.png" height="250">  
+<img src="./docs/AM2320.jpg" height="200">  
 AOSONG AM2320 temperature and humidity i2c sensor  
 
 ### i2c connection for the AM2320 on Pico 2 W  
@@ -160,3 +160,20 @@ The data is then used to calculate the hourly temeperature and humidity avarage,
 ### Tests used on Windows
 Using a simple test to ensure that the backend is reponding as expected.  
 curl -X POST -H "Content-Type: application/json" -d "{\"Time\": 1764772947, \"Humidity\": 71.8, \"Temperature\": 21.8}" "http://someURL"
+
+## htControl Solution  
+...picture to be inserted here...
+
+### 230V 10A Relay for heater on/off control  
+Sealed Miniature 8 Pin Relay Socket For Ly2 Industrial General Purpose Relay  
+<img src="./docs/Sealed Miniature 8 Pin Relay.png">  
+
+
+NNC Sealed Miniature PTF08A 8 Pin Relay Socket for LY2 Industrial General Purpose Relay
+<img src="./docs/RelaySocket.png">  
+
+All put toghether  
+...
+<img src="./docs/RelaySocketWiringDiagram1.png">  
+
+
