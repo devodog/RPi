@@ -170,7 +170,7 @@ Sealed Miniature 8 Pin Relay Socket For Ly2 Industrial General Purpose Relay
 
 
 NNC Sealed Miniature PTF08A 8 Pin Relay Socket for LY2 Industrial General Purpose Relay
-<img src="./docs/RelaySocket.png">  
+<img src="./docs/RelaySocket.png" height="300">  
 
 All put toghether  
 ...
