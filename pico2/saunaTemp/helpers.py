@@ -17,6 +17,7 @@ uart0 = UART(0, baudrate=9600, tx=Pin(0), rx=Pin(1))
 # This pin assignment is ONLY valid for code on the water level control system (wlc)
 #powerSwitch1 = Pin(16, Pin.OUT)
 #powerSwitch2 = Pin(17, Pin.OUT)
+tempSensorFound = False
 
 def output(text, arg="", delay=0.1):    
     local_time = get_local_timestamp(1) # one hour different from gmt at winter-time? 
@@ -129,14 +130,35 @@ def timestamp_diff(t1_epoch, t2_epoch):
 
 # Initialize LCD
 lcd = LCD()
+def infoOnLCD(info2show):
+    lcd.clear()
+    lcd.set_cursor(0,0)
+    lcd.write_string(info2show)
+    time.sleep(0.1)
 
+global ds_sensor
 # Initialize DS18B20 on GPIO pin 22
-ds_sensor = DS18B20(22)
+def init_ds18b20():
+    global ds_sensor
+    global tempSensorFound
+    ds_sensor = DS18B20(22)
+
+    if ds_sensor.found:
+        # output("DS18B20 sensor found at address: ", ds_sensor.found[0]) - outputs as bytearray, not very useful
+        tempSensorFound = True
+    else:
+        output("No DS18B20 sensor found. Check wiring.")    
 
 async def read_temp():
     timeToSend = 5 # currently 5 min interval for publishing data to the web...
     interval = 1
-    while True:
+    global ds_sensor
+    global tempSensorFound
+    
+ 
+    while True: # Loop forever, but only read sensor if found. If not found, wait and retry every 60 seconds.
+        if not tempSensorFound: 
+            init_ds18b20()
         if ds_sensor.found:
             try:
                 temp = ds_sensor.read_temp()
@@ -180,7 +202,7 @@ async def read_temp():
             hourMinSec = get_local_timestamp(1)
             lcd.write_string("Checked"f"{hourMinSec[10:]}")
             time.sleep(0.1)
-            await asyncio.sleep(300)  # Wait longer before retrying if no sensor found  
+            await asyncio.sleep(60)  # Wait longer before retrying if no sensor found  
 
 def build_json_data():
     temperature = ds_sensor.read_temp()

@@ -43,9 +43,10 @@ ascii_art = (
 output("START ver.1.02 as of 8JAN26")
 cmd_output(ascii_art, "")
 
-monitorState("no") # no change...
-
 async def main():
+    monitorState("no") # no change...
+    initControl()
+
     # Attempt initial connection (non-blocking success not critical)
     try:
         output(f"Attempting to connect to WiFi using the following config:\r\nSSID: {read_config()['wifi']['SSID']}, PASSWORD: {read_config()['wifi']['PASSWORD']}")
@@ -60,9 +61,7 @@ async def main():
     except Exception as e:
         output("Initial WiFi setup error:", str(e))
     
-    output("Initializing environment control")
-    initControl()
-
+ 
     uart0.write(b'\r\npico-w>\r\n')
     # start background polling tasks
     asyncio.create_task(maintain_wifi_connection())
@@ -73,10 +72,13 @@ async def main():
         if wlan.isconnected():
             hb.toggle()
         else:
-            slowHB += 1
-            if slowHB > 3:
+            if hb.value() == 1:
                 hb.toggle()
-                slowHB = 0
+            else:
+                slowHB += 1
+                if slowHB >= 3:
+                    hb.toggle()
+                    slowHB = 0
         await asyncio.sleep(1)
 # Start the event loop
 asyncio.run(main())

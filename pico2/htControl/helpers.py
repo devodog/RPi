@@ -12,8 +12,8 @@ from am2320 import AM2320   #AOSONG AM2320 sensor driver
 
 # Global variables & Hardware configuartion
 uart0 = UART(0, baudrate=9600, tx=Pin(0), rx=Pin(1), txbuf=1024)
-dehumidifierSwitch = Pin(16, Pin.OUT)
-heaterSwitch = Pin(17, Pin.OUT)
+dehumidifierSwitch = Pin(16, Pin.OUT) #J1
+heaterSwitch = Pin(17, Pin.OUT) #J2
 
 SWITCH_OFF = 0
 SWITCH_ON = 1
@@ -36,6 +36,7 @@ temperatureHighThreshold = 7
 ############################## END Default control parameters
 
 def initControl():
+    global postInterval
     config = read_config()
     postInterval = config.get("postInterval")
     envctrl = config.get("envctrl", {})
@@ -54,6 +55,8 @@ def initControl():
     humidityLowThreshold = envctrl.get("humidityLow", "-")
     temperatureLowThreshold = envctrl.get("tempLow", "-")
     temperatureHighThreshold = envctrl.get("tempHigh", "-")
+    cmd_output("> Environment Control Initialized")
+    cmd_output("> POST interval = ", str(postInterval) + " min\r\n")
 
 def monitorState(change):
     global monitor
@@ -66,7 +69,7 @@ def monitorState(change):
     if monitor == False:
         monstate = "OFF"
     
-    cmd_output("Monitor State: ", monstate)
+    cmd_output("> Monitor State: ", monstate)
 
 def output(text, arg="", delay=0.1):
     if monitor == True:
@@ -92,6 +95,9 @@ def change_config(buf):
         elif "url" in buf:
             cmd_output(f"Old {buf.split('=')[0]}: ", config[buf.split('=')[0]])
             config[buf.split('=')[0]] = buf.split("=")[1]
+        elif "postInterval" in buf:
+            cmd_output(f"Old {buf.split('=')[0]}: ", str(config[buf.split('=')[0]]))
+            config[buf.split('=')[0]] = int(buf.split("=")[1])
         elif "attempts" in buf or "freq" in buf:
             cmd_output(f"Old {buf.split('=')[0]}: ", str(config["wifi"][buf.split('=')[0]]))
             try:
@@ -136,7 +142,7 @@ def print_config():
     cmd_output("WiFi SSID: \t", wifi.get("SSID", "-"))
     cmd_output("WiFi PASS: \t", wifi.get("PASSWORD", "-"))
     cmd_output("Post URL: \t", config.get("url", "-"))
-    
+    cmd_output("Post Interval (min): \t", str(config.get("postInterval", "-")))
     env = config.get("envctrl", {})
     cmd_output("Humidity Control: \t", env.get("humidityCtrl", "-"))
     cmd_output("Temp Control: \t\t", env.get("tempCtrl", "-"))
