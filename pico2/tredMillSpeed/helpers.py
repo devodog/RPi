@@ -34,12 +34,12 @@ def get_local_timestamp(offset_hours=0):
 # Initialize LCD
 lcd = LCD()
 
-def displaySpeed():
+def displaySpeed(speed_kmh=12.3):
     #output("DS18B20: ", f"{temp:.1f}° C")
     lcd.clear()
     lcd.set_cursor(0,0)
-    lcd.write_string("Speed: 12.3 km/h")
-    lcd.set_cursor(0,1)
-    hourMinSec = get_local_timestamp(1)
-    lcd.write_string("Startet"f"{hourMinSec[10:]}")
+    lcd.write_string(f"Speed: {speed_kmh:.1f} km/h")
+    #lcd.set_cursor(0,1)
+    #hourMinSec = get_local_timestamp(1)
+    #lcd.write_string("Startet"f"{hourMinSec[10:]}")
     time.sleep(0.1)

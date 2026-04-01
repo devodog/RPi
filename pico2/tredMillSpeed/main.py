@@ -4,6 +4,7 @@ from helpers import *
 from command_handler import read
 from machine import Pin
 import time
+
 import micropython
 
 # Config
@@ -31,7 +32,7 @@ def _irq_handler(pin):
     _has_new = True
 
 # Setup pin and attach IRQ
-p = Pin(PIN_NUM, Pin.IN, Pin.PULL_DOWN)
+p = Pin(PIN_NUM, Pin.IN, Pin.PULL_DOWN) # use pull-down to avoid floating input, adjust if your sensor is active-low)
 trigger = Pin.IRQ_RISING if TRIGGER_RISING else Pin.IRQ_FALLING
 p.irq(trigger=trigger, handler=_irq_handler)
 
@@ -51,7 +52,7 @@ hb = Pin("LED", Pin.OUT)
 # Set up UART interrupt
 Pin(1).irq(read, trigger=Pin.IRQ_FALLING)
 
-
+#mypin = Pin(14, Pin.IN, Pin.PULL_UP)  # button pin with pull-up
 # Show the tred mill speed on a LCD display.
 
 ascii_art = (
@@ -72,9 +73,11 @@ cmd_output(ascii_art, "")
 
 def main():
     global _has_new, _interval_us
-    print("Belt speed monitor starting (pin {}, belt {:.3f} m)".format(PIN_NUM, BELT_LENGTH_M))
+    output("Belt speed monitor starting (pin {}, belt {:.3f} m)".format(PIN_NUM, BELT_LENGTH_M))
     uart0.write(b'\r\npico-2> ')
+    displaySpeed(0.0)  # show initial speed
     while True:
+  
         if _has_new:
             # briefly disable IRQ while copying shared vars to avoid races
             p.irq(handler=None)
@@ -86,8 +89,15 @@ def main():
             kmh = interval_us_to_kmh(interval, BELT_LENGTH_M)
             # interval in seconds with ms precision
             interval_s = interval / 1_000_000.0
-            print("Interval: {:.3f} s  Speed: {:.2f} km/h".format(interval_s, kmh))
+            output("Interval: {:.3f} s  Speed: {:.2f} km/h".format(interval_s, kmh))
+            hb.toggle()  # heartbeat
+            displaySpeed(kmh)
         time.sleep_ms(50)
+
+        #if mypin.value() == 0:
+        #    output("button pressed", delay=0.5)
+        #    hb.toggle()  # heartbeat
+        #time.sleep(1)
 
 if __name__ == "__main__":
     main()
