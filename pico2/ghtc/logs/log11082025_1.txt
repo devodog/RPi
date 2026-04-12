@@ -1,0 +1,108 @@
+[2021-01-01 02:00:02] START
+
+     .----------------.
+    |   Raspberry Pi   |
+    |      Pico W      |
+    |  .------------.  |
+    |  | [] [] [] []|  |
+    |  | [] [] [] []|  |
+    |  '------------'  |
+    |__________________|
+      |  ||      ||  |
+      |  ||      ||  |
+      '--------------'
+
+[2021-01-01 02:00:02] Attempting to connect to WiFi using the following config:
+SSID: ASUS, PASSWORD: Framogtilbakeerlikelangt
+[2021-01-01 02:00:06] WiFi connected!
+[2021-01-01 02:00:07] IP Address: 192.168.10.117
+[2025-08-11 18:10:08] NTP TIME: 2025-08-11 18:10:08
+
+pico-w> [2025-08-11 18:10:10] Sending post request to: https://midtskips.no/driv                       hus/api/waterlevel/
+[2025-08-11 18:10:17] Status code: 429
+[2025-08-11 18:11:20] Sending post request to: https://midtskips.no/drivhus/api/                       waterlevel/
+[2025-08-11 18:11:27] Status code: 429
+[2025-08-11 18:12:29] Sending post request to: https://midtskips.no/drivhus/api/                       waterlevel/
+[2025-08-11 18:12:36] Status code: 429
+[2025-08-11 18:13:39] Sending post request to: https://midtskips.no/drivhus/api/                       waterlevel/
+[2025-08-11 18:13:46] Status code: 429
+[2021-01-01 02:00:02] START
+
+     .----------------.
+    |   Raspberry Pi   |
+    |      Pico W      |
+    |  .------------.  |
+    |  | [] [] [] []|  |
+    |  | [] [] [] []|  |
+    |  '------------'  |
+    |__________________|
+      |  ||      ||  |
+      |  ||      ||  |
+      '--------------'
+
+[2021-01-01 02:00:02] Attempting to connect to WiFi using the following config:
+SSID: ASUS, PASSWORD: Framogtilbakeerlikelangt
+[2021-01-01 02:00:06] WiFi connected!
+[2021-01-01 02:00:07] IP Address: 192.168.10.117
+[2025-08-11 18:15:12] NTP TIME: 2025-08-11 18:15:12
+
+pico-w> [2025-08-11 18:15:14] Sending post request to: https://midtskips.no/driv                       hus/api/waterlevel/
+[2025-08-11 18:15:21] Status code: 429
+[2021-01-01 02:00:02] START
+
+     .----------------.
+    |   Raspberry Pi   |
+    |      Pico W      |
+    |  .------------.  |
+    |  | [] [] [] []|  |
+    |  | [] [] [] []|  |
+    |  '------------'  |
+    |__________________|
+      |  ||      ||  |
+      |  ||      ||  |
+      '--------------'
+
+[2021-01-01 02:00:02] Attempting to connect to WiFi using the following config:
+SSID: ASUS, PASSWORD: Framogtilbakeerlikelangt
+[2021-01-01 02:00:06] WiFi connected!
+[2021-01-01 02:00:07] IP Address: 192.168.10.117
+[2025-08-11 20:47:43] NTP TIME: 2025-08-11 20:47:43
+
+pico-w> [2025-08-11 20:47:45] Sending post request to: https://midtskips.no/driv                       hus/api/waterlevel/
+[2025-08-11 20:47:52] Status code: 429
+[2025-08-11 20:48:55] Sending post request to: https://midtskips.no/drivhus/api/                       waterlevel/
+[2025-08-11 20:49:02] Status code: 429
+[2021-01-01 02:00:02] START
+
+     .----------------.
+    |   Raspberry Pi   |
+    |      Pico W      |
+    |  .------------.  |
+    |  | [] [] [] []|  |
+    |  | [] [] [] []|  |
+    |  '------------'  |
+    |__________________|
+      |  ||      ||  |
+      |  ||      ||  |
+      '--------------'
+
+[2021-01-01 02:00:02] Attempting to connect to WiFi using the following config:
+SSID: ASUS, PASSWORD: Framogtilbakeerlikelangt
+[2021-01-01 02:00:06] WiFi connected!
+[2021-01-01 02:00:07] IP Address: 192.168.10.117
+[2025-08-11 22:04:38] NTP TIME: 2025-08-11 22:04:38
+
+pico-w> [2025-08-11 22:04:40] Sending post request to: https://midtskips.no/driv                       hus/api/waterlevel/
+[2025-08-11 22:04:47] Status code: 429
+[2025-08-11 22:05:50] Sending post request to: https://midtskips.no/drivhus/api/                       waterlevel/
+[2025-08-11 22:05:56] Status code: 429
+[2025-08-11 22:06:59] Sending post request to: https://midtskips.no/drivhus/api/                       waterlevel/
+[2025-08-11 22:07:06] Status code: 429
+[2025-08-11 22:08:09] Sending post request to: https://midtskips.no/drivhus/api/                       waterlevel/
+[2025-08-11 22:08:15] Status code: 429
+[2025-08-11 22:09:18] Sending post request to: https://midtskips.no/drivhus/api/                       waterlevel/
+[2025-08-11 22:09:25] Status code: 429
+[2025-08-11 22:10:28] Sending post request to: https://midtskips.no/drivhus/api/                       waterlevel/
+[2025-08-11 22:10:34] Status code: 429
+[2025-08-11 22:11:37] Sending post request to: https://midtskips.no/drivhus/api/                       waterlevel/
+[2025-08-11 22:11:44] Status code: 429
