@@ -3,7 +3,6 @@ import uasyncio as asyncio
 import time
 import ntptime
 from collections import OrderedDict
-import state
 import wifi
 import json
 

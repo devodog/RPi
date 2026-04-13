@@ -10,7 +10,7 @@
  * Purpose IO (GPIO) ports in a particular way.
  * 
  * The wiringPi c-library provide an API for accessing each GPIO through
- * the GPIO pins 32-bit registe, which is available a memory mapped 
+ * the GPIO pins 32-bit register, which is available in a memory mapped 
  * physical address in the SoC.
  * 
  * This introduces a sort of strange "cross-wiring-section" that will 
