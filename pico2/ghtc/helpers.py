@@ -1,4 +1,5 @@
 from machine import UART, Pin, reset, I2C, ADC
+import machine
 import uasyncio as asyncio
 import time
 import ntptime
@@ -6,6 +7,8 @@ from collections import OrderedDict
 import wifi
 import json
 
+adc = ADC(28)  # ADC2 is GPIO28
+chipTempADC = ADC(4)  # ADC4 is GPIO27 (internal temperature sensor)
 
 OPEN = 1
 CLOSED = 0
@@ -159,7 +162,7 @@ def read_LM35():
     LM35 output: 10mV per degree Celsius
     Returns: (raw_adc_value, temperature_celsius)
     """
-    adc = ADC(28)  # ADC2 is GPIO28
+    global adc
     
     # Read raw ADC value (0-65535 for 16-bit, or 0-4095 for 12-bit depending on config)
     raw_value = adc.read_u16()  # Returns 16-bit value (0-65535)
@@ -168,11 +171,23 @@ def read_LM35():
     voltage = (raw_value / 65535) * 3.3
     
     # LM35: 10mV per °C, so 0.01V per °C
-    temperature_celsius = voltage / 0.01
+    temperature_celsius = (voltage / 0.01) - 5  # Subtract 5 to calibrate for ambient offset (adjust as needed)
+    # Note: The "-5" is used to encounter the fact that at -5°C the sensor should output 0V, at 0°C it should output 0.5V.
+
     
     return (raw_value, round(temperature_celsius, 1))
- 
+
+def read_chip_temperature():
+    global chipTempADC
+    raw_value = chipTempADC.read_u16()
+    voltage = (raw_value / 65535) * 3.3
+    temperature_celsius = 27 - (voltage - 0.706) / 0.001721
+    output(f"Raw ADC3 value: {raw_value}, Chip temperature: {temperature_celsius:.2f} °C")
+    
+
 def build_json_data():
+    read_chip_temperature()  # Update chip temperature reading for debugging
+        
     return {
         "Temperature": round(read_LM35()[1], 1)
     }
