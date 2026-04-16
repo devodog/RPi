@@ -8,21 +8,37 @@ import wifi
 import json
 
 adc = ADC(28)  # ADC2 is GPIO28
-chipTempADC = ADC(4)  # ADC4 is GPIO27 (internal temperature sensor)
+chipTempADC = ADC(4)  # ADC4 is GPIO27 (internal temperature sensor in RP2050)
 
-OPEN = 1
-CLOSED = 0
 
-SouthWest = 0
-NorthEast = 1
+# gp2 - gp5 are connacted to a RJ45 socket marked SW (South-West), while 
+# gp6 - gp9 are connected to a RJ45 socket marked NE (North-East)
+'''
+RJ45 _SW_ socket pinout: 
+pin 1 = GND
+pin 2 = GND
+pin 3 = GPIO2 (SW heater control, active high)
+pin 4 = GPIO3 (Currently not used.)
+pin 5 = GPIO4 (SW heater control, active high)
+pin 6 = GPIO5 (Currently not used.)
+pin 7 = GND
+pin 8 = 5V
 
-# gp2 - gp5 register water level in the SW (South-West water reservoir), while 
-# gp6 - gp9 register water level in the NE (North-East water reservoir)
+RJ45 _NE_ socket pinout: 
+pin 1 = GND
+pin 2 = GND
+pin 3 = GPIO6 (Currently not used.)
+pin 4 = GPIO7 (Currently not used.)
+pin 5 = GPIO8 (Currently not used.)
+pin 6 = GPIO9 (Currently not used.)
+pin 7 = GND
+pin 8 = 5V
+'''
 
 # South west sensor
-gp2 = Pin(2, Pin.IN)
+gp2 = Pin(2, Pin.OUT, value=0) 
 gp3 = Pin(3, Pin.IN)
-gp4 = Pin(4, Pin.IN)
+gp4 = Pin(4, Pin.OUT, value=0)
 gp5 = Pin(5, Pin.IN)
 
 
@@ -33,12 +49,12 @@ gp8 = Pin(8, Pin.IN)
 gp9 = Pin(9, Pin.IN)
 
 
-# Water valve 1
-valve_sw = Pin(16, Pin.OUT)
+# MOSFETs for controlling any 12V actuators (like water valves or heaters)
+sw_12Vcircuit = Pin(16, Pin.OUT)
+ne_12Vcircuit = Pin(17, Pin.OUT)
 
-# Water valve 2
-valve_ne = Pin(17, Pin.OUT)
-
+heater1 = gp2  # SW heater control (active high)
+heater2 = gp4  # SW heater control (active high)
 
 uart0 = UART(0, baudrate=9600, tx=Pin(0), rx=Pin(1))
 
@@ -174,7 +190,8 @@ def read_LM35():
     temperature_celsius = (voltage / 0.01) - 5  # Subtract 5 to calibrate for ambient offset (adjust as needed)
     # Note: The "-5" is used to encounter the fact that at -5°C the sensor should output 0V, at 0°C it should output 0.5V.
 
-    
+    tempControl(temperature_celsius)  # Control heater based on temperature reading
+
     return (raw_value, round(temperature_celsius, 1))
 
 def read_chip_temperature():
@@ -183,7 +200,31 @@ def read_chip_temperature():
     voltage = (raw_value / 65535) * 3.3
     temperature_celsius = 27 - (voltage - 0.706) / 0.001721
     output(f"Raw ADC3 value: {raw_value}, Chip temperature: {temperature_celsius:.2f} °C")
+
+def switchOn(pin):
+    pin.value(1)
     
+def switchOff(pin):
+    pin.value(0)
+
+def tempControl(temperature, heater=heater1, threshold=15, hysteresis=6):
+    """
+    Control heater switch based on temperature with hysteresis.
+    Switch off heater if temperature > threshold + hysteresis/2
+    Switch on heater if temperature < threshold - hysteresis/2
+    """
+    if temperature > threshold + (hysteresis / 2):
+        if heater.value():  # Only switch off if it's currently on
+            switchOff(heater)  # Turning off the heater.
+            sw_12Vcircuit.value(1)  # Powering the 12V circuit for the SW sensor (if needed).
+            ne_12Vcircuit.value(0)  # Ensure NE 12V circuit is off (if not used).
+            output(f"Temperature {temperature}°C above {threshold}°C, Switching off heater.")
+    elif temperature < threshold - (hysteresis / 2):
+        if not heater.value():  # Only switch on if it's currently off
+            switchOn(heater)  # Turning on the heater.
+            ne_12Vcircuit.value(1)  # Turning on the 12V circuit for the SW sensor (if needed).
+            sw_12Vcircuit.value(0)  # Ensure SW 12V circuit is off (if not used).
+            output(f"Temperature {temperature}°C below {threshold}°C, Switching on heater.")
 
 def build_json_data():
     read_chip_temperature()  # Update chip temperature reading for debugging
