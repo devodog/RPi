@@ -1,3 +1,5 @@
+import struct
+
 from machine import UART, Pin, reset, I2C, ADC
 import machine
 import uasyncio as asyncio
@@ -6,10 +8,11 @@ import ntptime
 from collections import OrderedDict
 import wifi
 import json
+from scd30 import SCD30
+
 
 adc = ADC(28)  # ADC2 is GPIO28
 chipTempADC = ADC(4)  # ADC4 is GPIO27 (internal temperature sensor in RP2050)
-
 
 # gp2 - gp5 are connacted to a RJ45 socket marked SW (South-West), while 
 # gp6 - gp9 are connected to a RJ45 socket marked NE (North-East)
@@ -49,9 +52,9 @@ gp8 = Pin(8, Pin.IN)
 gp9 = Pin(9, Pin.IN)
 
 
-# MOSFETs for controlling any 12V actuators (like water valves or heaters)
-sw_12Vcircuit = Pin(16, Pin.OUT)
-ne_12Vcircuit = Pin(17, Pin.OUT)
+# Open drain MOSFET circuits for controlling any 12V actuators (like water valves or heaters)
+openDrain_1 = Pin(16, Pin.OUT)
+openDrain_2 = Pin(17, Pin.OUT)
 
 heater1 = gp2  # SW heater control (active high)
 heater2 = gp4  # SW heater control (active high)
@@ -172,6 +175,42 @@ def timestamp_diff(t1_epoch, t2_epoch):
     """Return difference in seconds between two epoch timestamps."""
     return abs(int(t2_epoch) - int(t1_epoch))
 
+# SCD30 sensirion = SCD30(i2c=I2C(1, sda=Pin(14), scl=Pin(15)), addr=0x61)
+try:
+    i2c = I2C(1, scl=Pin(15), sda=Pin(14), freq=100000)
+    sensirion = SCD30(i2c, 0x61)
+    # Start measurements once (typically at startup)
+    sensirion.start_continous_measurement()
+    sensor_connected = True
+except Exception as e:
+    output("SCD30 not found or failed to initialize:", str(e))
+    sensirion = None
+    sensor_connected = False
+
+def read_SCD30():
+    if not sensor_connected or sensirion is None:
+        output("SCD30 sensor not connected or not initialized.")
+        return (0,0,0)
+
+    timeout_ms = 5000
+    waited_ms = 0
+    while sensirion.get_status_ready() != 1:
+        time.sleep_ms(200)
+        waited_ms += 200
+        if waited_ms >= timeout_ms:
+            output("Timeout waiting for SCD30 data ready.")
+            return (0,0,0)
+
+    try:
+        measurement = sensirion.read_measurement()
+        output(f"SCD30 Measurement - CO2: {measurement[0]} ppm, Temp: {measurement[1]} °C, RelH: {measurement[2]} %")
+        return measurement
+        
+    except Exception as e:
+        output("Error reading SCD30 measurement:", str(e))
+        return (0,0,0)
+        
+
 def read_LM35():
     """
     Read temperature from LM35 sensor via ADC2 (GPIO28).
@@ -200,6 +239,7 @@ def read_chip_temperature():
     voltage = (raw_value / 65535) * 3.3
     temperature_celsius = 27 - (voltage - 0.706) / 0.001721
     output(f"Raw ADC3 value: {raw_value}, Chip temperature: {temperature_celsius:.2f} °C")
+    return round(temperature_celsius, 1)
 
 def switchOn(pin):
     pin.value(1)
@@ -216,19 +256,30 @@ def tempControl(temperature, heater=heater1, threshold=15, hysteresis=6):
     if temperature > threshold + (hysteresis / 2):
         if heater.value():  # Only switch off if it's currently on
             switchOff(heater)  # Turning off the heater.
-            sw_12Vcircuit.value(1)  # Powering the 12V circuit for the SW sensor (if needed).
-            ne_12Vcircuit.value(0)  # Ensure NE 12V circuit is off (if not used).
+            openDrain_1.value(1)  # Powering the 12V circuit for the SW sensor (if needed).
+            openDrain_2.value(0)  # Ensure NE 12V circuit is off (if not used).
             output(f"Temperature {temperature}°C above {threshold}°C, Switching off heater.")
     elif temperature < threshold - (hysteresis / 2):
         if not heater.value():  # Only switch on if it's currently off
             switchOn(heater)  # Turning on the heater.
-            ne_12Vcircuit.value(1)  # Turning on the 12V circuit for the SW sensor (if needed).
-            sw_12Vcircuit.value(0)  # Ensure SW 12V circuit is off (if not used).
+            openDrain_1.value(1)  # Turning on the 12V circuit for the SW sensor (if needed).
+            openDrain_2.value(0)  # Ensure SW 12V circuit is off (if not used).
             output(f"Temperature {temperature}°C below {threshold}°C, Switching on heater.")
 
+def actuatorState(openDrainValue):
+    state = "Closed"
+    if openDrainValue == 1:
+        state = "Open"
+    return state
+
 def build_json_data():
-    read_chip_temperature()  # Update chip temperature reading for debugging
-        
+    measurement = read_SCD30()  # Update SCD30 reading for debugging
     return {
-        "Temperature": round(read_LM35()[1], 1)
+        "Temperature": round(measurement[1], 1),
+        "Humidity": round(measurement[2], 1),
+        "CO2": round(measurement[0], 1),
+        "LM35_Temperature": round(read_LM35()[1], 1),
+        "RP2050_Temperature": round(read_chip_temperature(), 1),
+        "actuatorCircuit_1": actuatorState(openDrain_1.value()),
+        "actuatorCircuit_2": actuatorState(openDrain_2.value())
     }
