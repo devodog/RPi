@@ -1,0 +1,465 @@
+[2021-01-01 02:06:19] START
+
+     .----------------.
+    |   Raspberry Pi   |
+    |      Pico W      |
+    |  .------------.  |
+    |  | [] [] [] []|  |
+    |  | [] [] [] []|  |
+    |  '------------'  |
+    |____version 2.1 __|
+      |  || GREEN ||  |
+      |  || HOUSE ||  |
+      '--------------'
+
+> Environment Control Initialized
+> POST interval = 10 min
+
+[2021-01-01 02:06:19] Attempting to connect to WiFi using the following config:
+SSID: ASUS, PASSWORD: Framogtilbakeerlikelangt
+[2021-01-01 02:06:23] WiFi connected!
+[2021-01-01 02:06:23] IP Address: 192.168.10.116
+[2026-04-19 18:40:39] NTP TIME: 2026-04-19 18:40:39
+[2026-04-19 18:40:39] Upper temperature threshold set to 15°C with 4°C hysteresis.
+
+pico-w> [2026-04-19 18:40:39] SCD30 Measurement - CO2: 1038.125 ppm, Temp: 22.54063 °C, RelH: 54.37927 %
+[2026-04-19 18:40:39] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 18:40:50] Error sending POST request: -110
+[2026-04-19 18:41:50] SCD30 Measurement - CO2: 1025.53 ppm, Temp: 22.63943 °C, RelH: 54.24805 %
+[2026-04-19 18:41:50] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 18:41:52] SCD30 Measurement - CO2: 1026.748 ppm, Temp: 22.68215 °C, RelH: 54.24347 %
+[2026-04-19 18:41:52] Status code: 200
+[2026-04-19 18:41:52] json sendt: {"Temperature": 22.6, "Time": 1776616910, "Humidity": 54.2, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 1025.5, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 18:42:52] SCD30 Measurement - CO2: 1032.111 ppm, Temp: 22.79431 °C, RelH: 53.94897 %
+[2026-04-19 18:43:52] SCD30 Measurement - CO2: 1059.587 ppm, Temp: 22.80766 °C, RelH: 53.81622 %
+[2026-04-19 18:44:52] SCD30 Measurement - CO2: 1043.602 ppm, Temp: 22.82368 °C, RelH: 53.61176 %
+[2026-04-19 18:45:52] SCD30 Measurement - CO2: 1041.826 ppm, Temp: 22.85306 °C, RelH: 53.50647 %
+[2026-04-19 18:46:52] SCD30 Measurement - CO2: 1034.962 ppm, Temp: 22.79431 °C, RelH: 53.31726 %
+[2026-04-19 18:46:53] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 18:46:54] SCD30 Measurement - CO2: 1034.588 ppm, Temp: 22.79431 °C, RelH: 53.27148 %
+[2026-04-19 18:46:54] Status code: 200
+[2026-04-19 18:46:54] json sendt: {"Temperature": 22.8, "Time": 1776617213, "Humidity": 53.3, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 1035.0, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 18:47:54] SCD30 Measurement - CO2: 1028.698 ppm, Temp: 22.76494 °C, RelH: 53.12042 %
+[2026-04-19 18:48:54] SCD30 Measurement - CO2: 1017.343 ppm, Temp: 22.73823 °C, RelH: 52.81372 %
+[2026-04-19 18:49:55] SCD30 Measurement - CO2: 1007.691 ppm, Temp: 22.72221 °C, RelH: 52.74506 %
+[2026-04-19 18:50:55] SCD30 Measurement - CO2: 998.4146 ppm, Temp: 22.70885 °C, RelH: 52.49481 %
+[2026-04-19 18:51:55] SCD30 Measurement - CO2: 990.7386 ppm, Temp: 22.70885 °C, RelH: 52.27051 %
+[2026-04-19 18:51:55] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 18:51:56] SCD30 Measurement - CO2: 990.4746 ppm, Temp: 22.6955 °C, RelH: 52.25677 %
+[2026-04-19 18:51:56] Status code: 200
+[2026-04-19 18:51:57] json sendt: {"Temperature": 22.7, "Time": 1776617515, "Humidity": 52.3, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 990.7, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 18:52:57] SCD30 Measurement - CO2: 983.6564 ppm, Temp: 22.6955 °C, RelH: 52.24762 %
+[2026-04-19 18:53:57] SCD30 Measurement - CO2: 975.5338 ppm, Temp: 22.6955 °C, RelH: 51.93176 %
+[2026-04-19 18:54:57] SCD30 Measurement - CO2: 968.7961 ppm, Temp: 22.68215 °C, RelH: 51.97296 %
+[2026-04-19 18:55:57] SCD30 Measurement - CO2: 963.166 ppm, Temp: 22.66613 °C, RelH: 51.95007 %
+[2026-04-19 18:56:57] SCD30 Measurement - CO2: 958.6083 ppm, Temp: 22.65278 °C, RelH: 51.87988 %
+[2026-04-19 18:56:57] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 18:56:59] SCD30 Measurement - CO2: 958.1582 ppm, Temp: 22.63943 °C, RelH: 51.89972 %
+[2026-04-19 18:56:59] Status code: 200
+[2026-04-19 18:56:59] json sendt: {"Temperature": 22.7, "Time": 1776617817, "Humidity": 51.9, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 958.6, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 18:57:59] SCD30 Measurement - CO2: 953.8749 ppm, Temp: 22.65278 °C, RelH: 51.86768 %
+[2026-04-19 18:58:59] SCD30 Measurement - CO2: 947.9557 ppm, Temp: 22.63943 °C, RelH: 51.84479 %
+[2026-04-19 18:59:59] SCD30 Measurement - CO2: 942.7979 ppm, Temp: 22.62608 °C, RelH: 51.71967 %
+[2026-04-19 19:01:00] SCD30 Measurement - CO2: 940.7513 ppm, Temp: 22.5967 °C, RelH: 51.71509 %
+[2026-04-19 19:02:00] SCD30 Measurement - CO2: 940.4847 ppm, Temp: 22.58335 °C, RelH: 51.77002 %
+[2026-04-19 19:02:00] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 19:02:01] SCD30 Measurement - CO2: 940.7692 ppm, Temp: 22.63943 °C, RelH: 51.76544 %
+[2026-04-19 19:02:01] Status code: 200
+[2026-04-19 19:02:01] json sendt: {"Temperature": 22.6, "Time": 1776618120, "Humidity": 51.8, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 940.5, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 19:03:02] SCD30 Measurement - CO2: 939.0403 ppm, Temp: 22.61005 °C, RelH: 51.64337 %
+[2026-04-19 19:04:02] SCD30 Measurement - CO2: 936.7856 ppm, Temp: 22.5967 °C, RelH: 51.57928 %
+[2026-04-19 19:05:02] SCD30 Measurement - CO2: 935.3569 ppm, Temp: 22.58335 °C, RelH: 51.60522 %
+[2026-04-19 19:06:02] SCD30 Measurement - CO2: 934.139 ppm, Temp: 22.57 °C, RelH: 51.52893 %
+[2026-04-19 19:07:02] SCD30 Measurement - CO2: 932.0048 ppm, Temp: 22.55398 °C, RelH: 51.42822 %
+[2026-04-19 19:07:02] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 19:07:03] SCD30 Measurement - CO2: 932.1362 ppm, Temp: 22.55398 °C, RelH: 51.47858 %
+[2026-04-19 19:07:04] Status code: 200
+[2026-04-19 19:07:04] json sendt: {"Temperature": 22.6, "Time": 1776618422, "Humidity": 51.4, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 932.0, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 19:08:04] SCD30 Measurement - CO2: 929.3807 ppm, Temp: 22.54063 °C, RelH: 51.29395 %
+[2026-04-19 19:09:04] SCD30 Measurement - CO2: 925.9798 ppm, Temp: 22.54063 °C, RelH: 51.22223 %
+[2026-04-19 19:10:04] SCD30 Measurement - CO2: 920.5044 ppm, Temp: 22.51392 °C, RelH: 51.22986 %
+[2026-04-19 19:11:04] SCD30 Measurement - CO2: 919.2847 ppm, Temp: 22.51392 °C, RelH: 51.29089 %
+[2026-04-19 19:12:04] SCD30 Measurement - CO2: 919.7258 ppm, Temp: 22.55398 °C, RelH: 51.41754 %
+[2026-04-19 19:12:04] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 19:12:06] SCD30 Measurement - CO2: 919.7333 ppm, Temp: 22.54063 °C, RelH: 51.41449 %
+[2026-04-19 19:12:06] Status code: 200
+[2026-04-19 19:12:06] json sendt: {"Temperature": 22.6, "Time": 1776618724, "Humidity": 51.4, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 919.7, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 19:13:06] SCD30 Measurement - CO2: 920.0592 ppm, Temp: 22.52728 °C, RelH: 51.40076 %
+[2026-04-19 19:14:06] SCD30 Measurement - CO2: 920.7161 ppm, Temp: 22.52728 °C, RelH: 51.32751 %
+[2026-04-19 19:15:06] SCD30 Measurement - CO2: 918.264 ppm, Temp: 22.55398 °C, RelH: 51.24817 %
+[2026-04-19 19:16:07] SCD30 Measurement - CO2: 917.441 ppm, Temp: 22.54063 °C, RelH: 51.28174 %
+[2026-04-19 19:17:07] SCD30 Measurement - CO2: 919.988 ppm, Temp: 22.55398 °C, RelH: 51.25885 %
+[2026-04-19 19:17:07] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 19:17:08] SCD30 Measurement - CO2: 919.6082 ppm, Temp: 22.54063 °C, RelH: 51.29395 %
+[2026-04-19 19:17:08] Status code: 200
+[2026-04-19 19:17:08] json sendt: {"Temperature": 22.6, "Time": 1776619027, "Humidity": 51.3, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 920.0, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 19:18:09] SCD30 Measurement - CO2: 917.6583 ppm, Temp: 22.55398 °C, RelH: 51.22223 %
+[2026-04-19 19:19:09] SCD30 Measurement - CO2: 914.8804 ppm, Temp: 22.51392 °C, RelH: 51.03455 %
+[2026-04-19 19:20:09] SCD30 Measurement - CO2: 912.5995 ppm, Temp: 22.52728 °C, RelH: 51.06201 %
+[2026-04-19 19:21:09] SCD30 Measurement - CO2: 914.7261 ppm, Temp: 22.51392 °C, RelH: 51.1673 %
+[2026-04-19 19:22:09] SCD30 Measurement - CO2: 913.5916 ppm, Temp: 22.4979 °C, RelH: 51.10626 %
+[2026-04-19 19:22:09] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 19:22:11] SCD30 Measurement - CO2: 913.2138 ppm, Temp: 22.51392 °C, RelH: 51.12 %
+[2026-04-19 19:22:11] Status code: 200
+[2026-04-19 19:22:11] json sendt: {"Temperature": 22.5, "Time": 1776619329, "Humidity": 51.1, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 913.6, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 19:23:11] SCD30 Measurement - CO2: 912.8253 ppm, Temp: 22.44183 °C, RelH: 51.06201 %
+[2026-04-19 19:24:11] SCD30 Measurement - CO2: 911.9199 ppm, Temp: 22.41512 °C, RelH: 51.09406 %
+[2026-04-19 19:25:11] SCD30 Measurement - CO2: 911.5164 ppm, Temp: 22.42847 °C, RelH: 51.15662 %
+[2026-04-19 19:26:11] SCD30 Measurement - CO2: 913.937 ppm, Temp: 22.42847 °C, RelH: 51.20392 %
+[2026-04-19 19:27:11] SCD30 Measurement - CO2: 911.7028 ppm, Temp: 22.3991 °C, RelH: 51.04218 %
+[2026-04-19 19:27:12] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 19:27:13] SCD30 Measurement - CO2: 911.963 ppm, Temp: 22.42847 °C, RelH: 51.10626 %
+[2026-04-19 19:27:13] Status code: 200
+[2026-04-19 19:27:13] json sendt: {"Temperature": 22.4, "Time": 1776619632, "Humidity": 51.0, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 911.7, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 19:28:13] SCD30 Measurement - CO2: 908.7177 ppm, Temp: 22.41512 °C, RelH: 51.13983 %
+[2026-04-19 19:29:13] SCD30 Measurement - CO2: 908.1794 ppm, Temp: 22.3991 °C, RelH: 51.12915 %
+[2026-04-19 19:30:14] SCD30 Measurement - CO2: 905.5943 ppm, Temp: 22.41512 °C, RelH: 51.11694 %
+[2026-04-19 19:31:14] SCD30 Measurement - CO2: 904.2608 ppm, Temp: 22.3991 °C, RelH: 50.99335 %
+[2026-04-19 19:32:14] SCD30 Measurement - CO2: 903.6171 ppm, Temp: 22.41512 °C, RelH: 51.02081 %
+[2026-04-19 19:32:14] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 19:32:15] SCD30 Measurement - CO2: 903.695 ppm, Temp: 22.41512 °C, RelH: 50.9964 %
+[2026-04-19 19:32:15] Status code: 200
+[2026-04-19 19:32:16] json sendt: {"Temperature": 22.4, "Time": 1776619934, "Humidity": 51.0, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 903.6, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 19:33:16] SCD30 Measurement - CO2: 902.2285 ppm, Temp: 22.41512 °C, RelH: 50.91095 %
+[2026-04-19 19:34:16] SCD30 Measurement - CO2: 902.4423 ppm, Temp: 22.41512 °C, RelH: 51.01013 %
+[2026-04-19 19:35:16] SCD30 Measurement - CO2: 900.7661 ppm, Temp: 22.42847 °C, RelH: 50.81482 %
+[2026-04-19 19:36:16] SCD30 Measurement - CO2: 896.84 ppm, Temp: 22.41512 °C, RelH: 50.80109 %
+[2026-04-19 19:37:16] SCD30 Measurement - CO2: 894.4409 ppm, Temp: 22.3991 °C, RelH: 50.76294 %
+[2026-04-19 19:37:16] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 19:37:18] SCD30 Measurement - CO2: 894.9469 ppm, Temp: 22.42847 °C, RelH: 50.7782 %
+[2026-04-19 19:37:18] Status code: 200
+[2026-04-19 19:37:18] json sendt: {"Temperature": 22.4, "Time": 1776620236, "Humidity": 50.8, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 894.4, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 19:38:18] SCD30 Measurement - CO2: 890.2674 ppm, Temp: 22.41512 °C, RelH: 50.74158 %
+[2026-04-19 19:39:18] SCD30 Measurement - CO2: 887.3432 ppm, Temp: 22.42847 °C, RelH: 50.7309 %
+[2026-04-19 19:40:18] SCD30 Measurement - CO2: 887.8397 ppm, Temp: 22.41512 °C, RelH: 50.83771 %
+[2026-04-19 19:41:19] SCD30 Measurement - CO2: 886.9449 ppm, Temp: 22.41512 °C, RelH: 50.74158 %
+[2026-04-19 19:42:19] SCD30 Measurement - CO2: 885.584 ppm, Temp: 22.41512 °C, RelH: 50.80109 %
+[2026-04-19 19:42:19] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 19:42:21] SCD30 Measurement - CO2: 885.7933 ppm, Temp: 22.3991 °C, RelH: 50.78735 %
+[2026-04-19 19:42:21] Status code: 200
+[2026-04-19 19:42:21] json sendt: {"Temperature": 22.4, "Time": 1776620539, "Humidity": 50.8, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 885.6, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 19:43:21] SCD30 Measurement - CO2: 884.7924 ppm, Temp: 22.41512 °C, RelH: 50.72784 %
+[2026-04-19 19:44:21] SCD30 Measurement - CO2: 883.9254 ppm, Temp: 22.41512 °C, RelH: 50.74158 %
+[2026-04-19 19:45:21] SCD30 Measurement - CO2: 882.5424 ppm, Temp: 22.41512 °C, RelH: 50.6546 %
+[2026-04-19 19:46:21] SCD30 Measurement - CO2: 881.6017 ppm, Temp: 22.42847 °C, RelH: 50.63477 %
+[2026-04-19 19:47:22] SCD30 Measurement - CO2: 878.8774 ppm, Temp: 22.41512 °C, RelH: 50.6546 %
+[2026-04-19 19:47:22] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 19:47:23] SCD30 Measurement - CO2: 879.0436 ppm, Temp: 22.41512 °C, RelH: 50.64545 %
+[2026-04-19 19:47:23] Status code: 200
+[2026-04-19 19:47:23] json sendt: {"Temperature": 22.4, "Time": 1776620842, "Humidity": 50.7, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 878.9, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 19:48:23] SCD30 Measurement - CO2: 876.8868 ppm, Temp: 22.3991 °C, RelH: 50.63019 %
+[2026-04-19 19:49:24] SCD30 Measurement - CO2: 876.4572 ppm, Temp: 22.38575 °C, RelH: 50.55389 %
+[2026-04-19 19:50:24] SCD30 Measurement - CO2: 875.2277 ppm, Temp: 22.38575 °C, RelH: 50.55389 %
+[2026-04-19 19:51:24] SCD30 Measurement - CO2: 876.0037 ppm, Temp: 22.38575 °C, RelH: 50.61646 %
+[2026-04-19 19:52:24] SCD30 Measurement - CO2: 875.4989 ppm, Temp: 22.3991 °C, RelH: 50.58136 %
+[2026-04-19 19:52:24] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 19:52:26] SCD30 Measurement - CO2: 875.4072 ppm, Temp: 22.38575 °C, RelH: 50.60425 %
+[2026-04-19 19:52:26] Status code: 200
+[2026-04-19 19:52:26] json sendt: {"Temperature": 22.4, "Time": 1776621144, "Humidity": 50.6, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 875.5, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 19:53:26] SCD30 Measurement - CO2: 872.8479 ppm, Temp: 22.3991 °C, RelH: 50.4715 %
+[2026-04-19 19:54:26] SCD30 Measurement - CO2: 867.0681 ppm, Temp: 22.38575 °C, RelH: 50.54321 %
+[2026-04-19 19:55:26] SCD30 Measurement - CO2: 865.5299 ppm, Temp: 22.38575 °C, RelH: 50.54321 %
+[2026-04-19 19:56:26] SCD30 Measurement - CO2: 864.5858 ppm, Temp: 22.3991 °C, RelH: 50.50812 %
+[2026-04-19 19:57:26] SCD30 Measurement - CO2: 864.3246 ppm, Temp: 22.41512 °C, RelH: 50.51117 %
+[2026-04-19 19:57:26] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 19:57:28] SCD30 Measurement - CO2: 864.1771 ppm, Temp: 22.38575 °C, RelH: 50.56763 %
+[2026-04-19 19:57:28] Status code: 200
+[2026-04-19 19:57:28] json sendt: {"Temperature": 22.4, "Time": 1776621446, "Humidity": 50.5, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 864.3, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 19:58:28] SCD30 Measurement - CO2: 862.3588 ppm, Temp: 22.41512 °C, RelH: 50.51117 %
+[2026-04-19 19:59:28] SCD30 Measurement - CO2: 860.4979 ppm, Temp: 22.41512 °C, RelH: 50.51117 %
+[2026-04-19 20:00:28] SCD30 Measurement - CO2: 861.1961 ppm, Temp: 22.3724 °C, RelH: 50.8316 %
+[2026-04-19 20:01:29] SCD30 Measurement - CO2: 861.2614 ppm, Temp: 22.3724 °C, RelH: 50.37079 %
+[2026-04-19 20:02:29] SCD30 Measurement - CO2: 856.9431 ppm, Temp: 22.3724 °C, RelH: 50.3479 %
+[2026-04-19 20:02:29] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 20:02:30] SCD30 Measurement - CO2: 856.9084 ppm, Temp: 22.3724 °C, RelH: 50.3479 %
+[2026-04-19 20:02:30] Status code: 200
+[2026-04-19 20:02:30] json sendt: {"Temperature": 22.4, "Time": 1776621749, "Humidity": 50.3, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 856.9, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 20:03:30] SCD30 Measurement - CO2: 855.8873 ppm, Temp: 22.3724 °C, RelH: 50.40741 %
+[2026-04-19 20:04:31] SCD30 Measurement - CO2: 855.3806 ppm, Temp: 22.3724 °C, RelH: 50.39673 %
+[2026-04-19 20:05:31] SCD30 Measurement - CO2: 856.4717 ppm, Temp: 22.41512 °C, RelH: 50.48828 %
+[2026-04-19 20:06:31] SCD30 Measurement - CO2: 860.1586 ppm, Temp: 22.44183 °C, RelH: 51.17035 %
+[2026-04-19 20:07:31] SCD30 Measurement - CO2: 868.3062 ppm, Temp: 22.45785 °C, RelH: 52.14539 %
+[2026-04-19 20:07:31] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 20:07:33] SCD30 Measurement - CO2: 868.5597 ppm, Temp: 22.44183 °C, RelH: 52.14233 %
+[2026-04-19 20:07:33] Status code: 200
+[2026-04-19 20:07:33] json sendt: {"Temperature": 22.5, "Time": 1776622051, "Humidity": 52.1, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 868.3, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 20:08:33] SCD30 Measurement - CO2: 872.9153 ppm, Temp: 22.45785 °C, RelH: 52.61383 %
+[2026-04-19 20:09:33] SCD30 Measurement - CO2: 874.1915 ppm, Temp: 22.4712 °C, RelH: 52.5589 %
+[2026-04-19 20:10:34] SCD30 Measurement - CO2: 871.4979 ppm, Temp: 22.42847 °C, RelH: 52.58942 %
+[2026-04-19 20:11:34] SCD30 Measurement - CO2: 868.5994 ppm, Temp: 22.42847 °C, RelH: 52.5528 %
+[2026-04-19 20:12:34] SCD30 Measurement - CO2: 866.2787 ppm, Temp: 22.42847 °C, RelH: 52.46277 %
+[2026-04-19 20:12:34] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 20:12:35] SCD30 Measurement - CO2: 866.6234 ppm, Temp: 22.42847 °C, RelH: 52.46277 %
+[2026-04-19 20:12:35] Status code: 200
+[2026-04-19 20:12:35] json sendt: {"Temperature": 22.4, "Time": 1776622354, "Humidity": 52.5, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 866.3, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 20:13:36] SCD30 Measurement - CO2: 864.3785 ppm, Temp: 22.41512 °C, RelH: 52.27356 %
+[2026-04-19 20:14:36] SCD30 Measurement - CO2: 863.0018 ppm, Temp: 22.38575 °C, RelH: 52.22321 %
+[2026-04-19 20:15:36] SCD30 Measurement - CO2: 867.655 ppm, Temp: 22.34303 °C, RelH: 52.31628 %
+[2026-04-19 20:16:36] SCD30 Measurement - CO2: 872.5731 ppm, Temp: 22.41512 °C, RelH: 52.21558 %
+[2026-04-19 20:17:36] SCD30 Measurement - CO2: 876.6082 ppm, Temp: 22.44183 °C, RelH: 52.08588 %
+[2026-04-19 20:17:36] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 20:17:38] SCD30 Measurement - CO2: 875.9961 ppm, Temp: 22.44183 °C, RelH: 52.09656 %
+[2026-04-19 20:17:38] Status code: 200
+[2026-04-19 20:17:38] json sendt: {"Temperature": 22.4, "Time": 1776622656, "Humidity": 52.1, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 876.6, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 20:18:38] SCD30 Measurement - CO2: 877.4068 ppm, Temp: 22.45785 °C, RelH: 52.16522 %
+[2026-04-19 20:19:38] SCD30 Measurement - CO2: 883.8157 ppm, Temp: 22.44183 °C, RelH: 52.15149 %
+[2026-04-19 20:20:38] SCD30 Measurement - CO2: 889.4893 ppm, Temp: 22.44183 °C, RelH: 52.15149 %
+[2026-04-19 20:21:38] SCD30 Measurement - CO2: 891.346 ppm, Temp: 22.45785 °C, RelH: 52.06451 %
+[2026-04-19 20:22:38] SCD30 Measurement - CO2: 889.3013 ppm, Temp: 22.44183 °C, RelH: 52.14233 %
+[2026-04-19 20:22:39] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 20:22:40] SCD30 Measurement - CO2: 889.3366 ppm, Temp: 22.42847 °C, RelH: 52.14081 %
+[2026-04-19 20:22:40] Status code: 200
+[2026-04-19 20:22:40] json sendt: {"Temperature": 22.4, "Time": 1776622959, "Humidity": 52.1, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 889.3, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 20:23:40] SCD30 Measurement - CO2: 888.0464 ppm, Temp: 22.42847 °C, RelH: 52.10571 %
+[2026-04-19 20:24:40] SCD30 Measurement - CO2: 883.8965 ppm, Temp: 22.45785 °C, RelH: 52.11029 %
+[2026-04-19 20:25:40] SCD30 Measurement - CO2: 880.0533 ppm, Temp: 22.42847 °C, RelH: 52.08282 %
+[2026-04-19 20:26:41] SCD30 Measurement - CO2: 876.4835 ppm, Temp: 22.42847 °C, RelH: 52.05994 %
+[2026-04-19 20:27:41] SCD30 Measurement - CO2: 875.0193 ppm, Temp: 22.44183 °C, RelH: 52.05078 %
+[2026-04-19 20:27:41] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 20:27:42] SCD30 Measurement - CO2: 875.1158 ppm, Temp: 22.44183 °C, RelH: 52.05078 %
+[2026-04-19 20:27:42] Status code: 200
+[2026-04-19 20:27:42] json sendt: {"Temperature": 22.4, "Time": 1776623261, "Humidity": 52.1, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 875.0, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 20:28:43] SCD30 Measurement - CO2: 871.0911 ppm, Temp: 22.42847 °C, RelH: 51.95923 %
+[2026-04-19 20:29:43] SCD30 Measurement - CO2: 870.8578 ppm, Temp: 22.42847 °C, RelH: 52.04926 %
+[2026-04-19 20:30:43] SCD30 Measurement - CO2: 870.0141 ppm, Temp: 22.4712 °C, RelH: 52.10114 %
+[2026-04-19 20:31:43] SCD30 Measurement - CO2: 873.8105 ppm, Temp: 22.45785 °C, RelH: 52.11945 %
+[2026-04-19 20:32:43] SCD30 Measurement - CO2: 873.7844 ppm, Temp: 22.4712 °C, RelH: 52.10114 %
+[2026-04-19 20:32:43] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 20:32:45] SCD30 Measurement - CO2: 873.8577 ppm, Temp: 22.44183 °C, RelH: 52.13165 %
+[2026-04-19 20:32:45] Status code: 200
+[2026-04-19 20:32:45] json sendt: {"Temperature": 22.5, "Time": 1776623563, "Humidity": 52.1, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 873.8, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 20:33:45] SCD30 Measurement - CO2: 874.1665 ppm, Temp: 22.41512 °C, RelH: 51.99127 %
+[2026-04-19 20:34:45] SCD30 Measurement - CO2: 872.8159 ppm, Temp: 22.44183 °C, RelH: 51.89514 %
+[2026-04-19 20:35:46] SCD30 Measurement - CO2: 870.8433 ppm, Temp: 22.44183 °C, RelH: 51.95007 %
+[2026-04-19 20:36:46] SCD30 Measurement - CO2: 872.4813 ppm, Temp: 22.45785 °C, RelH: 51.96381 %
+[2026-04-19 20:37:46] SCD30 Measurement - CO2: 871.392 ppm, Temp: 22.42847 °C, RelH: 52.07214 %
+[2026-04-19 20:37:46] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 20:37:47] SCD30 Measurement - CO2: 871.0499 ppm, Temp: 22.41512 °C, RelH: 52.02637 %
+[2026-04-19 20:37:47] Status code: 200
+[2026-04-19 20:37:48] json sendt: {"Temperature": 22.4, "Time": 1776623866, "Humidity": 52.1, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 871.4, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 20:38:48] SCD30 Measurement - CO2: 872.4486 ppm, Temp: 22.42847 °C, RelH: 52.00348 %
+[2026-04-19 20:39:48] SCD30 Measurement - CO2: 873.0734 ppm, Temp: 22.42847 °C, RelH: 51.91345 %
+[2026-04-19 20:40:48] SCD30 Measurement - CO2: 870.0638 ppm, Temp: 22.42847 °C, RelH: 51.88141 %
+[2026-04-19 20:41:48] SCD30 Measurement - CO2: 870.5148 ppm, Temp: 22.42847 °C, RelH: 51.86768 %
+[2026-04-19 20:42:48] SCD30 Measurement - CO2: 870.6017 ppm, Temp: 22.3991 °C, RelH: 51.97754 %
+[2026-04-19 20:42:48] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 20:42:50] SCD30 Measurement - CO2: 870.4622 ppm, Temp: 22.38575 °C, RelH: 51.99585 %
+[2026-04-19 20:42:50] Status code: 200
+[2026-04-19 20:42:50] json sendt: {"Temperature": 22.4, "Time": 1776624168, "Humidity": 52.0, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 870.6, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 20:43:50] SCD30 Measurement - CO2: 872.6638 ppm, Temp: 22.38575 °C, RelH: 51.96381 %
+[2026-04-19 20:44:50] SCD30 Measurement - CO2: 878.8853 ppm, Temp: 22.41512 °C, RelH: 52.09198 %
+[2026-04-19 20:45:51] SCD30 Measurement - CO2: 884.3608 ppm, Temp: 22.41512 °C, RelH: 52.02637 %
+[2026-04-19 20:46:51] SCD30 Measurement - CO2: 886.4906 ppm, Temp: 22.44183 °C, RelH: 52.02789 %
+[2026-04-19 20:47:51] SCD30 Measurement - CO2: 889.4425 ppm, Temp: 22.45785 °C, RelH: 52.03094 %
+[2026-04-19 20:47:51] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 20:47:53] SCD30 Measurement - CO2: 889.3593 ppm, Temp: 22.44183 °C, RelH: 52.005 %
+[2026-04-19 20:47:53] Status code: 200
+[2026-04-19 20:47:53] json sendt: {"Temperature": 22.5, "Time": 1776624471, "Humidity": 52.0, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 889.4, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 20:48:53] SCD30 Measurement - CO2: 893.5184 ppm, Temp: 22.44183 °C, RelH: 52.02789 %
+[2026-04-19 20:49:53] SCD30 Measurement - CO2: 896.4686 ppm, Temp: 22.45785 °C, RelH: 52.00806 %
+[2026-04-19 20:50:53] SCD30 Measurement - CO2: 899.4001 ppm, Temp: 22.41512 °C, RelH: 51.85699 %
+[2026-04-19 20:51:53] SCD30 Measurement - CO2: 900.8204 ppm, Temp: 22.44183 °C, RelH: 51.9165 %
+[2026-04-19 20:52:53] SCD30 Measurement - CO2: 902.0416 ppm, Temp: 22.42847 °C, RelH: 51.94855 %
+[2026-04-19 20:52:53] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 20:52:55] SCD30 Measurement - CO2: 902.4385 ppm, Temp: 22.4712 °C, RelH: 51.94397 %
+[2026-04-19 20:52:55] Status code: 200
+[2026-04-19 20:52:55] json sendt: {"Temperature": 22.4, "Time": 1776624773, "Humidity": 51.9, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 902.0, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 20:53:55] SCD30 Measurement - CO2: 903.1544 ppm, Temp: 22.4712 °C, RelH: 51.97601 %
+[2026-04-19 20:54:55] SCD30 Measurement - CO2: 904.5802 ppm, Temp: 22.44183 °C, RelH: 51.88141 %
+[2026-04-19 20:55:56] SCD30 Measurement - CO2: 904.6736 ppm, Temp: 22.44183 °C, RelH: 51.83868 %
+[2026-04-19 20:56:56] SCD30 Measurement - CO2: 902.238 ppm, Temp: 22.42847 °C, RelH: 51.83563 %
+[2026-04-19 20:57:56] SCD30 Measurement - CO2: 901.7343 ppm, Temp: 22.42847 °C, RelH: 51.82495 %
+[2026-04-19 20:57:56] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 20:57:58] SCD30 Measurement - CO2: 901.6488 ppm, Temp: 22.42847 °C, RelH: 51.83563 %
+[2026-04-19 20:57:58] Status code: 200
+[2026-04-19 20:57:58] json sendt: {"Temperature": 22.4, "Time": 1776625076, "Humidity": 51.8, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 901.7, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 20:58:58] SCD30 Measurement - CO2: 903.5507 ppm, Temp: 22.3991 °C, RelH: 51.89819 %
+[2026-04-19 20:59:58] SCD30 Measurement - CO2: 905.0999 ppm, Temp: 22.42847 °C, RelH: 51.95923 %
+[2026-04-19 21:00:58] SCD30 Measurement - CO2: 907.4983 ppm, Temp: 22.41512 °C, RelH: 51.96838 %
+[2026-04-19 21:01:58] SCD30 Measurement - CO2: 909.4581 ppm, Temp: 22.42847 °C, RelH: 52.0401 %
+[2026-04-19 21:02:58] SCD30 Measurement - CO2: 910.5086 ppm, Temp: 22.42847 °C, RelH: 51.89362 %
+[2026-04-19 21:02:59] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 21:03:00] SCD30 Measurement - CO2: 910.7291 ppm, Temp: 22.44183 °C, RelH: 51.88141 %
+[2026-04-19 21:03:00] Status code: 200
+[2026-04-19 21:03:00] json sendt: {"Temperature": 22.4, "Time": 1776625379, "Humidity": 51.9, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 910.5, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 21:04:00] SCD30 Measurement - CO2: 910.2993 ppm, Temp: 22.3991 °C, RelH: 51.95465 %
+[2026-04-19 21:05:01] SCD30 Measurement - CO2: 910.4716 ppm, Temp: 22.42847 °C, RelH: 51.88141 %
+[2026-04-19 21:06:01] SCD30 Measurement - CO2: 910.5319 ppm, Temp: 22.41512 °C, RelH: 52.00043 %
+[2026-04-19 21:07:01] SCD30 Measurement - CO2: 912.8175 ppm, Temp: 22.44183 °C, RelH: 52.005 %
+[2026-04-19 21:08:01] SCD30 Measurement - CO2: 916.6151 ppm, Temp: 22.44183 °C, RelH: 52.05078 %
+[2026-04-19 21:08:01] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 21:08:03] SCD30 Measurement - CO2: 916.6199 ppm, Temp: 22.45785 °C, RelH: 52.07672 %
+[2026-04-19 21:08:03] Status code: 200
+[2026-04-19 21:08:03] json sendt: {"Temperature": 22.4, "Time": 1776625681, "Humidity": 52.1, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 916.6, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 21:09:03] SCD30 Measurement - CO2: 919.6325 ppm, Temp: 22.4712 °C, RelH: 52.06757 %
+[2026-04-19 21:10:03] SCD30 Measurement - CO2: 921.7894 ppm, Temp: 22.48455 °C, RelH: 52.02332 %
+[2026-04-19 21:11:04] SCD30 Measurement - CO2: 921.6256 ppm, Temp: 22.4979 °C, RelH: 52.03705 %
+[2026-04-19 21:12:04] SCD30 Measurement - CO2: 926.8662 ppm, Temp: 22.4979 °C, RelH: 52.01416 %
+[2026-04-19 21:13:04] SCD30 Measurement - CO2: 930.6163 ppm, Temp: 22.4979 °C, RelH: 51.95923 %
+[2026-04-19 21:13:04] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 21:13:06] SCD30 Measurement - CO2: 930.6214 ppm, Temp: 22.48455 °C, RelH: 51.9577 %
+[2026-04-19 21:13:06] Status code: 200
+[2026-04-19 21:13:06] json sendt: {"Temperature": 22.5, "Time": 1776625984, "Humidity": 52.0, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 930.6, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 21:14:06] SCD30 Measurement - CO2: 930.7861 ppm, Temp: 22.48455 °C, RelH: 51.94397 %
+[2026-04-19 21:15:06] SCD30 Measurement - CO2: 930.3627 ppm, Temp: 22.48455 °C, RelH: 51.9577 %
+[2026-04-19 21:16:07] SCD30 Measurement - CO2: 934.6293 ppm, Temp: 22.4712 °C, RelH: 52.00043 %
+[2026-04-19 21:17:07] SCD30 Measurement - CO2: 935.1024 ppm, Temp: 22.4712 °C, RelH: 51.97601 %
+[2026-04-19 21:18:07] SCD30 Measurement - CO2: 936.8317 ppm, Temp: 22.4712 °C, RelH: 52.00958 %
+[2026-04-19 21:18:07] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 21:18:08] SCD30 Measurement - CO2: 936.7394 ppm, Temp: 22.4712 °C, RelH: 52.00958 %
+[2026-04-19 21:18:09] Status code: 200
+[2026-04-19 21:18:09] json sendt: {"Temperature": 22.5, "Time": 1776626287, "Humidity": 52.0, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 936.8, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 21:19:09] SCD30 Measurement - CO2: 934.5991 ppm, Temp: 22.48455 °C, RelH: 51.93481 %
+[2026-04-19 21:20:09] SCD30 Measurement - CO2: 936.1789 ppm, Temp: 22.45785 °C, RelH: 51.94092 %
+[2026-04-19 21:21:09] SCD30 Measurement - CO2: 937.8255 ppm, Temp: 22.4712 °C, RelH: 51.87531 %
+[2026-04-19 21:22:09] SCD30 Measurement - CO2: 936.9613 ppm, Temp: 22.4712 °C, RelH: 51.94397 %
+[2026-04-19 21:23:09] SCD30 Measurement - CO2: 939.239 ppm, Temp: 22.48455 °C, RelH: 52.00348 %
+[2026-04-19 21:23:09] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 21:23:11] SCD30 Measurement - CO2: 939.3608 ppm, Temp: 22.48455 °C, RelH: 52.02332 %
+[2026-04-19 21:23:11] Status code: 200
+[2026-04-19 21:23:11] json sendt: {"Temperature": 22.5, "Time": 1776626589, "Humidity": 52.0, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 939.2, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 21:24:11] SCD30 Measurement - CO2: 941.8434 ppm, Temp: 22.48455 °C, RelH: 52.02332 %
+[2026-04-19 21:25:11] SCD30 Measurement - CO2: 943.6928 ppm, Temp: 22.4712 °C, RelH: 52.00958 %
+[2026-04-19 21:26:12] SCD30 Measurement - CO2: 946.6121 ppm, Temp: 22.4979 °C, RelH: 52.00348 %
+[2026-04-19 21:27:12] SCD30 Measurement - CO2: 949.9354 ppm, Temp: 22.51392 °C, RelH: 52.0401 %
+[2026-04-19 21:28:12] SCD30 Measurement - CO2: 951.4474 ppm, Temp: 22.48455 °C, RelH: 52.01263 %
+[2026-04-19 21:28:12] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 21:28:14] SCD30 Measurement - CO2: 951.2264 ppm, Temp: 22.51392 °C, RelH: 52.0401 %
+[2026-04-19 21:28:14] Status code: 200
+[2026-04-19 21:28:14] json sendt: {"Temperature": 22.5, "Time": 1776626892, "Humidity": 52.0, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 951.4, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 21:29:14] SCD30 Measurement - CO2: 952.9337 ppm, Temp: 22.4979 °C, RelH: 51.93634 %
+[2026-04-19 21:30:14] SCD30 Measurement - CO2: 952.6047 ppm, Temp: 22.51392 °C, RelH: 52.005 %
+[2026-04-19 21:31:14] SCD30 Measurement - CO2: 953.895 ppm, Temp: 22.4712 °C, RelH: 51.93176 %
+[2026-04-19 21:32:15] SCD30 Measurement - CO2: 957.0168 ppm, Temp: 22.48455 °C, RelH: 51.97754 %
+[2026-04-19 21:33:15] SCD30 Measurement - CO2: 955.6507 ppm, Temp: 22.48455 °C, RelH: 51.96838 %
+[2026-04-19 21:33:15] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 21:33:16] SCD30 Measurement - CO2: 955.114 ppm, Temp: 22.48455 °C, RelH: 51.96838 %
+[2026-04-19 21:33:17] Status code: 200
+[2026-04-19 21:33:17] json sendt: {"Temperature": 22.5, "Time": 1776627195, "Humidity": 52.0, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 955.7, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 21:34:17] SCD30 Measurement - CO2: 953.7822 ppm, Temp: 22.48455 °C, RelH: 51.94397 %
+[2026-04-19 21:35:17] SCD30 Measurement - CO2: 955.2814 ppm, Temp: 22.4979 °C, RelH: 51.89056 %
+[2026-04-19 21:36:17] SCD30 Measurement - CO2: 954.1492 ppm, Temp: 22.51392 °C, RelH: 51.94855 %
+[2026-04-19 21:37:17] SCD30 Measurement - CO2: 954.3303 ppm, Temp: 22.4979 °C, RelH: 51.93634 %
+[2026-04-19 21:38:17] SCD30 Measurement - CO2: 957.6227 ppm, Temp: 22.4979 °C, RelH: 51.95923 %
+[2026-04-19 21:38:17] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 21:38:19] SCD30 Measurement - CO2: 957.8203 ppm, Temp: 22.4979 °C, RelH: 52.00348 %
+[2026-04-19 21:38:19] Status code: 200
+[2026-04-19 21:38:19] json sendt: {"Temperature": 22.5, "Time": 1776627497, "Humidity": 52.0, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 957.6, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 21:39:20] SCD30 Measurement - CO2: 959.889 ppm, Temp: 22.51392 °C, RelH: 51.85852 %
+[2026-04-19 21:40:20] SCD30 Measurement - CO2: 963.5999 ppm, Temp: 22.51392 °C, RelH: 51.9043 %
+[2026-04-19 21:41:20] SCD30 Measurement - CO2: 967.2778 ppm, Temp: 22.4979 °C, RelH: 51.92566 %
+[2026-04-19 21:42:20] SCD30 Measurement - CO2: 969.262 ppm, Temp: 22.48455 °C, RelH: 51.91193 %
+[2026-04-19 21:43:20] SCD30 Measurement - CO2: 968.8592 ppm, Temp: 22.51392 °C, RelH: 51.9043 %
+[2026-04-19 21:43:20] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 21:43:22] SCD30 Measurement - CO2: 968.6699 ppm, Temp: 22.4979 °C, RelH: 51.85699 %
+[2026-04-19 21:43:22] Status code: 200
+[2026-04-19 21:43:22] json sendt: {"Temperature": 22.5, "Time": 1776627800, "Humidity": 51.9, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 968.9, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 21:44:22] SCD30 Measurement - CO2: 968.895 ppm, Temp: 22.52728 °C, RelH: 51.9165 %
+[2026-04-19 21:45:22] SCD30 Measurement - CO2: 971.5085 ppm, Temp: 22.51392 °C, RelH: 51.9043 %
+[2026-04-19 21:46:23] SCD30 Measurement - CO2: 973.8604 ppm, Temp: 22.52728 °C, RelH: 51.88446 %
+[2026-04-19 21:47:23] SCD30 Measurement - CO2: 975.1221 ppm, Temp: 22.52728 °C, RelH: 51.89514 %
+[2026-04-19 21:48:23] SCD30 Measurement - CO2: 977.0117 ppm, Temp: 22.4979 °C, RelH: 51.85699 %
+[2026-04-19 21:48:23] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 21:48:24] SCD30 Measurement - CO2: 976.6862 ppm, Temp: 22.4979 °C, RelH: 51.85699 %
+[2026-04-19 21:48:25] Status code: 200
+[2026-04-19 21:48:25] json sendt: {"Temperature": 22.5, "Time": 1776628103, "Humidity": 51.9, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 977.0, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 21:49:25] SCD30 Measurement - CO2: 979.2609 ppm, Temp: 22.51392 °C, RelH: 51.9043 %
+[2026-04-19 21:50:25] SCD30 Measurement - CO2: 975.7043 ppm, Temp: 22.5967 °C, RelH: 51.72577 %
+[2026-04-19 21:51:25] SCD30 Measurement - CO2: 984.1957 ppm, Temp: 22.57 °C, RelH: 51.68457 %
+[2026-04-19 21:52:25] SCD30 Measurement - CO2: 984.5396 ppm, Temp: 22.54063 °C, RelH: 51.80817 %
+[2026-04-19 21:53:25] SCD30 Measurement - CO2: 987.8733 ppm, Temp: 22.51392 °C, RelH: 51.72577 %
+[2026-04-19 21:53:25] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 21:53:27] SCD30 Measurement - CO2: 987.9211 ppm, Temp: 22.51392 °C, RelH: 51.71204 %
+[2026-04-19 21:53:27] Status code: 200
+[2026-04-19 21:53:27] json sendt: {"Temperature": 22.5, "Time": 1776628405, "Humidity": 51.7, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 987.9, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 21:54:27] SCD30 Measurement - CO2: 987.8894 ppm, Temp: 22.4979 °C, RelH: 51.73492 %
+[2026-04-19 21:55:27] SCD30 Measurement - CO2: 987.011 ppm, Temp: 22.48455 °C, RelH: 51.60065 %
+[2026-04-19 21:56:28] SCD30 Measurement - CO2: 986.9161 ppm, Temp: 22.4979 °C, RelH: 51.66473 %
+[2026-04-19 21:57:28] SCD30 Measurement - CO2: 986.6299 ppm, Temp: 22.4712 °C, RelH: 51.94397 %
+[2026-04-19 21:58:28] SCD30 Measurement - CO2: 990.5063 ppm, Temp: 22.4712 °C, RelH: 51.73035 %
+[2026-04-19 21:58:28] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 21:58:30] SCD30 Measurement - CO2: 990.4925 ppm, Temp: 22.4712 °C, RelH: 51.73035 %
+[2026-04-19 21:58:30] Status code: 200
+[2026-04-19 21:58:30] json sendt: {"Temperature": 22.5, "Time": 1776628708, "Humidity": 51.7, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 990.5, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 21:59:30] SCD30 Measurement - CO2: 994.9342 ppm, Temp: 22.44183 °C, RelH: 51.79443 %
+[2026-04-19 22:00:30] SCD30 Measurement - CO2: 996.2007 ppm, Temp: 22.44183 °C, RelH: 51.76086 %
+[2026-04-19 22:01:30] SCD30 Measurement - CO2: 996.6883 ppm, Temp: 22.42847 °C, RelH: 51.73492 %
+[2026-04-19 22:02:30] SCD30 Measurement - CO2: 997.4417 ppm, Temp: 22.44183 °C, RelH: 51.77002 %
+[2026-04-19 22:03:30] SCD30 Measurement - CO2: 998.0598 ppm, Temp: 22.3991 °C, RelH: 51.69678 %
+[2026-04-19 22:03:31] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 22:03:32] SCD30 Measurement - CO2: 997.9962 ppm, Temp: 22.41512 °C, RelH: 51.71051 %
+[2026-04-19 22:03:32] Status code: 200
+[2026-04-19 22:03:32] json sendt: {"Temperature": 22.4, "Time": 1776629011, "Humidity": 51.7, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 998.1, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 22:04:32] SCD30 Measurement - CO2: 997.7592 ppm, Temp: 22.38575 °C, RelH: 51.76239 %
+[2026-04-19 22:05:33] SCD30 Measurement - CO2: 999.074 ppm, Temp: 22.41512 °C, RelH: 51.71051 %
+[2026-04-19 22:06:33] SCD30 Measurement - CO2: 999.3727 ppm, Temp: 22.3724 °C, RelH: 51.82648 %
+[2026-04-19 22:07:33] SCD30 Measurement - CO2: 1000.135 ppm, Temp: 22.3724 °C, RelH: 51.90735 %
+[2026-04-19 22:08:33] SCD30 Measurement - CO2: 1000.843 ppm, Temp: 22.35905 °C, RelH: 51.89362 %
+[2026-04-19 22:08:33] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 22:08:35] SCD30 Measurement - CO2: 1000.987 ppm, Temp: 22.38575 °C, RelH: 51.89514 %
+[2026-04-19 22:08:35] Status code: 200
+[2026-04-19 22:08:35] json sendt: {"Temperature": 22.4, "Time": 1776629313, "Humidity": 51.9, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 1000.8, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 22:09:35] SCD30 Measurement - CO2: 1001.474 ppm, Temp: 22.38575 °C, RelH: 51.92108 %
+[2026-04-19 22:10:35] SCD30 Measurement - CO2: 1002.917 ppm, Temp: 22.38575 °C, RelH: 52.06757 %
+[2026-04-19 22:11:35] SCD30 Measurement - CO2: 1004.567 ppm, Temp: 22.3991 °C, RelH: 52.13623 %
+[2026-04-19 22:12:36] SCD30 Measurement - CO2: 1008.702 ppm, Temp: 22.3991 °C, RelH: 52.06909 %
+[2026-04-19 22:13:36] SCD30 Measurement - CO2: 1010.179 ppm, Temp: 22.41512 °C, RelH: 52.05841 %
+[2026-04-19 22:13:36] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 22:13:38] SCD30 Measurement - CO2: 1010.141 ppm, Temp: 22.3991 °C, RelH: 52.05536 %
+[2026-04-19 22:13:38] Status code: 200
+[2026-04-19 22:13:38] json sendt: {"Temperature": 22.4, "Time": 1776629616, "Humidity": 52.1, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 1010.2, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 22:14:38] SCD30 Measurement - CO2: 1010.359 ppm, Temp: 22.3991 °C, RelH: 52.13623 %
+[2026-04-19 22:15:38] SCD30 Measurement - CO2: 1012.472 ppm, Temp: 22.3991 °C, RelH: 52.15607 %
+[2026-04-19 22:16:38] SCD30 Measurement - CO2: 1014.355 ppm, Temp: 22.3991 °C, RelH: 52.21405 %
+[2026-04-19 22:17:38] SCD30 Measurement - CO2: 1013.646 ppm, Temp: 22.38575 °C, RelH: 52.28882 %
+[2026-04-19 22:18:38] SCD30 Measurement - CO2: 1014.834 ppm, Temp: 22.38575 °C, RelH: 52.18811 %
+[2026-04-19 22:18:39] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 22:18:40] SCD30 Measurement - CO2: 1015.036 ppm, Temp: 22.41512 °C, RelH: 52.19269 %
+[2026-04-19 22:18:40] Status code: 200
+[2026-04-19 22:18:40] json sendt: {"Temperature": 22.4, "Time": 1776629919, "Humidity": 52.2, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 1014.8, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 22:19:40] SCD30 Measurement - CO2: 1016.041 ppm, Temp: 22.38575 °C, RelH: 52.22321 %
+[2026-04-19 22:20:41] SCD30 Measurement - CO2: 1014.576 ppm, Temp: 22.3724 °C, RelH: 52.13165 %
+[2026-04-19 22:21:41] SCD30 Measurement - CO2: 1015.65 ppm, Temp: 22.3991 °C, RelH: 52.1698 %
+[2026-04-19 22:22:41] SCD30 Measurement - CO2: 1294.125 ppm, Temp: 22.65278 °C, RelH: 52.84576 %
+[2026-04-19 22:23:41] SCD30 Measurement - CO2: 1038.709 ppm, Temp: 22.77829 °C, RelH: 51.52435 %
+[2026-04-19 22:23:41] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 22:23:43] SCD30 Measurement - CO2: 1038.841 ppm, Temp: 22.75159 °C, RelH: 51.50604 %
+[2026-04-19 22:23:43] Status code: 200
+[2026-04-19 22:23:43] json sendt: {"Temperature": 22.8, "Time": 1776630221, "Humidity": 51.5, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 1038.7, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 22:24:43] SCD30 Measurement - CO2: 1036.182 ppm, Temp: 22.68215 °C, RelH: 51.64185 %
+[2026-04-19 22:25:43] SCD30 Measurement - CO2: 1035.59 ppm, Temp: 22.54063 °C, RelH: 51.72882 %
+[2026-04-19 22:26:43] SCD30 Measurement - CO2: 1036.908 ppm, Temp: 22.48455 °C, RelH: 51.88904 %
+[2026-04-19 22:27:43] SCD30 Measurement - CO2: 1041.692 ppm, Temp: 22.42847 °C, RelH: 51.99432 %
+[2026-04-19 22:28:44] SCD30 Measurement - CO2: 1042.102 ppm, Temp: 22.3724 °C, RelH: 52.01874 %
+[2026-04-19 22:28:44] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 22:28:45] SCD30 Measurement - CO2: 1042.2 ppm, Temp: 22.42847 °C, RelH: 52.04926 %
+[2026-04-19 22:28:45] Status code: 200
+[2026-04-19 22:28:46] json sendt: {"Temperature": 22.4, "Time": 1776630524, "Humidity": 52.0, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 1042.1, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 22:29:46] SCD30 Measurement - CO2: 1041.183 ppm, Temp: 22.34303 °C, RelH: 52.09503 %
+[2026-04-19 22:30:46] SCD30 Measurement - CO2: 1039.53 ppm, Temp: 22.32967 °C, RelH: 52.05841 %
+[2026-04-19 22:31:46] SCD30 Measurement - CO2: 1037.3 ppm, Temp: 22.32967 °C, RelH: 52.05841 %
+[2026-04-19 22:32:46] SCD30 Measurement - CO2: 1035.125 ppm, Temp: 22.35905 °C, RelH: 52.08282 %
+[2026-04-19 22:33:46] SCD30 Measurement - CO2: 1041.567 ppm, Temp: 22.3724 °C, RelH: 52.09961 %
+[2026-04-19 22:33:46] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 22:33:48] SCD30 Measurement - CO2: 1041.899 ppm, Temp: 22.32967 °C, RelH: 52.09198 %
+[2026-04-19 22:33:48] Status code: 200
+[2026-04-19 22:33:48] json sendt: {"Temperature": 22.4, "Time": 1776630826, "Humidity": 52.1, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 1041.6, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 22:34:48] SCD30 Measurement - CO2: 1049.836 ppm, Temp: 22.32967 °C, RelH: 52.23694 %
+[2026-04-19 22:35:49] SCD30 Measurement - CO2: 1058.21 ppm, Temp: 22.31632 °C, RelH: 52.23389 %
+[2026-04-19 22:36:49] SCD30 Measurement - CO2: 1062.864 ppm, Temp: 22.32967 °C, RelH: 52.26898 %
+[2026-04-19 22:37:49] SCD30 Measurement - CO2: 1067.909 ppm, Temp: 22.3724 °C, RelH: 53.25317 %
+[2026-04-19 22:38:49] SCD30 Measurement - CO2: 1073.525 ppm, Temp: 22.42847 °C, RelH: 53.25012 %
+[2026-04-19 22:38:49] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 22:38:51] SCD30 Measurement - CO2: 1073.392 ppm, Temp: 22.41512 °C, RelH: 53.28064 %
+[2026-04-19 22:38:51] Status code: 200
+[2026-04-19 22:38:51] json sendt: {"Temperature": 22.4, "Time": 1776631129, "Humidity": 53.3, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 1073.5, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 22:39:51] SCD30 Measurement - CO2: 1079.06 ppm, Temp: 22.45785 °C, RelH: 53.88184 %
+[2026-04-19 22:40:51] SCD30 Measurement - CO2: 1087.029 ppm, Temp: 22.38575 °C, RelH: 54.15192 %
+[2026-04-19 22:41:51] SCD30 Measurement - CO2: 1088.612 ppm, Temp: 22.45785 °C, RelH: 53.69263 %
+[2026-04-19 22:42:51] SCD30 Measurement - CO2: 1090.584 ppm, Temp: 22.45785 °C, RelH: 54.01764 %
+[2026-04-19 22:43:52] SCD30 Measurement - CO2: 1100.332 ppm, Temp: 22.4712 °C, RelH: 54.15497 %
+[2026-04-19 22:43:52] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2026-04-19 22:43:53] SCD30 Measurement - CO2: 1101.268 ppm, Temp: 22.45785 °C, RelH: 54.21906 %
+[2026-04-19 22:43:54] Status code: 200
+[2026-04-19 22:43:54] json sendt: {"Temperature": 22.5, "Time": 1776631432, "Humidity": 54.2, "HeaterState": 0, "TemperatureControl": "enabled", "CO2": 1100.3, "Hysteresis": 4, "PostInterval": 10, "Thermostat": 15}
+[2026-04-19 22:44:54] SCD30 Measurement - CO2: 1116.951 ppm, Temp: 22.57 °C, RelH: 54.11377 %

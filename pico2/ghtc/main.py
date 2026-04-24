@@ -20,7 +20,7 @@ ascii_art = (
     "    |  | [] [] [] []|  |\r\n"
     "    |  | [] [] [] []|  |\r\n"
     "    |  '------------'  |\r\n"
-    "    |____version 2.1 __|\r\n"
+    "    |____version 2.3 __|\r\n"
     "      |  || GREEN ||  |\r\n"
     "      |  || HOUSE ||  |\r\n"
     "      '--------------'\r\n"
@@ -29,9 +29,11 @@ output("START\r\n")
 cmd_output(ascii_art, "")
 
 async def main():
+    initControl()
     # Attempt initial connection (non-blocking success not critical)
     try:
-        output(f"Attempting to connect to WiFi using the following config:\r\nSSID: {read_config()['wifi']['SSID']}, PASSWORD: {read_config()['wifi']['PASSWORD']}")
+        #output(f"Attempting to connect to WiFi using the following config:\r\nSSID: {read_config()['wifi']['SSID']}, PASSWORD: {read_config()['wifi']['PASSWORD']}")
+        output(f"Connecting to WiFi network with SSID: {read_config()['wifi']['SSID']}")
         connect_wifi(read_config())
         time.sleep(4)
         if wlan.isconnected():
@@ -44,13 +46,20 @@ async def main():
         output("Initial WiFi setup error:", str(e))
 
     # Start key tasks regardless of WiFi connection state
-    #asyncio.create_task(monitor_valves())
+
     asyncio.create_task(send_data())
     asyncio.create_task(maintain_wifi_connection())
-
+    
     uart0.write(b'\r\npico-w> ')
+    counter = 0
     while True:
-        hb.toggle()  # Heartbeat LED toggle
+        if wlan.isconnected():
+            hb.toggle()  # Heartbeat LED toggle
+        else:
+           # Toggle slowly if not connected
+           if (counter) > 5:  # Toggle every 5 seconds when not connected
+                hb.toggle()
+                counter = 0  # Reset counter
         await asyncio.sleep(1)
 
 # Start the event loop

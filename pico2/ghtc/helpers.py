@@ -1,5 +1,4 @@
 import struct
-
 from machine import UART, Pin, reset, I2C, ADC
 import machine
 import uasyncio as asyncio
@@ -9,7 +8,7 @@ from collections import OrderedDict
 import wifi
 import json
 from scd30 import SCD30
-
+from dht import DHT11
 
 adc = ADC(28)  # ADC2 is GPIO28
 chipTempADC = ADC(4)  # ADC4 is GPIO27 (internal temperature sensor in RP2050)
@@ -60,6 +59,42 @@ heater1 = gp2  # SW heater control (active high)
 heater2 = gp4  # SW heater control (active high)
 
 uart0 = UART(0, baudrate=9600, tx=Pin(0), rx=Pin(1))
+sensor = DHT11(Pin(26))  # DHT11 sensor on GPIO26 (adjust as needed)
+
+sensirion = None
+global sensor_connected
+sensor_connected = False
+
+monitor = True
+postInterval = 5 # currently 5 min interval for publishing data to the web...
+OFF = 0
+ON = 1   
+### Default temperature control parameters
+heaterState = OFF
+temperatureControl = OFF
+termostat = 15
+tempHysteresis = 4
+### END Default control parameters
+
+def initControl():
+    global postInterval
+    config = read_config()
+    postInterval = config.get("postInterval")
+    envctrl = config.get("envctrl", {})
+    global temperatureControl    
+    global termostat
+    global tempHysteresis
+
+    if envctrl.get("tempCtrl", "-") == "enabled":
+        temperatureControl = 1
+    else:
+        temperatureControl = 0
+        
+    termostat = envctrl.get("termostat", "-")
+    tempHysteresis = envctrl.get("tempHysteresis", "-")
+
+    cmd_output("> Environment Control Initialized")
+    cmd_output("> POST interval = ", str(postInterval) + " min\r\n")
 
 def output(text, arg="", delay=0.1):
     
@@ -176,20 +211,36 @@ def timestamp_diff(t1_epoch, t2_epoch):
     return abs(int(t2_epoch) - int(t1_epoch))
 
 # SCD30 sensirion = SCD30(i2c=I2C(1, sda=Pin(14), scl=Pin(15)), addr=0x61)
-try:
-    i2c = I2C(1, scl=Pin(15), sda=Pin(14), freq=100000)
-    sensirion = SCD30(i2c, 0x61)
-    # Start measurements once (typically at startup)
-    sensirion.start_continous_measurement()
-    sensor_connected = True
-except Exception as e:
-    output("SCD30 not found or failed to initialize:", str(e))
-    sensirion = None
-    sensor_connected = False
+def init_scd30():
+    global sensirion, sensor_connected
+    try:
+        i2c = I2C(1, scl=Pin(15), sda=Pin(14), freq=50000)
+        sensirion = SCD30(i2c, 0x61)
+        # Start measurements once (typically at startup)
+        sensirion.start_continous_measurement()
+        sensor_connected = True
+        output("SCD30 sensor initialized successfully.")
+    except Exception as e:
+        output("SCD30 not found or failed to initialize:", str(e))
+        sensirion = None
+        sensor_connected = False
 
 def read_SCD30():
+    global sensirion, sensor_connected
     if not sensor_connected or sensirion is None:
-        output("SCD30 sensor not connected or not initialized.")
+        # We'll attempt to reestablish connection a number of times before giving up.
+        for _ in range(5):  # Try 5 times
+            try:
+                i2c = I2C(1, scl=Pin(15), sda=Pin(14), freq=50000)
+                sensirion = SCD30(i2c, 0x61)
+                sensirion.start_continous_measurement()
+                output("SCD30 sensor reconnected successfully.")
+                break
+            except Exception as e:
+                output("Retrying SCD30 connection:", str(e))
+                time.sleep(2)  # Wait before retrying
+    else:
+        output("SCD30 sensor could not be connected or not initialized.")
         return (0,0,0)
 
     timeout_ms = 5000
@@ -204,12 +255,34 @@ def read_SCD30():
     try:
         measurement = sensirion.read_measurement()
         output(f"SCD30 Measurement - CO2: {measurement[0]} ppm, Temp: {measurement[1]} °C, RelH: {measurement[2]} %")
+        tempControl(measurement[1])  # Control heater based on temperature reading
         return measurement
         
     except Exception as e:
         output("Error reading SCD30 measurement:", str(e))
         return (0,0,0)
-        
+    
+def read_DHT11():
+    global sensor, sensor_connected
+    """
+    Read temperature and humidity from DHT11 sensor.
+    Returns: (temperature_celsius, humidity_percent)
+    """
+    try:
+        # Initialize DHT11 on GPIO pin (adjust pin number as needed)
+        sensor.measure()
+        temperature = sensor.temperature()
+        humidity = sensor.humidity()
+        #output(f"DHT11 - Temp: {temperature} °C, Humidity: {humidity} %")
+        sensor_connected = True  # Mark sensor as connected if reading is successful
+        #output("DHT11sensor_connected: ", sensor_connected and "Yes" or "No")
+        return (temperature, humidity)
+    except Exception as e:
+        output("Error reading DHT11:", str(e))
+        sensor_connected = False
+        output("DHT11sensor_connected: ", sensor_connected and "Yes" or "No")
+
+        return (0, 0)
 
 def read_LM35():
     """
@@ -229,8 +302,6 @@ def read_LM35():
     temperature_celsius = (voltage / 0.01) - 5  # Subtract 5 to calibrate for ambient offset (adjust as needed)
     # Note: The "-5" is used to encounter the fact that at -5°C the sensor should output 0V, at 0°C it should output 0.5V.
 
-    tempControl(temperature_celsius)  # Control heater based on temperature reading
-
     return (raw_value, round(temperature_celsius, 1))
 
 def read_chip_temperature():
@@ -247,7 +318,7 @@ def switchOn(pin):
 def switchOff(pin):
     pin.value(0)
 
-def tempControl(temperature, heater=heater1, threshold=15, hysteresis=6):
+def tempControl(temperature, heater=heater1, threshold=15, hysteresis=4):
     """
     Control heater switch based on temperature with hysteresis.
     Switch off heater if temperature > threshold + hysteresis/2
@@ -266,20 +337,24 @@ def tempControl(temperature, heater=heater1, threshold=15, hysteresis=6):
             openDrain_2.value(0)  # Ensure SW 12V circuit is off (if not used).
             output(f"Temperature {temperature}°C below {threshold}°C, Switching on heater.")
 
-def actuatorState(openDrainValue):
-    state = "Closed"
-    if openDrainValue == 1:
-        state = "Open"
+def actuatorState(mosfetSwtch):
+    state = ON if mosfetSwtch == 1 else OFF
+    return state
+
+def sensorState():
+    state = True if sensor_connected else False
     return state
 
 def build_json_data():
-    measurement = read_SCD30()  # Update SCD30 reading for debugging
+    global termostat, tempHysteresis, temperatureControl, heaterState, postInterval
+    temperature, humidity = read_DHT11()
     return {
-        "Temperature": round(measurement[1], 1),
-        "Humidity": round(measurement[2], 1),
-        "CO2": round(measurement[0], 1),
-        "LM35_Temperature": round(read_LM35()[1], 1),
-        "RP2050_Temperature": round(read_chip_temperature(), 1),
-        "actuatorCircuit_1": actuatorState(openDrain_1.value()),
-        "actuatorCircuit_2": actuatorState(openDrain_2.value())
+        "Time": time.time(),
+        "Temperature": round(temperature, 1),
+        "Humidity": round(humidity, 1),
+        "TemperatureControl": temperatureControl,
+        "Thermostat": termostat,
+        "Hysteresis": tempHysteresis,
+        "HeaterState": actuatorState(heaterState),
+        "PostInterval": postInterval
     }

@@ -8,16 +8,17 @@ json_data_sent = {}
 current_json_data = {}
 last_sent_time = 0  # Track the last time data was sent (in seconds since epoch)
 
-SEND_INTERVAL = 5 * 60  # 5 minutes in seconds
+SEND_INTERVAL = postInterval * 60 # 'postInterval' minutes in seconds
 
 async def send_data():
-    global json_data_sent, current_json_data, last_sent_time
+    global json_data_sent, current_json_data, last_sent_time, SEND_INTERVAL, sensor_connected
 
     while True:
-        if wifi.wlan.isconnected():
+        current_json_data = build_json_data()
+        if wifi.wlan.isconnected() and sensorState():
             try:
                 gc.collect()
-                current_json_data = build_json_data()
+
                 time_since_last_send = time.time() - last_sent_time
 
                 # Send if data has changed OR 15 minutes have passed
@@ -32,10 +33,12 @@ async def send_data():
                     output("json sendt: ", json.dumps(current_json_data))
                 else:
                     pass
-                    #output("No change in json data and 15 minutes not passed, will not send")
+                    
             except Exception as e:
                 output("Error sending POST request: ", str(e))
         else:
             if not wifi.wlan.isconnected():
                 output("WiFi not connected, cannot send data.")
+            if not sensorState():
+                output("Sensor not connected, cannot send data.")
         await asyncio.sleep(60)  # check every 15 seconds
