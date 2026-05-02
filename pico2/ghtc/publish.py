@@ -8,11 +8,12 @@ json_data_sent = {}
 current_json_data = {}
 last_sent_time = 0  # Track the last time data was sent (in seconds since epoch)
 
-SEND_INTERVAL = postInterval * 60 # 'postInterval' minutes in seconds
-
 async def send_data():
-    global json_data_sent, current_json_data, last_sent_time, SEND_INTERVAL, sensor_connected
-
+    global json_data_sent, current_json_data, last_sent_time, sensor_connected
+    config = read_config()
+    SEND_INTERVAL = config.get("postInterval") * 60 # 'postInterval' minutes in seconds
+    cmd_output("Data publish interval set to: ", str(SEND_INTERVAL)+" seconds")
+    
     while True:
         current_json_data = build_json_data()
         if wifi.wlan.isconnected() and sensorState():

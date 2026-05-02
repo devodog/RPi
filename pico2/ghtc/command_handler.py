@@ -19,6 +19,12 @@ def read(pin):
                 print_info()
             elif "url=" in buf or "ssid=" in buf or "password=" in buf:
                 change_config(buf)
+            elif "termo=" in buf:
+                change_config(buf)
+            elif "ctrl=" in buf:
+                change_config(buf)
+            elif "hysteresis=" in buf:
+                change_config(buf)
             elif buf == "version":
                 version = read_config()["version"]
                 cmd_output("Version: ", version)

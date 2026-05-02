@@ -66,7 +66,7 @@ global sensor_connected
 sensor_connected = False
 
 monitor = True
-postInterval = 5 # currently 5 min interval for publishing data to the web...
+postInterval = 10 # Default 10 min interval for publishing data to the web...
 OFF = 0
 ON = 1   
 ### Default temperature control parameters
@@ -121,6 +121,18 @@ def change_config(buf):
         elif "url" in buf:
             cmd_output(f"Old {buf.split('=')[0]}: ", config[buf.split('=')[0]])
             config[buf.split('=')[0]] = buf.split("=")[1]
+        elif "termo=" in buf or "ctrl=" in buf or "hysteresis=" in buf:
+            envctrl = config.get("envctrl", {})
+            if "ctrl=" in buf:
+                cmd_output(f"Old temp control state: ", envctrl.get("tempCtrl", "-"))
+                envctrl["tempCtrl"] = "enabled" if buf.split("=")[1] == "enabled" else "disabled"
+            elif "termo=" in buf:
+                cmd_output(f"Old termostat: ", str(envctrl.get("termostat", "-")))
+                envctrl["termostat"] = int(buf.split("=")[1])
+            elif "hysteresis=" in buf:
+                cmd_output(f"Old hysteresis: ", str(envctrl.get("tempHysteresis", "-")))
+                envctrl["tempHysteresis"] = int(buf.split("=")[1])
+            config["envctrl"] = envctrl
         elif "attempts" in buf or "freq" in buf:
             cmd_output(f"Old {buf.split('=')[0]}: ", config["wifi"][buf.split('=')[0]])
             try:
@@ -134,6 +146,7 @@ def change_config(buf):
 
         cmd_output("Updated config: ")
         print_config()
+        initControl()  # Re-initialize control parameters in case they were changed
     except KeyError:
         cmd_output(f"[-]ERROR: {buf.split('=')[0]} not in config.json")
     
@@ -165,6 +178,10 @@ def print_config():
     cmd_output("WiFi PASS: \t", wifi.get("PASSWORD", "-"))
 
     cmd_output("Post URL: \t", config.get("url", "-"))
+    envctrl = config.get("envctrl", {})
+    cmd_output("Temperature Control: \t", envctrl.get("tempCtrl", "-"))
+    cmd_output("Thermostat: \t", str(envctrl.get("termostat", "-")) + " °C")
+    cmd_output("Hysteresis: \t", str(envctrl.get("tempHysteresis", "-")) + " °C")
     cmd_output("")
 
 def print_help():
@@ -313,10 +330,14 @@ def read_chip_temperature():
     return round(temperature_celsius, 1)
 
 def switchOn(pin):
+    global heaterState
     pin.value(1)
-    
+    heaterState = 1
+
 def switchOff(pin):
+    global heaterState
     pin.value(0)
+    heaterState = 0
 
 def tempControl(temperature, heater=heater1, threshold=15, hysteresis=4):
     """
@@ -324,12 +345,15 @@ def tempControl(temperature, heater=heater1, threshold=15, hysteresis=4):
     Switch off heater if temperature > threshold + hysteresis/2
     Switch on heater if temperature < threshold - hysteresis/2
     """
-    if temperature > threshold + (hysteresis / 2):
-        if heater.value():  # Only switch off if it's currently on
+    global heaterState, heater1, openDrain_1, openDrain_2
+    output(f"Temperature control check: Temp={temperature}°C, Threshold={threshold}°C, Hysteresis={hysteresis}°C, HeaterState={'ON' if heaterState else 'OFF'}")
+    if temperature > threshold + (hysteresis / 2):        
+        if heater.value():  # Only switch off if it's currently on            
             switchOff(heater)  # Turning off the heater.
             openDrain_1.value(1)  # Powering the 12V circuit for the SW sensor (if needed).
             openDrain_2.value(0)  # Ensure NE 12V circuit is off (if not used).
             output(f"Temperature {temperature}°C above {threshold}°C, Switching off heater.")
+
     elif temperature < threshold - (hysteresis / 2):
         if not heater.value():  # Only switch on if it's currently off
             switchOn(heater)  # Turning on the heater.
@@ -337,17 +361,22 @@ def tempControl(temperature, heater=heater1, threshold=15, hysteresis=4):
             openDrain_2.value(0)  # Ensure SW 12V circuit is off (if not used).
             output(f"Temperature {temperature}°C below {threshold}°C, Switching on heater.")
 
-def actuatorState(mosfetSwtch):
-    state = ON if mosfetSwtch == 1 else OFF
-    return state
-
 def sensorState():
     state = True if sensor_connected else False
     return state
 
 def build_json_data():
+    # This function will be called periodically in order to build the JSON data
+    # that will be sent to the backend web server and deploys the heater 
+    # control logic based on the temperature reading from the DHT11 sensor.
     global termostat, tempHysteresis, temperatureControl, heaterState, postInterval
     temperature, humidity = read_DHT11()
+    
+    if temperatureControl == 1:
+        tempControl(temperature, heater1, termostat, tempHysteresis)  # Control heater based on DHT11 temperature reading
+    else:
+        output("Temperature control is disabled in config.")
+    
     return {
         "Time": time.time(),
         "Temperature": round(temperature, 1),
@@ -355,6 +384,6 @@ def build_json_data():
         "TemperatureControl": temperatureControl,
         "Thermostat": termostat,
         "Hysteresis": tempHysteresis,
-        "HeaterState": actuatorState(heaterState),
+        "HeaterState": heaterState,
         "PostInterval": postInterval
     }

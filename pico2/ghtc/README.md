@@ -20,6 +20,25 @@ Plan #1 is to utilize one of the wired GPIO that is terminated in one of the RJ4
 ### Network access
 Pico sends data to url if data has changed, or 15min has passed since last time data was sent
 
+### UART user interface
+This is a serial line interface that sends and receives ascii data that form information from or commands to the Pico board.  
+The UART is configured for 9600 1 stop-bit 1 start-bit parity-none  
+The following commands are available:  
+```
+- info.................Shows info about the system
+- config...............Shows contents of config.json
+- url=[url]............Changes URL in config.json to [url]
+- ssid=[ssid]..........Changes SSID in config.json to [ssid]
+- password=[pwd].......Changes PASSWORD in config.json to [pwd]
+- attempts=<int>.......Number of WiFi reconnection attempts (default: 10)
+- freq=<int>...........Sleep interval between each bulk of reconnection attempts (default: _______________________10min)
+- termo=<int>..........Termostat settings - the mean temeperature for the environment when _______________________temperature control is enabled. 
+- ctrl=<"enable|disable"> Temprature control enabled or disabled
+- hysteresis=<int>.....Heater on/off thresholds   
+- restart..............Restarts the pico
+- version..............Shows current version"
+```
+
 Format of config.json
 ```
 {
