@@ -1,4 +1,4 @@
-# ghtc = Greenhouse Temeprature Control 
+# ghtc = Greenhouse Temperature Control 
 This is a MicroPython project on Raspberry Pi Pico board piggyback on a modified LED Strip Driver hardware that was used for a Water Level Control (wlc) unit. The wlc monitored reservoirs for tomato plant watering.  
 
 For the Greenhouse Temperature Control project we'll ommit the reservoir water level detektors and the Sensirion humidity, temperature and CO2 sensor and only use the external onboard analog temperature sensor LM35 from Texas Instruments. The reason for this is that the Sensirion sensor stopped to work at some point - maybe cable issue...
