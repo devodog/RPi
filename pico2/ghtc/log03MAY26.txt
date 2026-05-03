@@ -1,0 +1,96 @@
+[2021-01-01 02:00:30] START
+
+     .----------------.
+    |   Raspberry Pi   |
+    |      Pico W      |
+    |  .------------.  |
+    |  | [] [] [] []|  |
+    |  | [] [] [] []|  |
+    |  '------------'  |
+    |___version 2.42___|
+      |  || GREEN ||  |
+      |  || HOUSE ||  |
+      '--------------'
+
+> Environment Control Initialized
+> POST interval = 5 min
+
+[2021-01-01 02:00:30] Connecting to WiFi network with SSID: ASUS
+[2021-01-01 02:00:34] WiFi connected!
+[2021-01-01 02:00:34] IP Address: 192.168.10.116
+[2021-01-01 02:00:41] Initial WiFi setup error:-2
+
+pico-w> Data publish interval set to: 300 seconds
+[2021-01-01 02:00:41] Temperature 17°C below 25°C, Switching on heater.
+[2021-01-01 02:00:41] Sending post request to: https://midtskips.no/drivhus2026/                                                           api/env/
+[2021-01-01 02:00:43] Status code: 200
+[2021-01-01 02:00:43] json sendt: {"Time": 1609459241, "Temperature": 17, "Hyste                                                           resis": 4, "PostInterval": 5, "Humidity": 75, "HeaterState": 1, "TemperatureCont                                                           rol": 1, "Thermostat": 25}
+
+pico-w> termo=17
+Old termostat: 25
+Updated config:
+
+=== CONFIGURATION ===
+Version:        1.0
+WiFi SSID:      ASUS
+WiFi PASS:      Framogtilbakeerlikelangt
+Post URL:       https://midtskips.no/drivhus2026/api/env/
+Temperature Control:    enabled
+Thermostat:     17 °C
+Hysteresis:     4 °C
+
+> Environment Control Initialized
+> POST interval = 5 min
+
+pico-w> termo=16
+Old termostat: 17
+Updated config:
+
+=== CONFIGURATION ===
+Version:        1.0
+WiFi SSID:      ASUS
+WiFi PASS:      Framogtilbakeerlikelangt
+Post URL:       https://midtskips.no/drivhus2026/api/env/
+Temperature Control:    enabled
+Thermostat:     16 °C
+Hysteresis:     4 °C
+
+> Environment Control Initialized
+> POST interval = 5 min
+
+pico-w> config
+
+=== CONFIGURATION ===
+Version:        1.0
+WiFi SSID:      ASUS
+WiFi PASS:      Framogtilbakeerlikelangt
+Post URL:       https://midtskips.no/drivhus2026/api/env/
+Temperature Control:    enabled
+Thermostat:     16 °C
+Hysteresis:     4 °C
+
+pico-w> [2021-01-01 02:05:44] Temperature 19°C above 16°C, Switching off heater.
+[2021-01-01 02:05:45] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2021-01-01 02:05:46] Status code: 200
+[2021-01-01 02:05:46] json sendt: {"Time": 1609459545, "Temperature": 19, "Hysteresis": 4, "PostInterval": 5, "Humidity": 68, "HeaterState": 0, "TemperatureControl": 1, "Thermostat": 16}
+[2021-01-01 02:10:48] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2021-01-01 02:10:50] Status code: 200
+[2021-01-01 02:10:50] json sendt: {"Time": 1609459848, "Temperature": 19, "Hysteresis": 4, "PostInterval": 5, "Humidity": 66, "HeaterState": 0, "TemperatureControl": 1, "Thermostat": 16}
+[2021-01-01 02:15:51] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2021-01-01 02:15:53] Status code: 200
+[2021-01-01 02:15:53] json sendt: {"Time": 1609460151, "Temperature": 19, "Hysteresis": 4, "PostInterval": 5, "Humidity": 66, "HeaterState": 0, "TemperatureControl": 1, "Thermostat": 16}
+[2021-01-01 02:20:55] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2021-01-01 02:20:56] Status code: 200
+[2021-01-01 02:20:56] json sendt: {"Time": 1609460455, "Temperature": 19, "Hysteresis": 4, "PostInterval": 5, "Humidity": 66, "HeaterState": 0, "TemperatureControl": 1, "Thermostat": 16}
+[2021-01-01 02:25:58] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2021-01-01 02:26:00] Status code: 200
+[2021-01-01 02:26:00] json sendt: {"Time": 1609460758, "Temperature": 19, "Hysteresis": 4, "PostInterval": 5, "Humidity": 66, "HeaterState": 0, "TemperatureControl": 1, "Thermostat": 16}
+[2021-01-01 02:31:01] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2021-01-01 02:31:03] Status code: 200
+[2021-01-01 02:31:03] json sendt: {"Time": 1609461061, "Temperature": 19, "Hysteresis": 4, "PostInterval": 5, "Humidity": 66, "HeaterState": 0, "TemperatureControl": 1, "Thermostat": 16}
+[2021-01-01 02:36:05] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2021-01-01 02:36:06] Status code: 200
+[2021-01-01 02:36:06] json sendt: {"Time": 1609461365, "Temperature": 19, "Hysteresis": 4, "PostInterval": 5, "Humidity": 66, "HeaterState": 0, "TemperatureControl": 1, "Thermostat": 16}
+[2021-01-01 02:41:08] Sending post request to: https://midtskips.no/drivhus2026/api/env/
+[2021-01-01 02:41:10] Status code: 200
+[2021-01-01 02:41:10] json sendt: {"Time": 1609461668, "Temperature": 19, "Hysteresis": 4, "PostInterval": 5, "Humidity": 66, "HeaterState": 0, "TemperatureControl": 1, "Thermostat": 16}

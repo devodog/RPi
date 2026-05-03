@@ -195,6 +195,9 @@ def print_help():
     "password=<pwd>     \tChanges PASSWORD in config.json to <pwd>\r\n"
     "attempts=<int>     \tNumber of WiFi reconnection attempts (default: 10)\r\n"
     "freq=<int>         \tSleep interval between each bulk of reconnection attempts (default: 10min)\r\n"
+    "ctrl=<enabled/disabled> \tEnable or disable temperature control\r\n"
+    "termo=<int>        \tSet thermostat temperature in °C\r\n"
+    "hysteresis=<int>   \tSet temperature hysteresis in °C\r\n"
     "restart            \tRestarts the pico\r\n"
     "version            \tShows current version")
     cmd_output(help_text)
@@ -345,20 +348,22 @@ def tempControl(temperature, heater=heater1, threshold=15, hysteresis=4):
     Switch off heater if temperature > threshold + hysteresis/2
     Switch on heater if temperature < threshold - hysteresis/2
     """
-    global heaterState, heater1, openDrain_1, openDrain_2
-    output(f"Temperature control check: Temp={temperature}°C, Threshold={threshold}°C, Hysteresis={hysteresis}°C, HeaterState={'ON' if heaterState else 'OFF'}")
+    global heaterState, heater1, heater2, openDrain_1, openDrain_2
+    
     if temperature > threshold + (hysteresis / 2):        
         if heater.value():  # Only switch off if it's currently on            
             switchOff(heater)  # Turning off the heater.
-            openDrain_1.value(1)  # Powering the 12V circuit for the SW sensor (if needed).
-            openDrain_2.value(0)  # Ensure NE 12V circuit is off (if not used).
+            switchOff(heater2)  # Ensure both heaters are off (if using multiple).
+            openDrain_1.value(0)  # Ensure SW 12V circuit is off (if not used).
+            openDrain_2.value(1)  # Powering the 12V circuit for the NE sensor (if needed).
             output(f"Temperature {temperature}°C above {threshold}°C, Switching off heater.")
 
     elif temperature < threshold - (hysteresis / 2):
         if not heater.value():  # Only switch on if it's currently off
             switchOn(heater)  # Turning on the heater.
-            openDrain_1.value(1)  # Turning on the 12V circuit for the SW sensor (if needed).
-            openDrain_2.value(0)  # Ensure SW 12V circuit is off (if not used).
+            switchOn(heater2)  # Ensure both heaters are on (if using multiple).
+            openDrain_1.value(1)  # Powering the 12V circuit for the SW sensor (if needed).
+            openDrain_2.value(0)  # Ensure NE 12V circuit is off (if not used).
             output(f"Temperature {temperature}°C below {threshold}°C, Switching on heater.")
 
 def sensorState():
