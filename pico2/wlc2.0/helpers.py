@@ -151,9 +151,13 @@ def print_help():
     cmd_output(help_text)
     cmd_output("")
 
-def turn_on_valve(valve):
-    output("Turning on valve: ", valve)
-    valve.value(1)
+def turn_on_SW_valve():
+    output("Turning on Southwest valve")
+    valve_sw.value(1)
+
+def turn_on_NE_valve():
+    output("Turning on Northeast valve")
+    valve_ne.value(1)
 
 def turn_off_valve(valve):
     output("Turning off valve: ", valve)
@@ -227,7 +231,8 @@ def read_waterLevel(reservoir):
     if reservoir == SouthWest:
         # Turn on the output pin for the SouthWest reservoirs
         gp5.value(1)
-        if gp3.value() == 0 or gp4.value() == 0:
+        time.sleep(1.0)  # Allow time for the sensor to stabilize
+        if gp3.value() == 0 and gp4.value() == 0:
             gp5.value(0)  # Turn off the output pin after reading
             return 100
         else:
@@ -236,7 +241,8 @@ def read_waterLevel(reservoir):
     elif reservoir == NorthEast:
         # Turn on the output pin for the NorthEast reservoirs
         gp6.value(1)
-        if gp7.value() == 0 or gp8.value() == 0:
+        time.sleep(1.0)  # Allow time for the sensor to stabilize
+        if gp7.value() == 0 and gp8.value() == 0:
             gp6.value(0)  # Turn off the output pin after reading
             return 100
         else:
