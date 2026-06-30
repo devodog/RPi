@@ -14,15 +14,6 @@ hb = Pin("LED", Pin.OUT)
 Pin(1).irq(read, trigger=Pin.IRQ_FALLING)
 
 
-##############################################################################
-# Close valves when either reservoir becomes full to avoid water overflowing #
-##############################################################################
-
-# SouthWest valve interrupt
-Pin(2).irq(close_southwest_valve, trigger=Pin.IRQ_FALLING)
-# NorthEast valve interrupt
-Pin(6).irq(close_northeast_valve, trigger=Pin.IRQ_FALLING)
-
 ascii_art = (
     "     .----------------.\r\n"
     "    |   Raspberry Pi   |\r\n"
@@ -39,6 +30,23 @@ ascii_art = (
 output("START\r\n")
 cmd_output(ascii_art, "")
 
+##############################################################################
+# Close valves when either reservoir becomes full to avoid water overflowing #
+##############################################################################
+''' 
+Excluding this code for now, as it is not working properly. The interrupt
+pins are triggering incorrectly due error in hardware.
+
+#Checking if the interrupt pins are currently "high".
+if Pin(2).value() == 1:
+    Pin(2).irq(close_southwest_valve, trigger=Pin.IRQ_FALLING)
+else:
+    output("Southwest valve interrupt pin is not high, will not set up interrupt for it.")
+if Pin(6).value() == 1:
+    Pin(6).irq(close_northeast_valve, trigger=Pin.IRQ_FALLING)
+else:
+    output("Northeast valve interrupt pin is not high, will not set up interrupt for it.")
+'''
 async def main():
     # Attempt initial connection (non-blocking success not critical)
     try:
@@ -62,6 +70,11 @@ async def main():
     uart0.write(b'\r\npico-w> ')
     while True:
         hb.toggle()  # Heartbeat LED toggle
+        # Read pin 2 and pin 6 to check if the valves are open and if the water level is full, then close the valves if necessary.
+        if Pin(2).value() == 0 and valve_sw.value() == OPEN:
+            close_southwest_valve(None)
+        if Pin(6).value() == 0 and valve_ne.value() == OPEN:
+            close_northeast_valve(None)
         await asyncio.sleep(1)
 
 # Start the event loop

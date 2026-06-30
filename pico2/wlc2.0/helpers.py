@@ -35,9 +35,10 @@ gp9 = Pin(9, Pin.OUT)
 
 # Water valve 1
 valve_sw = Pin(16, Pin.OUT)
-
+valve_sw.value(0)  # Ensure the valve is initially closed
 # Water valve 2
 valve_ne = Pin(17, Pin.OUT)
+valve_ne.value(0)  # Ensure the valve is initially closed
 
 
 uart0 = UART(0, baudrate=9600, tx=Pin(0), rx=Pin(1))
@@ -159,23 +160,29 @@ def turn_on_NE_valve():
     output("Turning on Northeast valve")
     valve_ne.value(1)
 
-def turn_off_valve(valve):
-    output("Turning off valve: ", valve)
-    valve.value(0)
+def turn_off_SW_valve():
+    output("Turning off Southwest valve")
+    valve_sw.value(0)
 
-def close_southwest_valve(pin):
+def turn_off_NE_valve():
+    output("Turning off Northeast valve")
+    valve_ne.value(0)
+
+def close_southwest_valve(none):
+    global state, valve_sw
+    output("southwest reservoir full!")
     if valve_sw.value() == OPEN and read_waterLevel(SouthWest) == 100:
-        output("Closing SouthWest valve")
-        turn_off_valve(valve_sw)
+        output("Closing SouthWest Valve")
+        turn_off_SW_valve()
         state.valve_sw_closed = get_epoch_timestamp(2)
-        output("closed: ", str(state.valve_sw_closed))
         state.valve_sw_duration = timestamp_diff(state.valve_sw_opened, state.valve_sw_closed)
-        output("duration: ", str(state.valve_sw_duration))
 
-def close_northeast_valve(pin):
+def close_northeast_valve(none):
+    global state, valve_ne
+    output("northeast reservoir full!")
     if valve_ne.value() == OPEN and read_waterLevel(NorthEast) == 100:
-        output("Closing NorthEast valve")
-        turn_off_valve(valve_ne)
+        output("Closing NorthEast Valve")
+        turn_off_NE_valve()
         state.valve_ne_closed = get_epoch_timestamp(2)
         state.valve_ne_duration = timestamp_diff(state.valve_ne_opened, state.valve_ne_closed)
 
@@ -219,36 +226,29 @@ def read_waterLevel(reservoir):
     The water level detection is differentiated - two reservoirs will detect 
     when they are empty as the sensor will indicate a high signal.
     These two will be connected to GPIO3 and GPIO4.
-    GPIO2 will be used for detecting when the first reservoir is full, issuing
-    an interrupt to close the valve.
+    GPIO2 will be used for detecting when the first reservoir is full, 
+    closing the valve.
 
     For the NorthEast reservoirs:
     The same applies as for the SouthWest reservoirs, but with GPIO6, GPIO7, 
     and GPIO8, where GPIO7 and GPIO8 will detect when the reservoirs are empty, 
-    and GPIO6 will detect when the first reservoir is full, 
-    issuing an interrupt to close the valve.
+    and GPIO6 (monitored in main loop) will detect when the first reservoir is full, 
+    closing the valve.
     '''
+    global gp2, gp3, gp4, gp5, gp6, gp7, gp8, gp9
     if reservoir == SouthWest:
         # Turn on the output pin for the SouthWest reservoirs
-        gp5.value(1)
-        time.sleep(1.0)  # Allow time for the sensor to stabilize
-        if gp3.value() == 0 and gp4.value() == 0:
-            gp5.value(0)  # Turn off the output pin after reading
-            return 100
+        if (gp3.value() == 1) and (gp4.value() == 1):
+            return 0
         else:
-            gp5.value(0)  # Turn off the output pin after reading
-            return 0        
+            return 100        
     elif reservoir == NorthEast:
         # Turn on the output pin for the NorthEast reservoirs
-        gp6.value(1)
-        time.sleep(1.0)  # Allow time for the sensor to stabilize
-        if gp7.value() == 0 and gp8.value() == 0:
-            gp6.value(0)  # Turn off the output pin after reading
-            return 100
-        else:
-            gp6.value(0)  # Turn off the output pin after reading
+        if (gp7.value() == 1) and (gp8.value() == 1):
             return 0
-    
+        else:
+            return 100
+
 def read_DHT11():
     global sensor, sensor_connected
     """
@@ -262,7 +262,7 @@ def read_DHT11():
         humidity = sensor.humidity()
         output(f"DHT11 - Temp: {temperature} °C, Humidity: {humidity} %")
         sensor_connected = True  # Mark sensor as connected if reading is successful
-        output("DHT11sensor_connected: ", sensor_connected and "Yes" or "No")
+        #output("DHT11sensor_connected: ", sensor_connected and "Yes" or "No")
         return (temperature, humidity)
     except Exception as e:
         output("Error reading DHT11:", str(e))
@@ -273,7 +273,7 @@ def read_DHT11():
     
 def getSensorConnectedStatus():
     global sensor_connected
-    output("getSensorConnectedStatus: ", sensor_connected and "Yes" or "No")
+    #output("getSensorConnectedStatus: ", sensor_connected and "Yes" or "No")
     return sensor_connected
 
 def build_json_data():
