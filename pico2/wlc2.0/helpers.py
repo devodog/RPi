@@ -203,6 +203,10 @@ def get_local_timestamp(offset_hours=0):
     t = time.localtime(time.time() + offset_hours * 3600)
     return f"{t[0]:04}-{t[1]:02}-{t[2]:02} {t[3]:02}:{t[4]:02}:{t[5]:02}"
 
+def hour_of_day():
+    t = time.localtime()
+    return t[3]  # Return the hour (0-23)
+
 def parse_timestamp(ts_str):
     # Example input: "2025-07-13 15:20:55"
     date_part, time_part = ts_str.split(" ")
