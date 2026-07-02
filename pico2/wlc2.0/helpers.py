@@ -207,6 +207,10 @@ def hour_of_day():
     t = time.localtime()
     return t[3]  # Return the hour (0-23)
 
+def minute_of_hour():
+    t = time.localtime()
+    return t[4]  # Return the minute (0-59)
+
 def parse_timestamp(ts_str):
     # Example input: "2025-07-13 15:20:55"
     date_part, time_part = ts_str.split(" ")
