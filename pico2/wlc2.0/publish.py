@@ -12,8 +12,7 @@ SEND_INTERVAL = 15 * 60  # 15 minutes in seconds
 
 async def send_data():
     global json_data_sent, current_json_data, last_sent_time
-    
-
+    output("Starting send_data task...")
     while True:
         current_json_data = build_json_data()
         connected = getSensorConnectedStatus()  # Get the current sensor connection status
@@ -28,8 +27,9 @@ async def send_data():
                     output("Sending post request to: ", read_config()["url"])
                     response = requests.post(read_config()["url"], json=current_json_data, timeout=5)
                     # for debugging only
-                    #import json
-                    #output("json sendt: ", json.dumps(current_json_data))
+                    import json
+                    output("json sendt: ", json.dumps(current_json_data))
+                    
                     #json_data_sent = build_json_data()
                     json_data_sent = current_json_data
                     last_sent_time = time.time()

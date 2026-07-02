@@ -7,6 +7,8 @@ from command_handler import read
 from machine import Pin
 import time
 
+VERSION = "wlc2.1"
+
 # LED Hart beat...
 hb = Pin("LED", Pin.OUT)
 
@@ -24,29 +26,12 @@ ascii_art = (
     "    |  '------------'  |\r\n"
     "    |__________________|\r\n"
     "      |  ||      ||  |\r\n"
-    "      |  | wlc2.0 |  |\r\n"
+    "      |  ||      ||  |\r\n"
     "      '--------------'\r\n"
 )
 output("START\r\n")
 cmd_output(ascii_art, "")
 
-##############################################################################
-# Close valves when either reservoir becomes full to avoid water overflowing #
-##############################################################################
-''' 
-Excluding this code for now, as it is not working properly. The interrupt
-pins are triggering incorrectly due error in hardware.
-
-#Checking if the interrupt pins are currently "high".
-if Pin(2).value() == 1:
-    Pin(2).irq(close_southwest_valve, trigger=Pin.IRQ_FALLING)
-else:
-    output("Southwest valve interrupt pin is not high, will not set up interrupt for it.")
-if Pin(6).value() == 1:
-    Pin(6).irq(close_northeast_valve, trigger=Pin.IRQ_FALLING)
-else:
-    output("Northeast valve interrupt pin is not high, will not set up interrupt for it.")
-'''
 async def main():
     # Attempt initial connection (non-blocking success not critical)
     try:
@@ -74,7 +59,8 @@ async def main():
         if Pin(2).value() == 0 and valve_sw.value() == OPEN:
             close_southwest_valve(None)
         if Pin(6).value() == 0 and valve_ne.value() == OPEN:
-            close_northeast_valve(None)
+            close_northeast_valve(None)        
+        time.sleep(0.5)  # 0.5 second delay for heartbeat and valve checks
         await asyncio.sleep(1)
 
 # Start the event loop

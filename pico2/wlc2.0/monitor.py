@@ -6,8 +6,8 @@ import state
 async def monitor_valves():
     # Must also monitor the water level in each reservoir, which is to be reported the web site's backend.
     global state
+    output("Starting monitor_valves task...")
     while True:
-        output("Monitoring valves and water levels every 60 seconds...")
         hour = hour_of_day()
         # The irrigation system is set to turn on every morning at 8:00 AM, 
         # and will run for 20 minutes. After that, it will close the valves to avoid flooding.

@@ -9,7 +9,6 @@ import wifi
 import json
 from dht import DHT11
 
-
 OPEN = 1
 CLOSED = 0
 
@@ -48,11 +47,9 @@ sensor = DHT11(Pin(26))  # DHT11 sensor on GPIO26 (adjust as needed)
 sensor_connected = False
 
 def output(text, arg="", delay=0.1):
-    
     local_time = get_local_timestamp(2)
     uart0.write(b'[' + local_time.encode() + b'] ' + text.encode() + arg.encode() + b'\r\n')
     time.sleep(delay)
-
 
 def cmd_output(text, arg="", delay=0.1):
     uart0.write(text.encode() + arg.encode() + b'\r\n')
@@ -284,11 +281,15 @@ def getSensorConnectedStatus():
     #output("getSensorConnectedStatus: ", sensor_connected and "Yes" or "No")
     return sensor_connected
 
+
+
 def build_json_data():
+    from main import VERSION
     temperature, humidity = read_DHT11()
     return {
         "Temperature": round(temperature, 1),
         "Humidity": round(humidity, 1),
+        "Version": VERSION,
         "Waterlevel": [
             {
                 "SouthWest": read_waterLevel(SouthWest),

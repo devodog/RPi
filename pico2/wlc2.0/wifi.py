@@ -10,6 +10,7 @@ def connect_wifi(config):
 
 
 async def maintain_wifi_connection():
+    output("Starting maintain_wifi_connection task...")
     while True:
         config = read_config()
         attempts = config["wifi"]["attempts"]
