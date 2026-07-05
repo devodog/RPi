@@ -7,7 +7,6 @@ from command_handler import read
 from machine import Pin
 import time
 
-VERSION = "wlc2.1"
 
 # LED Hart beat...
 hb = Pin("LED", Pin.OUT)
@@ -31,8 +30,9 @@ ascii_art = (
 )
 output("START\r\n")
 cmd_output(ascii_art, "")
-
+cmd_output("wlc version: " + get_WLC_Version() + "\r\n", "")
 async def main():
+    global valve_ne, valve_sw
     # Attempt initial connection (non-blocking success not critical)
     try:
         output(f"Attempting to connect to WiFi using the following config:\r\nSSID: {read_config()['wifi']['SSID']}, PASSWORD: {read_config()['wifi']['PASSWORD']}")
@@ -58,8 +58,10 @@ async def main():
         # Read pin 2 and pin 6 to check if the valves are open and if the water level is full, then close the valves if necessary.
         if Pin(2).value() == 0 and valve_sw.value() == OPEN:
             close_southwest_valve(None)
+            output("Southwest reservoir full! Closing South-West valve.")
         if Pin(6).value() == 0 and valve_ne.value() == OPEN:
-            close_northeast_valve(None)        
+            close_northeast_valve(None)
+            output("Northeast reservoir full! Closing North-East valve.")        
         time.sleep(0.5)  # 0.5 second delay for heartbeat and valve checks
         await asyncio.sleep(1)
 

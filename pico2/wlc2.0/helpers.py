@@ -9,6 +9,8 @@ import wifi
 import json
 from dht import DHT11
 
+wlc_version = "wlc2.1"
+
 OPEN = 1
 CLOSED = 0
 
@@ -45,6 +47,9 @@ sensor = DHT11(Pin(26))  # DHT11 sensor on GPIO26 (adjust as needed)
 
 #global sensor_connected
 sensor_connected = False
+
+def get_WLC_Version():
+    return wlc_version
 
 def output(text, arg="", delay=0.1):
     local_time = get_local_timestamp(2)
@@ -150,37 +155,37 @@ def print_help():
     cmd_output("")
 
 def turn_on_SW_valve():
-    output("Turning on Southwest valve")
+    output("Opening South-West valve")
     valve_sw.value(1)
 
 def turn_on_NE_valve():
-    output("Turning on Northeast valve")
+    output("Opening North-East valve")
     valve_ne.value(1)
 
 def turn_off_SW_valve():
-    output("Turning off Southwest valve")
+    output("Closing South-West valve")
     valve_sw.value(0)
 
 def turn_off_NE_valve():
-    output("Turning off Northeast valve")
+    output("Closing North-East valve")
     valve_ne.value(0)
 
 def close_southwest_valve(none):
     global state, valve_sw
-    output("southwest reservoir full!")
-    if valve_sw.value() == OPEN and read_waterLevel(SouthWest) == 100:
-        output("Closing SouthWest Valve")
+    #output("southwest reservoir full!")
+    if valve_sw.value() == OPEN: # and read_waterLevel(SouthWest) == 100:
+        #output("Closing SouthWest Valve")
         turn_off_SW_valve()
-        state.valve_sw_closed = get_epoch_timestamp(2)
+        state.valve_sw_closed = get_epoch_timestamp(0)
         state.valve_sw_duration = timestamp_diff(state.valve_sw_opened, state.valve_sw_closed)
 
 def close_northeast_valve(none):
     global state, valve_ne
-    output("northeast reservoir full!")
-    if valve_ne.value() == OPEN and read_waterLevel(NorthEast) == 100:
-        output("Closing NorthEast Valve")
+    #output("northeast reservoir full!")
+    if valve_ne.value() == OPEN: # and read_waterLevel(NorthEast) == 100:
+        #output("Closing NorthEast Valve")
         turn_off_NE_valve()
-        state.valve_ne_closed = get_epoch_timestamp(2)
+        state.valve_ne_closed = get_epoch_timestamp(0)
         state.valve_ne_duration = timestamp_diff(state.valve_ne_opened, state.valve_ne_closed)
 
 def check_valve(valve):
@@ -201,12 +206,14 @@ def get_local_timestamp(offset_hours=0):
     return f"{t[0]:04}-{t[1]:02}-{t[2]:02} {t[3]:02}:{t[4]:02}:{t[5]:02}"
 
 def hour_of_day():
-    t = time.localtime()
-    return t[3]  # Return the hour (0-23)
+    t = get_local_timestamp(2)
+    #output("Current hour of day: ", t[11:13])
+    return t[11:13]  # Return the hour (0-23)
 
 def minute_of_hour():
-    t = time.localtime()
-    return t[4]  # Return the minute (0-59)
+    t = get_local_timestamp(2)
+    #output("Current minute of hour: ", t[14:16])
+    return t[14:16]  # Return the minute (0-59)
 
 def parse_timestamp(ts_str):
     # Example input: "2025-07-13 15:20:55"
@@ -284,12 +291,12 @@ def getSensorConnectedStatus():
 
 
 def build_json_data():
-    from main import VERSION
+    global wlc_version
     temperature, humidity = read_DHT11()
     return {
         "Temperature": round(temperature, 1),
         "Humidity": round(humidity, 1),
-        "Version": VERSION,
+        "Version": wlc_version,
         "Waterlevel": [
             {
                 "SouthWest": read_waterLevel(SouthWest),
